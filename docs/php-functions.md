@@ -6,7 +6,7 @@
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\explode;
+use function Phantasy\PHP\explode;
 ```
 
 #### Examples
@@ -25,7 +25,7 @@ $splitOnSpace('foo bar');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\implode;
+use function Phantasy\PHP\implode;
 ```
 
 #### Examples
@@ -45,7 +45,7 @@ $joinByComma(['one', 'two']);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\addcslashes;
+use function Phantasy\PHP\addcslashes;
 ```
 
 #### Examples
@@ -65,7 +65,7 @@ $addSlashesAToZ('foo[ ]');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\addslashes;
+use function Phantasy\PHP\addslashes;
 ```
 
 #### Examples
@@ -87,7 +87,7 @@ $addslashes($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\bin2hex;
+use function Phantasy\PHP\bin2hex;
 ```
 
 #### Examples
@@ -104,7 +104,7 @@ $bin2Hex('test');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chop;
+use function Phantasy\PHP\chop;
 ```
 
 #### Examples
@@ -121,7 +121,7 @@ $chop("foo\n");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chop2;
+use function Phantasy\PHP\chop2;
 ```
 
 #### Examples
@@ -138,7 +138,7 @@ $chopWorld("Hello World!");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chr;
+use function Phantasy\PHP\chr;
 ```
 
 #### Examples
@@ -155,7 +155,7 @@ $chr(046)
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chunk_split;
+use function Phantasy\PHP\chunk_split;
 ```
 
 #### Examples
@@ -173,7 +173,7 @@ $chunkSplit("test");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chunk_split2;
+use function Phantasy\PHP\chunk_split2;
 ```
 
 #### Examples
@@ -190,7 +190,7 @@ $chunkSplitLen2("test");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\chunk_split3;
+use function Phantasy\PHP\chunk_split3;
 ```
 
 #### Examples
@@ -213,7 +213,7 @@ $chunkSplitLen2Dot("test");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\convert_cyr_string;
+use function Phantasy\PHP\convert_cyr_string;
 ```
 
 #### Examples
@@ -230,7 +230,7 @@ $convertWinToKoi8("Good Morning..");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\convert_uudecode;
+use function Phantasy\PHP\convert_uudecode;
 ```
 
 #### Examples
@@ -249,7 +249,7 @@ $convertUUDecode($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\convert_uuencode;
+use function Phantasy\PHP\convert_uuencode;
 ```
 
 #### Examples
@@ -266,7 +266,7 @@ $convertUUEncode('I love PHP!');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\count_chars;
+use function Phantasy\PHP\count_chars;
 ```
 
 #### Examples
@@ -283,7 +283,7 @@ $countChar('Test');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\count_chars2;
+use function Phantasy\PHP\count_chars2;
 ```
 
 #### Examples
@@ -300,7 +300,7 @@ $countCharsMode1('Test');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\crc32;
+use function Phantasy\PHP\crc32;
 ```
 
 #### Examples
@@ -318,7 +318,7 @@ $crc32('test');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\crypt;
+use function Phantasy\PHP\crypt;
 ```
 
 #### Examples
@@ -335,7 +335,7 @@ $salted('str');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\hex2bin;
+use function Phantasy\PHP\hex2bin;
 ```
 
 #### Examples
@@ -352,7 +352,7 @@ $hex2bin('6578616d706c65206865782064617461');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\htmlspecialchars_decode;
+use function Phantasy\PHP\htmlspecialchars_decode;
 ```
 
 #### Examples
@@ -370,7 +370,7 @@ $decode($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\htmlspecialchars_decode2;
+use function Phantasy\PHP\htmlspecialchars_decode2;
 ```
 
 #### Examples
@@ -389,7 +389,7 @@ $removeWithoutQuotes($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\join;
+use function Phantasy\PHP\join;
 ```
 
 #### Examples
@@ -406,7 +406,7 @@ $joinByComma(['one', 'two', 'three']);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\lcfirst;
+use function Phantasy\PHP\lcfirst;
 ```
 
 #### Examples
@@ -423,7 +423,7 @@ $lcFirst('HelloWorld');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\levenshtein;
+use function Phantasy\PHP\levenshtein;
 ```
 
 #### Examples
@@ -440,7 +440,7 @@ $cmpWithCarrot('carrrot');
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\levenshtein5;
+use function Phantasy\PHP\levenshtein5;
 ```
 
 #### Examples
@@ -461,7 +461,7 @@ $levenshteinInsCost($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ltrim;
+use function Phantasy\PHP\ltrim;
 ```
 
 #### Examples
@@ -479,7 +479,7 @@ $ltrim($a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ltrim2;
+use function Phantasy\PHP\ltrim2;
 ```
 
 #### Examples
@@ -498,7 +498,7 @@ $ltrimTabs($a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\md5_file;
+use function Phantasy\PHP\md5_file;
 ```
 
 #### Examples
@@ -516,7 +516,7 @@ $md5File($filepath);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\md5_file2;
+use function Phantasy\PHP\md5_file2;
 ```
 
 #### Examples
@@ -534,7 +534,7 @@ $md5WithRawOutput($filepath);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\md5;
+use function Phantasy\PHP\md5;
 ```
 
 #### Examples
@@ -552,7 +552,7 @@ $md5($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\md52;
+use function Phantasy\PHP\md52;
 ```
 
 #### Examples
@@ -570,7 +570,7 @@ $md5RawOutput($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\metaphone;
+use function Phantasy\PHP\metaphone;
 ```
 
 #### Examples
@@ -588,7 +588,7 @@ $metaphone($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\metaphone2;
+use function Phantasy\PHP\metaphone2;
 ```
 
 #### Examples
@@ -606,7 +606,7 @@ $metaphone5Phonemes($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\money_format;
+use function Phantasy\PHP\money_format;
 ```
 
 #### Examples
@@ -626,7 +626,7 @@ $moneyFormat($num);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\nl_langinfo;
+use function Phantasy\PHP\nl_langinfo;
 ```
 
 #### Examples
@@ -643,7 +643,7 @@ $nlLangInfo(MON_1);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\nl2br;
+use function Phantasy\PHP\nl2br;
 ```
 
 #### Examples
@@ -662,7 +662,7 @@ $nl2br($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\nl2br2;
+use function Phantasy\PHP\nl2br2;
 ```
 
 #### Examples
@@ -681,7 +681,7 @@ $nl2brNotXHtml($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\number_format;
+use function Phantasy\PHP\number_format;
 ```
 
 #### Examples
@@ -699,7 +699,7 @@ $numFormat($num);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\number_format2;
+use function Phantasy\PHP\number_format2;
 ```
 
 #### Examples
@@ -717,7 +717,7 @@ $formatToTwoDecimals($num);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\number_format4;
+use function Phantasy\PHP\number_format4;
 ```
 
 #### Examples
@@ -735,7 +735,7 @@ $frNumFormat($num);
 ### ord
 #### Usage
 ```php
-use function Phantasy\Core\PHP\ord;
+use function Phantasy\PHP\ord;
 ```
 
 #### Examples
@@ -753,7 +753,7 @@ $ord("\n");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\parse_str;
+use function Phantasy\PHP\parse_str;
 ```
 
 #### Examples
@@ -773,7 +773,7 @@ $parseStr($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\quotemeta;
+use function Phantasy\PHP\quotemeta;
 ```
 
 #### Examples
@@ -792,7 +792,7 @@ $quotemeta($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\rtrim;
+use function Phantasy\PHP\rtrim;
 ```
 
 #### Examples
@@ -810,7 +810,7 @@ $trim("test\n");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\rtrim2;
+use function Phantasy\PHP\rtrim2;
 ```
 
 #### Examples
@@ -827,7 +827,7 @@ $trimWorld("Hello World!");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sha1_file;
+use function Phantasy\PHP\sha1_file;
 ```
 
 #### Examples
@@ -845,7 +845,7 @@ $sha1File($filepath);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sha1_file2;
+use function Phantasy\PHP\sha1_file2;
 ```
 
 #### Examples
@@ -863,7 +863,7 @@ $sha1FileNoRaw($filepath);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sha1;
+use function Phantasy\PHP\sha1;
 ```
 
 #### Examples
@@ -881,7 +881,7 @@ $sha1($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sha12;
+use function Phantasy\PHP\sha12;
 ```
 
 #### Examples
@@ -899,7 +899,7 @@ $sha1NoRaw($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\similar_text;
+use function Phantasy\PHP\similar_text;
 ```
 
 #### Examples
@@ -918,7 +918,7 @@ $similarToA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\similar_text_pct;
+use function Phantasy\PHP\similar_text_pct;
 ```
 
 #### Examples
@@ -937,7 +937,7 @@ $similarToA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\soundex;
+use function Phantasy\PHP\soundex;
 ```
 
 #### Examples
@@ -955,7 +955,7 @@ $soundex($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_getcsv;
+use function Phantasy\PHP\str_getcsv;
 ```
 
 #### Examples
@@ -973,7 +973,7 @@ $getCSV($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_getcsv2;
+use function Phantasy\PHP\str_getcsv2;
 ```
 
 #### Examples
@@ -991,7 +991,7 @@ $getCSVDotSep($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_getcsv3;
+use function Phantasy\PHP\str_getcsv3;
 ```
 
 #### Examples
@@ -1010,7 +1010,7 @@ $getCSVDotSepAmpEnclosure($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_getcsv4;
+use function Phantasy\PHP\str_getcsv4;
 ```
 
 #### Examples
@@ -1029,7 +1029,7 @@ $getCSVDotSepAmpEncCaretEsc($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_ireplace;
+use function Phantasy\PHP\str_ireplace;
 ```
 
 #### Examples
@@ -1047,7 +1047,7 @@ $quiet($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_ireplace_count;
+use function Phantasy\PHP\str_ireplace_count;
 ```
 
 #### Examples
@@ -1065,7 +1065,7 @@ $quiet($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_pad;
+use function Phantasy\PHP\str_pad;
 ```
 
 #### Examples
@@ -1083,7 +1083,7 @@ $padTo6($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_pad3;
+use function Phantasy\PHP\str_pad3;
 ```
 
 #### Examples
@@ -1101,7 +1101,7 @@ $padTo6WithDash($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_pad4;
+use function Phantasy\PHP\str_pad4;
 ```
 
 #### Examples
@@ -1120,7 +1120,7 @@ $padTo7WithDashOnLeft($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_repeat;
+use function Phantasy\PHP\str_repeat;
 ```
 
 #### Examples
@@ -1136,7 +1136,7 @@ $repeatTwice('a');
 ### str_replace
 #### Usage
 ```php
-use function Phantasy\Core\PHP\str_replace;
+use function Phantasy\PHP\str_replace;
 ```
 
 #### Examples
@@ -1154,7 +1154,7 @@ $quiet($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_replace_count;
+use function Phantasy\PHP\str_replace_count;
 ```
 
 #### Examples
@@ -1172,7 +1172,7 @@ $quiet($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_rot13;
+use function Phantasy\PHP\str_rot13;
 ```
 
 #### Examples
@@ -1190,7 +1190,7 @@ $strRot13($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_shuffle;
+use function Phantasy\PHP\str_shuffle;
 ```
 
 #### Examples
@@ -1208,7 +1208,7 @@ $shuffle($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_split;
+use function Phantasy\PHP\str_split;
 ```
 
 #### Examples
@@ -1226,7 +1226,7 @@ $strSplit($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_split2;
+use function Phantasy\PHP\str_split2;
 ```
 
 #### Examples
@@ -1244,7 +1244,7 @@ $splitEveryTwo($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_word_count;
+use function Phantasy\PHP\str_word_count;
 ```
 
 #### Examples
@@ -1262,7 +1262,7 @@ $wc($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_word_count2;
+use function Phantasy\PHP\str_word_count2;
 ```
 
 #### Examples
@@ -1281,7 +1281,7 @@ $words($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\str_word_count3;
+use function Phantasy\PHP\str_word_count3;
 ```
 
 #### Examples
@@ -1299,7 +1299,7 @@ $wc($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcasecmp;
+use function Phantasy\PHP\strcasecmp;
 ```
 
 #### Examples
@@ -1318,7 +1318,7 @@ $cmpWithA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strchr;
+use function Phantasy\PHP\strchr;
 ```
 
 #### Examples
@@ -1337,7 +1337,7 @@ $searchForAt($email);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strchr3;
+use function Phantasy\PHP\strchr3;
 ```
 
 #### Examples
@@ -1355,7 +1355,7 @@ $searchForAt($email);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcmp;
+use function Phantasy\PHP\strcmp;
 ```
 
 #### Examples
@@ -1374,7 +1374,7 @@ $cmpWithA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcoll;
+use function Phantasy\PHP\strcoll;
 ```
 
 #### Examples
@@ -1393,7 +1393,7 @@ $cmpWithA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcspn;
+use function Phantasy\PHP\strcspn;
 ```
 
 #### Examples
@@ -1413,7 +1413,7 @@ $lengthNotMatchingMask($subject);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcspn3;
+use function Phantasy\PHP\strcspn3;
 ```
 
 #### Examples
@@ -1433,7 +1433,7 @@ $f($mask, $subject);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strcspn4;
+use function Phantasy\PHP\strcspn4;
 ```
 
 #### Examples
@@ -1452,7 +1452,7 @@ $f($mask, $subject);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strip_tags;
+use function Phantasy\PHP\strip_tags;
 ```
 
 #### Examples
@@ -1471,7 +1471,7 @@ $stripTags($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strip_tags2;
+use function Phantasy\PHP\strip_tags2;
 ```
 
 #### Examples
@@ -1490,7 +1490,7 @@ $stripTagsKeepPAndA($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\stripcslashes;
+use function Phantasy\PHP\stripcslashes;
 ```
 
 #### Examples
@@ -1508,7 +1508,7 @@ $stripcslashes($str):
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\stripos;
+use function Phantasy\PHP\stripos;
 ```
 
 #### Examples
@@ -1528,7 +1528,7 @@ $findA($mystring);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\stripos3;
+use function Phantasy\PHP\stripos3;
 ```
 
 #### Examples
@@ -1548,7 +1548,7 @@ $findA($mystring);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\stripslashes;
+use function Phantasy\PHP\stripslashes;
 ```
 
 #### Examples
@@ -1566,7 +1566,7 @@ $stripslashes($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\stristr;
+use function Phantasy\PHP\stristr;
 ```
 
 #### Examples
@@ -1584,7 +1584,7 @@ $afterTest($str);
 ### stristr3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\stristr3;
+use function Phantasy\PHP\stristr3;
 ```
 #### Examples
 ```php
@@ -1602,7 +1602,7 @@ $beforeTest($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strlen;
+use function Phantasy\PHP\strlen;
 ```
 
 #### Examples
@@ -1619,7 +1619,7 @@ $strlen($str);
 ### strnatcasecmp
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strnatcasecmp;
+use function Phantasy\PHP\strnatcasecmp;
 ```
 
 #### Examples
@@ -1638,7 +1638,7 @@ $cmpA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strnatcmp;
+use function Phantasy\PHP\strnatcmp;
 ```
 
 #### Examples
@@ -1657,7 +1657,7 @@ $cmpA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strncasecmp;
+use function Phantasy\PHP\strncasecmp;
 ```
 
 #### Examples
@@ -1676,7 +1676,7 @@ $cmpFirst5($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strncmp;
+use function Phantasy\PHP\strncmp;
 ```
 
 #### Examples
@@ -1695,7 +1695,7 @@ $cmpFirst5($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strpbrk;
+use function Phantasy\PHP\strpbrk;
 ```
 
 #### Examples
@@ -1714,7 +1714,7 @@ $stripMi($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strpos;
+use function Phantasy\PHP\strpos;
 ```
 
 #### Examples
@@ -1733,7 +1733,7 @@ $findA($mystring);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strpos3;
+use function Phantasy\PHP\strpos3;
 ```
 
 #### Examples
@@ -1752,7 +1752,7 @@ $findA($mystring);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strrchr;
+use function Phantasy\PHP\strrchr;
 ```
 
 #### Examples
@@ -1771,7 +1771,7 @@ $findA($mystring):
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strrev;
+use function Phantasy\PHP\strrev;
 ```
 
 #### Examples
@@ -1790,7 +1790,7 @@ $revStr($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strripos;
+use function Phantasy\PHP\strripos;
 ```
 
 #### Examples
@@ -1810,7 +1810,7 @@ $searchForNeedle($haystack);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strripos3;
+use function Phantasy\PHP\strripos3;
 ```
 
 #### Examples
@@ -1830,7 +1830,7 @@ $searchForNeedleAfter1($haystack);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strrpos;
+use function Phantasy\PHP\strrpos;
 ```
 
 #### Examples
@@ -1850,7 +1850,7 @@ $searchForNeedle($haystack);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strrpos3;
+use function Phantasy\PHP\strrpos3;
 ```
 
 #### Examples
@@ -1870,7 +1870,7 @@ $searchForNeedleAfter1($haystack);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strspn;
+use function Phantasy\PHP\strspn;
 ```
 
 #### Examples
@@ -1889,7 +1889,7 @@ $strspnOMask($subject);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strspn3;
+use function Phantasy\PHP\strspn3;
 ```
 
 #### Examples
@@ -1909,7 +1909,7 @@ $strspnOMaskAfter1($subject);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strspn4;
+use function Phantasy\PHP\strspn4;
 ```
 
 #### Examples
@@ -1929,7 +1929,7 @@ $strspnOMask1To2("foo");
 ### strstr
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strstr;
+use function Phantasy\PHP\strstr;
 ```
 
 #### Examples
@@ -1947,7 +1947,7 @@ $searchForAt($email);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strstr3;
+use function Phantasy\PHP\strstr3;
 ```
 
 #### Examples
@@ -1965,7 +1965,7 @@ $beforeAt($email);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strtok;
+use function Phantasy\PHP\strtok;
 ```
 
 #### Examples
@@ -1984,7 +1984,7 @@ $strtok($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strtok1;
+use function Phantasy\PHP\strtok1;
 ```
 
 #### Examples
@@ -2003,7 +2003,7 @@ while ($tok !== false) {
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strtolower;
+use function Phantasy\PHP\strtolower;
 ```
 
 #### Examples
@@ -2021,7 +2021,7 @@ $lower($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strtoupper;
+use function Phantasy\PHP\strtoupper;
 ```
 
 #### Examples
@@ -2039,7 +2039,7 @@ $upper($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\strtr;
+use function Phantasy\PHP\strtr;
 ```
 
 #### Examples
@@ -2067,7 +2067,7 @@ $swapHiHello($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_compare;
+use function Phantasy\PHP\substr_compare;
 ```
 
 #### Examples
@@ -2087,7 +2087,7 @@ $cmp1($b, $a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_compare4;
+use function Phantasy\PHP\substr_compare4;
 ```
 
 #### Examples
@@ -2109,7 +2109,7 @@ $cmpAfter1Length2($str, $main_str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_compare5;
+use function Phantasy\PHP\substr_compare5;
 ```
 
 #### Examples
@@ -2143,7 +2143,7 @@ $icmp1To2($str, $main_str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_count;
+use function Phantasy\PHP\substr_count;
 ```
 
 #### Examples
@@ -2162,7 +2162,7 @@ $countIs($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_count3;
+use function Phantasy\PHP\substr_count3;
 ```
 
 #### Examples
@@ -2181,7 +2181,7 @@ $countIsAfter3($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_count4;
+use function Phantasy\PHP\substr_count4;
 ```
 
 #### Examples
@@ -2200,7 +2200,7 @@ $countIsFrom3To7($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_replace;
+use function Phantasy\PHP\substr_replace;
 ```
 
 #### Examples
@@ -2219,7 +2219,7 @@ $replaceStrWithBob($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr_replace4;
+use function Phantasy\PHP\substr_replace4;
 ```
 
 #### Examples
@@ -2238,7 +2238,7 @@ $replaceStrWithBob($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr;
+use function Phantasy\PHP\substr;
 ```
 
 #### Examples
@@ -2255,7 +2255,7 @@ $takeLast("abcdef");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\substr3;
+use function Phantasy\PHP\substr3;
 ```
 
 #### Examples
@@ -2272,7 +2272,7 @@ $takeThirdFromEnd("abcdef");
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\trim;
+use function Phantasy\PHP\trim;
 ```
 
 #### Examples
@@ -2290,7 +2290,7 @@ $trim($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\trim2;
+use function Phantasy\PHP\trim2;
 ```
 
 #### Examples
@@ -2309,7 +2309,7 @@ $trimX($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ucfirst;
+use function Phantasy\PHP\ucfirst;
 ```
 
 #### Examples
@@ -2327,7 +2327,7 @@ $ucfirst($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ucwords;
+use function Phantasy\PHP\ucwords;
 ```
 
 #### Examples
@@ -2346,7 +2346,7 @@ $ucwords($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ucwords2;
+use function Phantasy\PHP\ucwords2;
 ```
 
 #### Examples
@@ -2365,7 +2365,7 @@ $ucwordsSplitByPipe($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\wordwrap;
+use function Phantasy\PHP\wordwrap;
 ```
 
 #### Examples
@@ -2383,7 +2383,7 @@ $wordwrap($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\wordwrap2;
+use function Phantasy\PHP\wordwrap2;
 ```
 
 #### Examples
@@ -2402,7 +2402,7 @@ $wrapEvery10($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\wordwrap3;
+use function Phantasy\PHP\wordwrap3;
 ```
 
 #### Examples
@@ -2421,7 +2421,7 @@ $wrapEvery10($str);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\wordwrap4;
+use function Phantasy\PHP\wordwrap4;
 ```
 
 #### Examples
@@ -2441,7 +2441,7 @@ $wrap8($text);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_change_key_case;
+use function Phantasy\PHP\array_change_key_case;
 ```
 
 #### Examples
@@ -2459,7 +2459,7 @@ $changeKeyCase($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_change_key_case2;
+use function Phantasy\PHP\array_change_key_case2;
 ```
 
 #### Examples
@@ -2477,7 +2477,7 @@ $upperKeyCase($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_chunk;
+use function Phantasy\PHP\array_chunk;
 ```
 
 #### Examples
@@ -2496,7 +2496,7 @@ $chunkEvery2($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_chunk3;
+use function Phantasy\PHP\array_chunk3;
 ```
 
 #### Examples
@@ -2515,7 +2515,7 @@ $chunkEvery2($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_column;
+use function Phantasy\PHP\array_column;
 ```
 
 #### Examples
@@ -2550,7 +2550,7 @@ $firstNames($records);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_column3;
+use function Phantasy\PHP\array_column3;
 ```
 
 #### Examples
@@ -2585,7 +2585,7 @@ $firstNamesById($records);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_combine;
+use function Phantasy\PHP\array_combine;
 ```
 
 #### Examples
@@ -2605,7 +2605,7 @@ $keyByA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_count_values;
+use function Phantasy\PHP\array_count_values;
 ```
 
 #### Examples
@@ -2624,7 +2624,7 @@ $countVals($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_diff_assoc;
+use function Phantasy\PHP\array_diff_assoc;
 ```
 
 #### Examples
@@ -2644,7 +2644,7 @@ $diffA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_diff_key;
+use function Phantasy\PHP\array_diff_key;
 ```
 
 #### Examples
@@ -2664,7 +2664,7 @@ $diffKeyA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_diff_uassoc;
+use function Phantasy\PHP\array_diff_uassoc;
 ```
 
 #### Examples
@@ -2690,7 +2690,7 @@ $diffKey($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_diff_ukey;
+use function Phantasy\PHP\array_diff_ukey;
 ```
 
 #### Examples
@@ -2716,7 +2716,7 @@ $diffUKeyComp($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_diff;
+use function Phantasy\PHP\array_diff;
 ```
 
 #### Examples
@@ -2736,7 +2736,7 @@ $diffArr($arr2);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_fill_keys;
+use function Phantasy\PHP\array_fill_keys;
 ```
 
 #### Examples
@@ -2754,7 +2754,7 @@ $fillKeysWithBanana($keys);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_fill;
+use function Phantasy\PHP\array_fill;
 ```
 
 #### Examples
@@ -2766,7 +2766,7 @@ array_fill(3, 5, 'banana');
 ### array_filter
 #### Usage
 ```php
-use function Phantasy\Core\PHP\array_filter;
+use function Phantasy\PHP\array_filter;
 ```
 #### Examples
 ```php
@@ -2783,7 +2783,7 @@ $filter($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_filter2;
+use function Phantasy\PHP\array_filter2;
 ```
 
 #### Examples
@@ -2809,7 +2809,7 @@ array_filter2($odd, $arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_filter3;
+use function Phantasy\PHP\array_filter3;
 ```
 
 #### Examples
@@ -2844,7 +2844,7 @@ $filterBKeyOr4Val($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_flip;
+use function Phantasy\PHP\array_flip;
 ```
 
 #### Examples
@@ -2866,7 +2866,7 @@ array_flip($collisionArr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_intersect_assoc;
+use function Phantasy\PHP\array_intersect_assoc;
 ```
 
 #### Examples
@@ -2885,7 +2885,7 @@ $intersectA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_intersect_key;
+use function Phantasy\PHP\array_intersect_key;
 ```
 
 #### Examples
@@ -2905,12 +2905,12 @@ $keyIntersectA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_intersect_uassoc;
+use function Phantasy\PHP\array_intersect_uassoc;
 ```
 
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     strcasecmp,
     array_intersect_uassoc
 };
@@ -2930,7 +2930,7 @@ $intersectOnCaseCmp($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_intersect_ukey;
+use function Phantasy\PHP\array_intersect_ukey;
 ```
 
 #### Examples
@@ -2957,7 +2957,7 @@ $keyIntersect($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_intersect;
+use function Phantasy\PHP\array_intersect;
 ```
 
 #### Examples
@@ -2977,7 +2977,7 @@ $intersectA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_key_exists;
+use function Phantasy\PHP\array_key_exists;
 ```
 
 #### Examples
@@ -3001,7 +3001,7 @@ array_key_exists('first', $arr2);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\key_exists;
+use function Phantasy\PHP\key_exists;
 ```
 
 #### Examples
@@ -3025,7 +3025,7 @@ key_exists('first', $arr2);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_keys;
+use function Phantasy\PHP\array_keys;
 ```
 
 #### Examples
@@ -3047,7 +3047,7 @@ $keys($arr2);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_keys_2;
+use function Phantasy\PHP\array_keys_2;
 ```
 
 #### Examples
@@ -3065,7 +3065,7 @@ $keysThatHaveBlue($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_keys3;
+use function Phantasy\PHP\array_keys3;
 ```
 
 #### Examples
@@ -3083,7 +3083,7 @@ $keysThatHaveStrictlyBlue($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_map;
+use function Phantasy\PHP\array_map;
 ```
 
 #### Examples
@@ -3104,7 +3104,7 @@ $mapAddOne($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_merge_recursive;
+use function Phantasy\PHP\array_merge_recursive;
 ```
 
 #### Examples
@@ -3124,7 +3124,7 @@ $mergeA($b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_merge;
+use function Phantasy\PHP\array_merge;
 ```
 
 #### Examples
@@ -3143,7 +3143,7 @@ $mergeArr($arr2);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_pad;
+use function Phantasy\PHP\array_pad;
 ```
 
 #### Examples
@@ -3163,7 +3163,7 @@ $padTo5WithZero($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_product;
+use function Phantasy\PHP\array_product;
 ```
 
 #### Examples
@@ -3181,7 +3181,7 @@ $prod($a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_rand;
+use function Phantasy\PHP\array_rand;
 ```
 
 #### Examples
@@ -3201,7 +3201,7 @@ $rand($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_rand2;
+use function Phantasy\PHP\array_rand2;
 ```
 
 #### Examples
@@ -3221,7 +3221,7 @@ $rand($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_replace_recursive;
+use function Phantasy\PHP\array_replace_recursive;
 ```
 
 #### Examples
@@ -3241,7 +3241,7 @@ $replaceWith($base);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_replace;
+use function Phantasy\PHP\array_replace;
 ```
 
 #### Examples
@@ -3261,7 +3261,7 @@ $replaceWith($base);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_reverse;
+use function Phantasy\PHP\array_reverse;
 ```
 
 #### Examples
@@ -3279,7 +3279,7 @@ $reverse($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_reverse2;
+use function Phantasy\PHP\array_reverse2;
 ```
 
 #### Examples
@@ -3297,7 +3297,7 @@ $reverseWithKeys($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_search;
+use function Phantasy\PHP\array_search;
 ```
 
 #### Examples
@@ -3317,7 +3317,7 @@ $searchGreen($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_search3;
+use function Phantasy\PHP\array_search3;
 ```
 
 #### Examples
@@ -3337,7 +3337,7 @@ $searchStrictGreen($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_slice;
+use function Phantasy\PHP\array_slice;
 ```
 
 #### Examples
@@ -3356,7 +3356,7 @@ $slice2($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_slice3;
+use function Phantasy\PHP\array_slice3;
 ```
 
 #### Examples
@@ -3375,7 +3375,7 @@ $slice($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_slice4;
+use function Phantasy\PHP\array_slice4;
 ```
 
 #### Examples
@@ -3394,7 +3394,7 @@ $strictSlice($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_sum;
+use function Phantasy\PHP\array_sum;
 ```
 
 #### Examples
@@ -3413,7 +3413,7 @@ $sum($a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_udiff_assoc;
+use function Phantasy\PHP\array_udiff_assoc;
 ```
 
 #### Examples
@@ -3436,7 +3436,7 @@ $diff($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_udiff_uassoc;
+use function Phantasy\PHP\array_udiff_uassoc;
 ```
 
 #### Examples
@@ -3470,7 +3470,7 @@ $diff($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_udiff;
+use function Phantasy\PHP\array_udiff;
 ```
 
 #### Examples
@@ -3497,12 +3497,12 @@ $diff($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_uintersect_assoc;
+use function Phantasy\PHP\array_uintersect_assoc;
 ```
 
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     strcasecmp,
     array_uintersect_assoc
 };
@@ -3521,12 +3521,12 @@ $uintCaseCmp($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_uintersect_uassoc;
+use function Phantasy\PHP\array_uintersect_uassoc;
 ```
 
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     strcasecmp,
     strcmp,
     array_uintersect_uassoc
@@ -3546,12 +3546,12 @@ $uintUAssoc($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_uintersect;
+use function Phantasy\PHP\array_uintersect;
 ```
 
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     strcasecmp,
     array_uintersect
 };
@@ -3570,7 +3570,7 @@ $uIntCaseCmp($a, $b);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_unique;
+use function Phantasy\PHP\array_unique;
 ```
 
 #### Examples
@@ -3588,7 +3588,7 @@ $uniq($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_unique2;
+use function Phantasy\PHP\array_unique2;
 ```
 
 #### Examples
@@ -3607,7 +3607,7 @@ $uniqueSortNumeric($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\count;
+use function Phantasy\PHP\count;
 ```
 
 #### Examples
@@ -3625,7 +3625,7 @@ $count($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\count2;
+use function Phantasy\PHP\count2;
 ```
 
 #### Examples
@@ -3643,7 +3643,7 @@ $deepCount($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sizeof;
+use function Phantasy\PHP\sizeof;
 ```
 
 #### Examples
@@ -3661,7 +3661,7 @@ $sizeof($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sizeof2;
+use function Phantasy\PHP\sizeof2;
 ```
 
 #### Examples
@@ -3679,7 +3679,7 @@ $deepCount($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\in_array;
+use function Phantasy\PHP\in_array;
 ```
 
 #### Examples
@@ -3697,7 +3697,7 @@ $fooInArr($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\in_array3;
+use function Phantasy\PHP\in_array3;
 ```
 
 #### Examples
@@ -3715,7 +3715,7 @@ $fooInArrStrict($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\range;
+use function Phantasy\PHP\range;
 ```
 
 #### Examples
@@ -3732,7 +3732,7 @@ $rangeStartAt2(5);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\range3;
+use function Phantasy\PHP\range3;
 ```
 
 #### Examples
@@ -3749,7 +3749,7 @@ $step10(2, 30);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\shuffle;
+use function Phantasy\PHP\shuffle;
 ```
 
 #### Examples
@@ -3770,7 +3770,7 @@ $shuffle($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\rsort;
+use function Phantasy\PHP\rsort;
 ```
 
 #### Examples
@@ -3790,7 +3790,7 @@ $rsort($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\rsort2;
+use function Phantasy\PHP\rsort2;
 ```
 
 #### Examples
@@ -3810,7 +3810,7 @@ $rsortNumeric($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\krsort;
+use function Phantasy\PHP\krsort;
 ```
 
 #### Examples
@@ -3829,7 +3829,7 @@ $keyReverseSort($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\krsort2;
+use function Phantasy\PHP\krsort2;
 ```
 
 #### Examples
@@ -3848,7 +3848,7 @@ $numKeyReverseSort($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ksort;
+use function Phantasy\PHP\ksort;
 ```
 
 #### Examples
@@ -3869,7 +3869,7 @@ $sorted2 = $ksort($fruits);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\ksort2;
+use function Phantasy\PHP\ksort2;
 ```
 
 #### Examples
@@ -3889,7 +3889,7 @@ $ksortNumeric($fruits);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\natcasesort;
+use function Phantasy\PHP\natcasesort;
 ```
 
 #### Examples
@@ -3928,7 +3928,7 @@ $arr is unchanged.
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\natsort;
+use function Phantasy\PHP\natsort;
 ```
 
 #### Examples
@@ -3962,7 +3962,7 @@ $arr is unchanged
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\arsort;
+use function Phantasy\PHP\arsort;
 ```
 
 #### Examples
@@ -3983,7 +3983,7 @@ $sorted = $arsort($fruits);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\arsort2;
+use function Phantasy\PHP\arsort2;
 ```
 
 #### Examples
@@ -4004,7 +4004,7 @@ $sorted = $arsortNum($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\asort;
+use function Phantasy\PHP\asort;
 ```
 
 #### Examples
@@ -4025,7 +4025,7 @@ $sorted = asort($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\asort2;
+use function Phantasy\PHP\asort2;
 ```
 
 #### Examples
@@ -4046,7 +4046,7 @@ $sorted = $asortNum($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sort;
+use function Phantasy\PHP\sort;
 ```
 
 #### Examples
@@ -4067,7 +4067,7 @@ $sorted = $sort($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\sort2;
+use function Phantasy\PHP\sort2;
 ```
 
 #### Examples
@@ -4088,7 +4088,7 @@ $sorted = $sortNum($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\uasort;
+use function Phantasy\PHP\uasort;
 ```
 
 #### Examples
@@ -4145,12 +4145,12 @@ $arr is unchanged
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\uksort;
+use function Phantasy\PHP\uksort;
 ```
 
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     uksort,
     strcasecmp
 };
@@ -4195,7 +4195,7 @@ $arr is unchanged
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\usort;
+use function Phantasy\PHP\usort;
 ```
 
 #### Examples
@@ -4221,7 +4221,7 @@ $sorted = $usortCmp($a);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_push;
+use function Phantasy\PHP\array_push;
 ```
 
 #### Examples
@@ -4241,7 +4241,7 @@ $newArr = $push3($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_pop;
+use function Phantasy\PHP\array_pop;
 ```
 
 #### Examples
@@ -4261,7 +4261,7 @@ $x = $pop($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_shift;
+use function Phantasy\PHP\array_shift;
 ```
 
 #### Examples
@@ -4281,7 +4281,7 @@ $x = $shift($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_unshift;
+use function Phantasy\PHP\array_unshift;
 ```
 
 #### Examples
@@ -4302,7 +4302,7 @@ $x = $unshift($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_splice;
+use function Phantasy\PHP\array_splice;
 ```
 
 #### Examples
@@ -4322,7 +4322,7 @@ $res = $splice2($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_splice3;
+use function Phantasy\PHP\array_splice3;
 ```
 
 #### Examples
@@ -4342,7 +4342,7 @@ $res = $splice($arr);
 #### Usage
 
 ```php
-use function Phantasy\Core\PHP\array_splice4;
+use function Phantasy\PHP\array_splice4;
 ```
 
 #### Examples
@@ -4364,7 +4364,7 @@ $res = $spliceWithReplacements($arr);
 ### checkdate
 #### Usage
 ```php
-use function Phantasy\Core\PHP\checkdate;
+use function Phantasy\PHP\checkdate;
 ```
 #### Examples
 ```php
@@ -4380,11 +4380,11 @@ $checkLeapDay(2001);
 ### date_add
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_add;
+use function Phantasy\PHP\date_add;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_add,
     date_create1
 };
@@ -4412,7 +4412,7 @@ object(DateTime) {
 ### date_create1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create1;
+use function Phantasy\PHP\date_create1;
 ```
 
 #### Examples
@@ -4438,7 +4438,7 @@ object(DateTime) {
 ### date_create2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create2;
+use function Phantasy\PHP\date_create2;
 ```
 #### Examples
 ```php
@@ -4465,7 +4465,7 @@ object(DateTime) {
 ### date_create_immutable1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_immutable1;
+use function Phantasy\PHP\date_create_immutable1;
 ```
 
 #### Examples
@@ -4491,7 +4491,7 @@ object(DateTimeImmutable) {
 ### date_create_immutable2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_immutable2;
+use function Phantasy\PHP\date_create_immutable2;
 ```
 #### Examples
 ```php
@@ -4518,7 +4518,7 @@ object(DateTimeImmutable) {
 ### date_create_from_format
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_from_format;
+use function Phantasy\PHP\date_create_from_format;
 ```
 #### Examples
 ```php
@@ -4543,7 +4543,7 @@ object(DateTime) {
 ### date_create_from_format3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_from_format3;
+use function Phantasy\PHP\date_create_from_format3;
 ```
 #### Examples
 ```php
@@ -4575,7 +4575,7 @@ object(DateTime) {
 ### date_create_immutable_from_format
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_immutable_from_format;
+use function Phantasy\PHP\date_create_immutable_from_format;
 ```
 #### Examples
 ```php
@@ -4600,7 +4600,7 @@ object(DateTimeImmutable) {
 ### date_create_immutable_from_format3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_create_immutable_from_format3;
+use function Phantasy\PHP\date_create_immutable_from_format3;
 ```
 #### Examples
 ```php
@@ -4632,7 +4632,7 @@ object(DateTimeImmutable) {
 ### date_date_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_date_set;
+use function Phantasy\PHP\date_date_set;
 ```
 #### Examples
 ```php
@@ -4655,7 +4655,7 @@ object(DateTime) {
 ### date_default_timezone_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_default_timezone_set;
+use function Phantasy\PHP\date_default_timezone_set;
 ```
 #### Examples
 ```php
@@ -4670,7 +4670,7 @@ $setTimezone('America/Los_Angeles');
 ### date_diff
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_diff;
+use function Phantasy\PHP\date_diff;
 ```
 #### Examples
 ```php
@@ -4700,7 +4700,7 @@ object(DateInterval) {
 ### date_diff3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_diff3;
+use function Phantasy\PHP\date_diff3;
 ```
 #### Examples
 ```php
@@ -4730,11 +4730,11 @@ object(DateInterval) {
 ### date_format
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_format;
+use function Phantasy\PHP\date_format;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_format,
     date_create1
 };
@@ -4751,7 +4751,7 @@ $c = $ymdHisDate($a);
 ### date_interval_create_from_date_string
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_interval_create_from_date_string;
+use function Phantasy\PHP\date_interval_create_from_date_string;
 ```
 #### Examples
 ```php
@@ -4778,11 +4778,11 @@ object(DateInterval) {
 ### date_interval_format
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_interval_format;
+use function Phantasy\PHP\date_interval_format;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_diff,
     date_interval_format
 };
@@ -4801,7 +4801,7 @@ $d = $formatTotalDays($interval);
 ### date_isodate_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_isodate_set;
+use function Phantasy\PHP\date_isodate_set;
 ```
 #### Examples
 ```php
@@ -4825,7 +4825,7 @@ $c = $setToJan2012($a);
 ### date_isodate_set4
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_isodate_set4;
+use function Phantasy\PHP\date_isodate_set4;
 ```
 #### Examples
 ```php
@@ -4849,11 +4849,11 @@ $c = $setToJan2012($a);
 ### date_modify
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_modify;
+use function Phantasy\PHP\date_modify;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_modify,
     date_create1
 };
@@ -4868,11 +4868,11 @@ $c = $addADay($a);
 ### date_offset_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_offset_get;
+use function Phantasy\PHP\date_offset_get;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_open,
     date_create2
     date_offset_get
@@ -4891,7 +4891,7 @@ $offsetB = $offsetGet($a);
 ### date_parse_from_format
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_parse_from_format;
+use function Phantasy\PHP\date_parse_from_format;
 ```
 #### Examples
 ```php
@@ -4922,7 +4922,7 @@ array(15) {
 ### date_parse
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_parse;
+use function Phantasy\PHP\date_parse;
 ```
 #### Examples
 ```php
@@ -4952,11 +4952,11 @@ array(12) {
 ### date_sub
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sub;
+use function Phantasy\PHP\date_sub;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_create1,
     date_sub,
     date_interval_create_from_date_string
@@ -4985,11 +4985,11 @@ object(DateTime) {
 ### date_sun_info
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sun_info;
+use function Phantasy\PHP\date_sun_info;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_sun_info,
     strtotime
 };
@@ -5023,7 +5023,7 @@ array(9) {
 ### date_sunrise
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sunrise;
+use function Phantasy\PHP\date_sunrise;
 ```
 #### Examples
 ```php
@@ -5038,7 +5038,7 @@ $res2 = $sunrise(time());
 ### date_sunrise2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sunrise2;
+use function Phantasy\PHP\date_sunrise2;
 ```
 #### Examples
 ```php
@@ -5054,7 +5054,7 @@ $res2 = $stringSunrise($time);
 ### date_sunset
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sunset;
+use function Phantasy\PHP\date_sunset;
 ```
 #### Examples
 ```php
@@ -5071,7 +5071,7 @@ $sunset($time);
 ### date_sunset2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_sunset2;
+use function Phantasy\PHP\date_sunset2;
 ```
 #### Examples
 ```php
@@ -5087,11 +5087,11 @@ $res2 = $stringSunset($time);
 ### date_time_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_time_set;
+use function Phantasy\PHP\date_time_set;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_create1,
     date_time_set
 };
@@ -5118,11 +5118,11 @@ object(DateTime) {
 ### date_time_set4
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_time_set4;
+use function Phantasy\PHP\date_time_set4;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_create1,
     date_time_set4
 };
@@ -5149,7 +5149,7 @@ object(DateTime) {
 ### date_timestamp_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_timestamp_get;
+use function Phantasy\PHP\date_timestamp_get;
 ```
 #### Examples
 ```php
@@ -5165,7 +5165,7 @@ $res2 = $getTimestamp($date);
 ### date_timestamp_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_timestamp_set;
+use function Phantasy\PHP\date_timestamp_set;
 ```
 #### Examples
 ```php
@@ -5191,7 +5191,7 @@ object(DateTime) {
 ### date_timezone_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_timezone_get;
+use function Phantasy\PHP\date_timezone_get;
 ```
 #### Examples
 ```php
@@ -5201,11 +5201,11 @@ use function Phantasy\Core\PHP\date_timezone_get;
 ### date_timezone_set
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_timezone_set;
+use function Phantasy\PHP\date_timezone_set;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_create2,
     date_timezone_set,
     timezone_open
@@ -5232,7 +5232,7 @@ $res2 = $getTimezone($date);
 ### date
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date;
+use function Phantasy\PHP\date;
 ```
 #### Examples
 ```php
@@ -5247,7 +5247,7 @@ $res2 = $date('l');
 ### date2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date2;
+use function Phantasy\PHP\date2;
 ```
 #### Examples
 ```php
@@ -5263,7 +5263,7 @@ $res2 = $getDay($time);
 ### getdate1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\getdate1;
+use function Phantasy\PHP\getdate1;
 ```
 #### Examples
 ```php
@@ -5292,7 +5292,7 @@ $getDate(time());
 ### gettimeofday1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\gettimeofday1;
+use function Phantasy\PHP\gettimeofday1;
 ```
 #### Examples
 ```php
@@ -5307,7 +5307,7 @@ $res2 = $getTime(true);
 ### gmdate
 #### Usage
 ```php
-use function Phantasy\Core\PHP\gmdate;
+use function Phantasy\PHP\gmdate;
 ```
 #### Examples
 ```php
@@ -5323,7 +5323,7 @@ $res2 = $gmdate($format);
 ### gmdate2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\gmdate2;
+use function Phantasy\PHP\gmdate2;
 ```
 #### Examples
 ```php
@@ -5338,7 +5338,7 @@ $res2 = $gmDay(time());
 ### gmstrftime
 #### Usage
 ```php
-use function Phantasy\Core\PHP\gmstrftime;
+use function Phantasy\PHP\gmstrftime;
 ```
 #### Examples
 ```php
@@ -5355,7 +5355,7 @@ $res2 = $gmstrftime($format);
 ### gmstrftime2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\gmstrftime2;
+use function Phantasy\PHP\gmstrftime2;
 ```
 #### Examples
 ```php
@@ -5371,7 +5371,7 @@ $res2 = $gmstrftime(time());
 ### idate
 #### Usage
 ```php
-use function Phantasy\Core\PHP\idate;
+use function Phantasy\PHP\idate;
 ```
 #### Examples
 ```php
@@ -5386,7 +5386,7 @@ $res2 = $idate('U');
 ### idate2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\idate2;
+use function Phantasy\PHP\idate2;
 ```
 #### Examples
 ```php
@@ -5401,7 +5401,7 @@ $res2 = $unixIDate(time());
 ### localtime1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\localtime1;
+use function Phantasy\PHP\localtime1;
 ```
 #### Examples
 ```php
@@ -5421,7 +5421,7 @@ array(9) {
 ### localtime2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\localtime2;
+use function Phantasy\PHP\localtime2;
 ```
 #### Examples
 ```php
@@ -5454,7 +5454,7 @@ array(9) {
 ### microtime1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\microtime1;
+use function Phantasy\PHP\microtime1;
 ```
 #### Examples
 ```php
@@ -5469,7 +5469,7 @@ $res2 = $microtime(true);
 ### strftime
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strftime;
+use function Phantasy\PHP\strftime;
 ```
 #### Examples
 ```php
@@ -5484,7 +5484,7 @@ $res2 = $strftime('%b %d %Y');
 ### strftime2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strftime2;
+use function Phantasy\PHP\strftime2;
 ```
 #### Examples
 ```php
@@ -5499,11 +5499,11 @@ $res2 = $strftimeDay(time());
 ### strptime
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strptime;
+use function Phantasy\PHP\strptime;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     strftime,
     strptime
 };
@@ -5538,7 +5538,7 @@ array(9) {
 ### strtotime
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strtotime;
+use function Phantasy\PHP\strtotime;
 ```
 #### Examples
 ```php
@@ -5553,7 +5553,7 @@ $res2 = $strtotime('+1 day');
 ### strtotime2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\strtotime2;
+use function Phantasy\PHP\strtotime2;
 ```
 #### Examples
 ```php
@@ -5568,7 +5568,7 @@ $res2 = $strtotime('-1 day');
 ### timezone_identifiers_list1
 #### Usage
 ```php
-use function Phantasy\Core\PHP\date_interval_format;
+use function Phantasy\PHP\date_interval_format;
 ```
 #### Examples
 ```php
@@ -5597,7 +5597,7 @@ array(425) {
 ### timezone_identifiers_list2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_identifiers_list2;
+use function Phantasy\PHP\timezone_identifiers_list2;
 ```
 #### Examples
 ```php
@@ -5620,11 +5620,11 @@ array(1) {
 ### timezone_location_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_location_get;
+use function Phantasy\PHP\timezone_location_get;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_open,
     timezone_location_get
 };
@@ -5652,7 +5652,7 @@ array(4) {
 ### timezone_name_from_abbr
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_name_from_abbr;
+use function Phantasy\PHP\timezone_name_from_abbr;
 ```
 #### Examples
 ```php
@@ -5667,7 +5667,7 @@ $res2 = $nameFromAbbr('CET');
 ### timezone_name_from_abbr2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_name_from_abbr2;
+use function Phantasy\PHP\timezone_name_from_abbr2;
 ```
 #### Examples
 ```php
@@ -5682,7 +5682,7 @@ $res2 = $nameFromAbbr('CET');
 ### timezone_name_from_abbr3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_name_from_abbr3;
+use function Phantasy\PHP\timezone_name_from_abbr3;
 ```
 #### Examples
 ```php
@@ -5697,11 +5697,11 @@ $res2 = $nameFromAbbr('');
 ### timezone_name_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_name_get;
+use function Phantasy\PHP\timezone_name_get;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_name_get,
     timezone_open
 };
@@ -5718,11 +5718,11 @@ $res2 = $tzName($tz);
 ### timezone_offset_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_offset_get;
+use function Phantasy\PHP\timezone_offset_get;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     date_create1,
     timezone_open
 };
@@ -5741,7 +5741,7 @@ $res2 = $offset($time);
 ### timezone_open
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_open;
+use function Phantasy\PHP\timezone_open;
 ```
 #### Examples
 ```php
@@ -5766,11 +5766,11 @@ object(DateTimeZone) {
 ### timezone_transitions_get
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_transitions_get;
+use function Phantasy\PHP\timezone_transitions_get;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_transitions_get,
     timezone_open
 };
@@ -5823,11 +5823,11 @@ array(243) {
 ### timezone_transitions_get2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_transitions_get2;
+use function Phantasy\PHP\timezone_transitions_get2;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_open,
     strtotime,
     timezone_transitions_get2
@@ -5883,11 +5883,11 @@ array(42) {
 ### timezone_transitions_get3
 #### Usage
 ```php
-use function Phantasy\Core\PHP\timezone_transitions_get_3;
+use function Phantasy\PHP\timezone_transitions_get_3;
 ```
 #### Examples
 ```php
-use function Phantasy\Core\PHP\{
+use function Phantasy\PHP\{
     timezone_open,
     strtotime,
     timezone_transitions_get3
@@ -5945,7 +5945,7 @@ array(42) {
 ### json_encode
 #### Usage
 ```php
-use function Phantasy\Core\PHP\json_encode;
+use function Phantasy\PHP\json_encode;
 ```
 #### Examples
 ```php
@@ -5961,7 +5961,7 @@ $jsonEncode($val);
 ### json_encode2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\json_encode2;
+use function Phantasy\PHP\json_encode2;
 ```
 #### Examples
 ```php
@@ -5977,7 +5977,7 @@ $jsonEncodeNumCheck($val);
 ### json_decode
 #### Usage
 ```php
-use function Phantasy\Core\PHP\json_decode;
+use function Phantasy\PHP\json_decode;
 ```
 #### Examples
 ```php
@@ -6005,7 +6005,7 @@ object(stdClass)#1 (3) {
 ### json_decode2
 #### Usage
 ```php
-use function Phantasy\Core\PHP\json_decode2;
+use function Phantasy\PHP\json_decode2;
 ```
 #### Examples
 ```php
