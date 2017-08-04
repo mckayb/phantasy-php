@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use function Phantasy\PHP\{
     curry,
+    compose,
     explode,
     implode,
     addcslashes,
@@ -293,6 +294,34 @@ use function Phantasy\PHP\{
 
 class PHPFunctionsTest extends TestCase
 {
+    public function testCompose()
+    {
+        $a = function ($x) {
+            return $x + 1;
+        };
+        $b = function ($x) {
+            return $x + 2;
+        };
+
+        $f = compose($a, $b);
+        $this->assertEquals($f(2), 5);
+    }
+
+    public function testComposeMultiple()
+    {
+        $a = function ($x) {
+            return $x / 3;
+        };
+        $b = function ($x) {
+            return $x * 2;
+        };
+        $c = function ($x) {
+            return $x + 4;
+        };
+        $f = compose($a, $b, $c);
+        $this->assertEquals($f(2), 4);
+    }
+
     public function testCurry()
     {
         $add = curry(

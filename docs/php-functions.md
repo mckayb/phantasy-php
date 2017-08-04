@@ -1,10 +1,65 @@
 # PHP Functions
+Along with the standard php functions, I've also included
+`curry` and `compose` to help with composing these functions.
+
+## Helper Functions
+
+### curry
+#### Usage
+```php
+use function Phantasy\PHP\curry;
+```
+#### Examples
+```php
+$add3Nums = curry(function ($x, $y, $z) {
+    return $x + $y + $z;
+});
+
+// Now call it with all of the parameters
+$add3Nums(1, 2, 3);
+// 6
+
+// Or only a few of them
+$addTo7 = $add3Nums(4, 3);
+$addTo7(5);
+// 12
+```
+```php
+function doSomething($x, $y) {
+    return $x - $y;
+}
+
+$f = curry('doSomething');
+// Now call it with all the parameters
+$f(1, 2);
+// -1
+
+// Or only call it with some of them.
+$subFrom1 = $f(1);
+$subFrom1(2);
+// -1
+```
+### compose
+#### Usage
+```php
+use function Phantasy\PHP\compose;
+```
+#### Examples
+```php
+$snakeCase = compose(
+    implode('_')
+    explode(' ')
+    strtolower()
+);
+
+$snakeCase('Foo Bar');
+// 'foo_bar'
+```
 
 ## String Functions
 
 ### explode
 #### Usage
-
 ```php
 use function Phantasy\PHP\explode;
 ```

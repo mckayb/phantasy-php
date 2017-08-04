@@ -19,6 +19,21 @@ function curry($callable)
     return $recurseFunc;
 }
 
+function compose(...$fns)
+{
+    return \array_reduce(
+        $fns,
+        function ($f, $g) {
+            return function ($x) use ($f, $g) {
+                return $f($g($x));
+            };
+        },
+        function ($x) {
+            return $x;
+        }
+    );
+}
+
 function explode()
 {
     return curry('\explode')(...func_get_args());
