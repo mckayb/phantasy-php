@@ -4,7 +4,7 @@ Along with the standard php functions, I've also included
 
 ## Helper Functions
 
-### curry
+### curry (callable $f)
 #### Usage
 ```php
 use function Phantasy\PHP\curry;
@@ -39,7 +39,7 @@ $subFrom1 = $f(1);
 $subFrom1(2);
 // -1
 ```
-### compose
+### compose (callable ...$fns)
 #### Usage
 ```php
 use function Phantasy\PHP\compose;
@@ -58,12 +58,11 @@ $snakeCase('Foo Bar');
 
 ## String Functions
 
-### explode
+### explode (string $delimiter, string $str)
 #### Usage
 ```php
 use function Phantasy\PHP\explode;
 ```
-
 #### Examples
 ```php
 // Uncurried
@@ -76,17 +75,32 @@ $splitOnSpace('foo bar');
 // ['foo', 'bar']
 ```
 
-### implode
+### explode3 (int $limit, string $delimiter, string $str) : array
 #### Usage
+```php
+use function Phantasy\PHP\explode3;
+```
+#### Examples
+```php
+$str = 'one|two|three|four';
 
+explode3(2, '|', $str);
+// ['one', 'two|three|four']
+
+$explodeLimit2ByPipe = explode3(2, '|');
+$explodeLimit2ByPipe($str);
+// ['one', 'two|three|four']
+```
+
+### implode (string $glue, array $pieces) : string
+#### Usage
 ```php
 use function Phantasy\PHP\implode;
 ```
-
 #### Examples
 ```php
 // Uncurried
-implode(',', ['one', two']);
+implode(',', ['one', 'two']);
 // 'one,two'
 
 // Curried
@@ -95,14 +109,26 @@ $joinByComma(['one', 'two']);
 // 'one,two'
 ```
 
-### addcslashes
-
+### implode1 (array $pieces) : string
 #### Usage
+```php
+use function Phantasy\PHP\implode1;
+```
+#### Examples
+```php
+implode1(['one', 'two']);
+// 'onetwo'
 
+$implode1 = implode1();
+$implode1(['one', 'two']);
+// 'onetwo'
+```
+
+### addcslashes (string $charList, string $str) : string
+#### Usage
 ```php
 use function Phantasy\PHP\addcslashes;
 ```
-
 #### Examples
 ```php
 // Uncurried
@@ -113,16 +139,13 @@ addcslashes('A..z', 'foo[ ]');
 $addSlashesAToZ = addcslashes('A..z');
 $addSlashesAToZ('foo[ ]');
 // "\f\o\o\[ \]"
-
 ```
 
-### addslashes
+### addslashes (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\addslashes;
 ```
-
 #### Examples
 ```php
 $str = "Is your name O'Reilly?";
@@ -138,13 +161,11 @@ $addslashes($str);
 // "Is your name O\'Reilly?"
 ```
 
-### bin2hex
+### bin2hex (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\bin2hex;
 ```
-
 #### Examples
 ```php
 bin2hex('test');
@@ -155,13 +176,11 @@ $bin2Hex('test');
 // '74657374'
 ```
 
-### chop
+### chop (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chop;
 ```
-
 #### Examples
 ```php
 chop("foo\n");
@@ -172,13 +191,11 @@ $chop("foo\n");
 // "test"
 ```
 
-### chop2
+### chop2 (string $charMask, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chop2;
 ```
-
 #### Examples
 ```php
 chop2("World!", "Hello World!");
@@ -189,13 +206,11 @@ $chopWorld("Hello World!");
 // "Hello "
 ```
 
-### chr
+### chr (int $ascii) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chr;
 ```
-
 #### Examples
 ```php
 chr(046)
@@ -206,13 +221,11 @@ $chr(046)
 // "&"
 ```
 
-### chunk_split
+### chunk_split (string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split;
 ```
-
 #### Examples
 ```php
 chunk_split("test");
@@ -221,7 +234,6 @@ chunk_split("test");
 $chunkSplit = chunk_split();
 $chunkSplit("test");
 // "test\r\n"
-
 ```
 
 ### chunk_split2
@@ -6071,4 +6083,87 @@ json_decode2(true, $json);
 $jsonDecodeAssoc = json_decode2(true);
 $jsonDecodeAssoc($json);
 // ['a' => 3, 'b' => 2, 'c' => 3];
+```
+
+## File Functions
+
+### basename
+#### Usage
+```php
+use function Phantasy\PHP\basename;
+```
+#### Examples
+```php
+$path = "/etc/passwd";
+basename($path);
+// "passwd"
+
+$basename = basename();
+$basename($path);
+// "passwd"
+```
+
+### basename2
+#### Usage
+```php
+use function Phantasy\PHP\basename2;
+```
+#### Examples
+```php
+$path = "/etc/sudoers.d";
+$suffix = ".d";
+
+basename2($suffix, $path);
+// "sudoers"
+
+$basenameWithoutSuffix = basename2($suffix);
+$basenameWithoutSuffix($path);
+// "sudoers"
+```
+
+### filegroup
+#### Usage
+```php
+use function Phantasy\PHP\filegroup;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+filegroup($path);
+// 'my-file-group'
+
+$filegroup = filegroup();
+$filegroup($path);
+// 'my-file-group'
+```
+
+### chgrp
+#### Usage
+```php
+use function Phantasy\PHP\chgrp;
+```
+#### Examples
+```php
+$filename = './shared_file.txt';
+chgrp(8, $filename); // Change file group to group 8
+// True or False
+
+$chToGrp7 = chgrp(7);
+$chToGrp7($filename); // Change group to 7
+```
+
+### chmod (int $mode, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\chmod;
+```
+#### Examples
+```php
+$perm = 755;
+$filename = '/somedir/somefile';
+
+chmod($perm, $filename);
+
+$chmod755 = chmod($perm);
+$chmod755($filename);
 ```

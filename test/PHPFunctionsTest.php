@@ -5,7 +5,9 @@ use function Phantasy\PHP\{
     curry,
     compose,
     explode,
+    explode3,
     implode,
+    implode1,
     addcslashes,
     addslashes,
     bin2hex,
@@ -289,7 +291,12 @@ use function Phantasy\PHP\{
     json_encode,
     json_encode2,
     json_decode,
-    json_decode2
+    json_decode2,
+    basename,
+    basename2,
+    chgrp,
+    filegroup,
+    chmod
 };
 
 class PHPFunctionsTest extends TestCase
@@ -354,6 +361,29 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals($explodeBySpace('foo bar'), ['foo', 'bar']);
     }
 
+    public function testExplode3()
+    {
+        $str = 'one|two|three|four';
+        $expected = ['one', 'two|three|four'];
+
+        $this->assertEquals(
+            explode3(2, '|', $str),
+            $expected
+        );
+
+        $explodeLimit2ByPipe = explode3(2, '|');
+        $explodeLimit2ByPipe($str);
+        $this->assertEquals(
+            $explodeLimit2ByPipe($str),
+            $expected
+        );
+
+        $this->assertEquals(
+            explode3(2, '|', $str),
+            \explode('|', $str, 2)
+        );
+    }
+
     public function testImplode()
     {
         $arr = ['one', 'two', 'three'];
@@ -362,6 +392,13 @@ class PHPFunctionsTest extends TestCase
 
         $joinByComma = implode(',');
         $this->assertEquals($joinByComma($arr), 'one,two,three');
+    }
+
+    public function testImplode1()
+    {
+        $arr = ['one', 'two', 'three'];
+        $this->assertEquals(implode1($arr), \implode($arr));
+        $this->assertEquals(implode1($arr), 'onetwothree');
     }
 
     public function testAddCSlashes()
@@ -3289,7 +3326,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testDateTimezoneGet()
     {
-        $a = date_create2(new DateTimeZone('Europe/London'), null);
+        $a = date_create2(new DateTimeZone('Europe/London'), "now");
         $this->assertEquals(
             date_timezone_get($a),
             \date_timezone_get($a)
@@ -3814,5 +3851,36 @@ class PHPFunctionsTest extends TestCase
 
         $jsonDecode = json_decode2(true);
         $this->assertEquals($jsonDecode($json), \json_decode($json, true));
+    }
+
+    public function testBasename()
+    {
+        $path = "/etc/passwd";
+        $this->assertEquals(basename($path), 'passwd');
+        $this->assertEquals(basename($path), \basename($path));
+
+        $basename = basename();
+        $this->assertEquals($basename($path), 'passwd');
+        $this->assertEquals($basename($path), \basename($path));
+    }
+
+    public function testBasename2()
+    {
+        $path = "/etc/sudoers.d";
+        $suffix = ".d";
+        $this->assertEquals(basename2($suffix, $path), \basename($path, $suffix));
+
+        $basenameSuffix = basename2($suffix);
+        $this->assertEquals($basenameSuffix($path), \basename($path, $suffix));
+    }
+
+    public function testChgrpAndFilegroup()
+    {
+        $file = dirname(__FILE__) . '/fixtures/config.json';
+        $this->assertTrue(chgrp(filegroup($file), $file));
+
+        $filegroup = filegroup();
+        $chFilegroup = chgrp($filegroup($file));
+        $this->assertTrue($chFilegroup($file));
     }
 }

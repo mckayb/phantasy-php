@@ -1,29 +1,27 @@
 <?php
 namespace Phantasy\PHP;
 
-function curry($callable)
+function curry(callable $f)
 {
-    $ref = new \ReflectionFunction($callable);
-
-    $recurseFunc = function () use ($ref, &$recurseFunc) {
-        $args = func_get_args();
-        if (func_num_args() === $ref->getNumberOfRequiredParameters()) {
-            return $ref->invokeArgs($args);
+    $ref = new \ReflectionFunction($f);
+    $numParams = $ref->getNumberOfRequiredParameters();
+    $recurseFunc = function (...$args) use ($f, $numParams, &$recurseFunc) {
+        if (\count($args) >= $numParams) {
+            return call_user_func_array($f, $args);
         } else {
-            return function () use ($args, &$recurseFunc) {
-                return $recurseFunc(...\array_merge($args, func_get_args()));
+            return function (...$args2) use ($args, &$recurseFunc) {
+                return $recurseFunc(...array_merge($args, $args2));
             };
         }
     };
-
     return $recurseFunc;
 }
 
-function compose(...$fns)
+function compose(callable ...$fns)
 {
     return \array_reduce(
         $fns,
-        function ($f, $g) {
+        function (callable $f, callable $g) : callable {
             return function ($x) use ($f, $g) {
                 return $f($g($x));
             };
@@ -34,1841 +32,2039 @@ function compose(...$fns)
     );
 }
 
-function explode()
+function explode(...$args)
 {
-    return curry('\explode')(...func_get_args());
+    return curry('\explode')(...$args);
 }
 
-function implode()
+function explode3(...$args)
 {
-    return curry('\implode')(...func_get_args());
+    return curry(function (int $limit, string $delimiter, string $str) : array {
+        return \explode($delimiter, $str, $limit);
+    })(...$args);
 }
 
-function addcslashes()
+function implode(...$args)
 {
-    return curry(function ($charlist, $str) {
+    return curry('\implode')(...$args);
+}
+
+function implode1(...$args)
+{
+    return curry(function (array $pieces) : string {
+        return \implode($pieces);
+    })(...$args);
+}
+
+function addcslashes(...$args)
+{
+    return curry(function (string $charlist, string $str) : string {
         return \addcslashes($str, $charlist);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function addslashes()
+function addslashes(...$args)
 {
-    return curry('\addslashes')(...func_get_args());
+    return curry('\addslashes')(...$args);
 }
 
-function bin2hex()
+function bin2hex(...$args)
 {
-    return curry('\bin2hex')(...func_get_args());
+    return curry('\bin2hex')(...$args);
 }
 
-function chop()
+function chop(...$args)
 {
-    return curry('\chop')(...func_get_args());
+    return curry('\chop')(...$args);
 }
 
-function chop2()
+function chop2(...$args)
 {
-    return curry(function ($charMask, $str) {
+    return curry(function (string $charMask, string $str) : string {
         return \chop($str, $charMask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function chr()
+function chr(...$args)
 {
-    return curry('\chr')(...func_get_args());
+    return curry('\chr')(...$args);
 }
 
-function chunk_split()
+function chunk_split(...$args)
 {
-    return curry('\chunk_split')(...func_get_args());
+    return curry('\chunk_split')(...$args);
 }
 
-function chunk_split2()
+function chunk_split2(...$args)
 {
-    return curry(function ($chunklen, $body) {
+    return curry(function (int $chunklen, string $body) : string {
         return \chunk_split($body, $chunklen);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function chunk_split3()
+function chunk_split3(...$args)
 {
-    return curry(function ($chunklen, $end, $body) {
+    return curry(function (int $chunklen, string $end, string $body) : string {
         return \chunk_split($body, $chunklen, $end);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function convert_cyr_string()
+function convert_cyr_string(...$args)
 {
-    return curry(function ($from, $to, $str) {
+    return curry(function (string $from, string $to, string $str) : string {
         return \convert_cyr_string($str, $from, $to);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function convert_uudecode()
+function convert_uudecode(...$args)
 {
-    return curry('\convert_uudecode')(...func_get_args());
+    return curry('\convert_uudecode')(...$args);
 }
 
-function convert_uuencode()
+function convert_uuencode(...$args)
 {
-    return curry('\convert_uuencode')(...func_get_args());
+    return curry('\convert_uuencode')(...$args);
 }
 
-function count_chars()
+function count_chars(...$args)
 {
-    return curry('\count_chars')(...func_get_args());
+    return curry('\count_chars')(...$args);
 }
 
-function count_chars2()
+function count_chars2(...$args)
 {
-    return curry(function ($mode, $string) {
+    return curry(function (int $mode, string $string) {
         return \count_chars($string, $mode);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function crc32()
+function crc32(...$args)
 {
-    return curry('\crc32')(...func_get_args());
+    return curry('\crc32')(...$args);
 }
 
-function crypt()
+function crypt(...$args)
 {
-    return curry(function ($salt, $str) {
+    return curry(function (string $salt, string $str) : string {
         return \crypt($str, $salt);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function hex2bin()
+function hex2bin(...$args)
 {
-    return curry('\hex2bin')(...func_get_args());
+    return curry('\hex2bin')(...$args);
 }
 
-function htmlspecialchars_decode()
+function htmlspecialchars_decode(...$args)
 {
-    return curry('\htmlspecialchars_decode')(...func_get_args());
+    return curry('\htmlspecialchars_decode')(...$args);
 }
 
-function htmlspecialchars_decode2()
+function htmlspecialchars_decode2(...$args)
 {
-    return curry(function ($flags, $str) {
+    return curry(function (int $flags, string $str) : string {
         return \htmlspecialchars_decode($str, $flags);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function join()
+function join(...$args)
 {
-    return curry('\join')(...func_get_args());
+    return curry('\join')(...$args);
 }
 
-function lcfirst()
+function lcfirst(...$args)
 {
-    return curry('\lcfirst')(...func_get_args());
+    return curry('\lcfirst')(...$args);
 }
 
-function levenshtein()
+function levenshtein(...$args)
 {
-    return curry('\levenshtein')(...func_get_args());
+    return curry('\levenshtein')(...$args);
 }
 
-function levenshtein5()
+function levenshtein5(...$args)
 {
-    return curry(function ($cost_ins, $cost_rep, $cost_del, $str1, $str2) {
+    return curry(function (int $cost_ins, int $cost_rep, int $cost_del, string $str1, string $str2) : int {
         return \levenshtein($str1, $str2, $cost_ins, $cost_rep, $cost_del);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function ltrim()
+function ltrim(...$args)
 {
-    return curry('\ltrim')(...func_get_args());
+    return curry('\ltrim')(...$args);
 }
 
-function ltrim2()
+function ltrim2(...$args)
 {
-    return curry(function ($charMask, $str) {
+    return curry(function (string $charMask, string $str) : string {
         return \ltrim($str, $charMask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function md5_file()
+function md5_file(...$args)
 {
-    return curry('\md5_file')(...func_get_args());
+    return curry('\md5_file')(...$args);
 }
 
-function md5_file2()
+function md5_file2(...$args)
 {
-    return curry(function ($rawOutput, $filename) {
+    return curry(function (bool $rawOutput, string $filename) : string {
         return \md5_file($filename, $rawOutput);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function md5()
+function md5(...$args)
 {
-    return curry('\md5')(...func_get_args());
+    return curry('\md5')(...$args);
 }
 
-function md52()
+function md52(...$args)
 {
-    return curry(function ($rawOutput, $str) {
+    return curry(function (bool $rawOutput, string $str) : string {
         return \md5($str, $rawOutput);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function metaphone()
+function metaphone(...$args)
 {
-    return curry('\metaphone')(...func_get_args());
+    return curry('\metaphone')(...$args);
 }
 
-function metaphone2()
+function metaphone2(...$args)
 {
-    return curry(function ($phonemes, $str) {
+    return curry(function (int $phonemes, string $str) : string {
         return \metaphone($str, $phonemes);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function money_format()
+function money_format(...$args)
 {
-    return curry('\money_format')(...func_get_args());
+    return curry('\money_format')(...$args);
 }
 
-function nl_langinfo()
+function nl_langinfo(...$args)
 {
-    return curry('\nl_langinfo')(...func_get_args());
+    return curry('\nl_langinfo')(...$args);
 }
 
-function nl2br()
+function nl2br(...$args)
 {
-    return curry('\nl2br')(...func_get_args());
+    return curry('\nl2br')(...$args);
 }
 
-function nl2br2()
+function nl2br2(...$args)
 {
-    return curry(function ($isXHTML, $str) {
+    return curry(function (bool $isXHTML, string $str) : string {
         return \nl2br($str, $isXHTML);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function number_format()
+function number_format(...$args)
 {
-    return curry('\number_format')(...func_get_args());
+    return curry('\number_format')(...$args);
 }
 
-function number_format2()
+function number_format2(...$args)
 {
     return curry(function ($decimals, $num) {
         return \number_format($num, $decimals);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function number_format4()
+function number_format4(...$args)
 {
-    return curry(function ($decimals, $decPoint, $thousandsSep, $num) {
+    return curry(function (int $decimals, string $decPoint, string $thousandsSep, float $num) : string {
         return \number_format($num, $decimals, $decPoint, $thousandsSep);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function ord()
+function ord(...$args)
 {
-    return curry('\ord')(...func_get_args());
+    return curry('\ord')(...$args);
 }
 
-function parse_str()
+function parse_str(...$args)
 {
-    return curry(function ($str) {
+    return curry(function (string $str) : array {
         \parse_str($str, $output);
         return $output;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function quotemeta()
+function quotemeta(...$args)
 {
-    return curry('\quotemeta')(...func_get_args());
+    return curry('\quotemeta')(...$args);
 }
 
-function rtrim()
+function rtrim(...$args)
 {
-    return curry('\rtrim')(...func_get_args());
+    return curry('\rtrim')(...$args);
 }
 
-function rtrim2()
+function rtrim2(...$args)
 {
-    return curry(function ($charMask, $str) {
+    return curry(function (string $charMask, string $str) : string {
         return \rtrim($str, $charMask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function sha1_file()
+function sha1_file(...$args)
 {
-    return curry('\sha1_file')(...func_get_args());
+    return curry('\sha1_file')(...$args);
 }
 
-function sha1_file2()
+function sha1_file2(...$args)
 {
-    return curry(function ($rawOutput, $filename) {
+    return curry(function (bool $rawOutput, string $filename) : string {
         return \sha1_file($filename, $rawOutput);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function sha1()
+function sha1(...$args)
 {
-    return curry('\sha1')(...func_get_args());
+    return curry('\sha1')(...$args);
 }
 
-function sha12()
+function sha12(...$args)
 {
-    return curry(function ($rawOutput, $str) {
+    return curry(function (bool $rawOutput, string $str) : string {
         return \sha1($str, $rawOutput);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function similar_text()
+function similar_text(...$args)
 {
-    return curry('\similar_text')(...func_get_args());
+    return curry('\similar_text')(...$args);
 }
 
-function similar_text_pct()
+function similar_text_pct(...$args)
 {
-    return curry(function ($str1, $str2) {
+    return curry(function (string $str1, string $str2) : float {
         \similar_text($str1, $str2, $percent);
         return $percent;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function soundex()
+function soundex(...$args)
 {
-    return curry('\soundex')(...func_get_args());
+    return curry('\soundex')(...$args);
 }
 
-function str_getcsv()
+function str_getcsv(...$args)
 {
-    return curry('\str_getcsv')(...func_get_args());
+    return curry('\str_getcsv')(...$args);
 }
 
-function str_getcsv2()
+function str_getcsv2(...$args)
 {
-    return curry(function ($delim, $str) {
+    return curry(function (string $delim, string $str) : array {
         return \str_getcsv($str, $delim);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_getcsv3()
+function str_getcsv3(...$args)
 {
-    return curry(function ($delim, $enclosure, $str) {
+    return curry(function (string $delim, string $enclosure, string $str) : array {
         return \str_getcsv($str, $delim, $enclosure);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_getcsv4()
+function str_getcsv4(...$args)
 {
-    return curry(function ($delim, $enclosure, $escape, $str) {
+    return curry(function (string $delim, string $enclosure, string $escape, string $str) : array {
         return \str_getcsv($str, $delim, $enclosure, $escape);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_ireplace()
+function str_ireplace(...$args)
 {
-    return curry('\str_ireplace')(...func_get_args());
+    return curry('\str_ireplace')(...$args);
 }
 
-function str_ireplace_count()
+function str_ireplace_count(...$args)
 {
-    return curry(function ($search, $replace, $subject) {
+    return curry(function ($search, $replace, $subject) : int {
         \str_ireplace($search, $replace, $subject, $count);
         return $count;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_pad()
+function str_pad(...$args)
 {
-    return curry(function ($length, $str) {
+    return curry(function (int $length, string $str) : string {
         return \str_pad($str, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_pad3()
+function str_pad3(...$args)
 {
-    return curry(function ($length, $padStr, $str) {
+    return curry(function (int $length, string $padStr, string $str) : string {
         return \str_pad($str, $length, $padStr);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_pad4()
+function str_pad4(...$args)
 {
-    return curry(function ($padType, $length, $padStr, $str) {
+    return curry(function (int $padType, int $length, string $padStr, string $str) : string {
         return \str_pad($str, $length, $padStr, $padType);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_repeat()
+function str_repeat(...$args)
 {
-    return curry(function ($multiplier, $str) {
+    return curry(function (int $multiplier, string $str) : string {
         return \str_repeat($str, $multiplier);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_replace()
+function str_replace(...$args)
 {
-    return curry('\str_replace')(...func_get_args());
+    return curry('\str_replace')(...$args);
 }
 
-function str_replace_count()
+function str_replace_count(...$args)
 {
-    return curry(function ($search, $replace, $subject) {
+    return curry(function ($search, $replace, $subject) : int {
         \str_replace($search, $replace, $subject, $count);
         return $count;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_rot13()
+function str_rot13(...$args)
 {
-    return curry('\str_rot13')(...func_get_args());
+    return curry('\str_rot13')(...$args);
 }
 
-function str_shuffle()
+function str_shuffle(...$args)
 {
-    return curry('\str_shuffle')(...func_get_args());
+    return curry('\str_shuffle')(...$args);
 }
 
-function str_split()
+function str_split(...$args)
 {
-    return curry('\str_split')(...func_get_args());
+    return curry('\str_split')(...$args);
 }
 
-function str_split2()
+function str_split2(...$args)
 {
-    return curry(function ($len, $str) {
+    return curry(function (int $len, string $str) : array {
         return \str_split($str, $len);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_word_count()
+function str_word_count(...$args)
 {
-    return curry('\str_word_count')(...func_get_args());
+    return curry('\str_word_count')(...$args);
 }
 
-function str_word_count2()
+function str_word_count2(...$args)
 {
-    return curry(function ($format, $str) {
+    return curry(function (int $format, string $str) {
         return \str_word_count($str, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function str_word_count3()
+function str_word_count3(...$args)
 {
-    return curry(function ($format, $charList, $str) {
+    return curry(function (int $format, string $charList, string $str) {
         return \str_word_count($str, $format, $charList);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strcasecmp()
+function strcasecmp(...$args)
 {
-    return curry('\strcasecmp')(...func_get_args());
+    return curry('\strcasecmp')(...$args);
 }
 
-function strchr()
+function strchr(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function ($needle, string $haystack) : string {
         return \strchr($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strchr3()
+function strchr3(...$args)
 {
-    return curry(function ($beforeNeedle, $needle, $haystack) {
+    return curry(function (bool $beforeNeedle, $needle, string $haystack) : string {
         return \strchr($haystack, $needle, $beforeNeedle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strcmp()
+function strcmp(...$args)
 {
-    return curry('\strcmp')(...func_get_args());
+    return curry('\strcmp')(...$args);
 }
 
-function strcoll()
+function strcoll(...$args)
 {
-    return curry('\strcoll')(...func_get_args());
+    return curry('\strcoll')(...$args);
 }
 
-function strcspn()
+function strcspn(...$args)
 {
-    return curry(function ($mask, $str) {
+    return curry(function (string $mask, string $str) : int {
         return \strcspn($str, $mask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strcspn3()
+function strcspn3(...$args)
 {
-    return curry(function ($start, $mask, $str) {
+    return curry(function (int $start, string $mask, string $str) : int {
         return \strcspn($str, $mask, $start);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strcspn4()
+function strcspn4(...$args)
 {
-    return curry(function ($start, $end, $mask, $str) {
-        return \strcspn($str, $mask, $start, $end);
-    })(...func_get_args());
+    return curry(function (int $start, int $length, string $mask, string $str) : int {
+        return \strcspn($str, $mask, $start, $length);
+    })(...$args);
 }
 
-function strip_tags()
+function strip_tags(...$args)
 {
-    return curry('\strip_tags')(...func_get_args());
+    return curry('\strip_tags')(...$args);
 }
 
-function strip_tags2()
+function strip_tags2(...$args)
 {
-    return curry(function ($allowableTags, $str) {
+    return curry(function (string $allowableTags, string $str) : string {
         return \strip_tags($str, $allowableTags);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function stripcslashes()
+function stripcslashes(...$args)
 {
-    return curry('\stripcslashes')(...func_get_args());
+    return curry('\stripcslashes')(...$args);
 }
 
-function stripos()
+function stripos(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function (string $needle, string $haystack) {
         return \stripos($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function stripos3()
+function stripos3(...$args)
 {
-    return curry(function ($offset, $needle, $haystack) {
+    return curry(function (int $offset, string $needle, string $haystack) {
         return \stripos($haystack, $needle, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function stripslashes()
+function stripslashes(...$args)
 {
-    return curry('\stripslashes')(...func_get_args());
+    return curry('\stripslashes')(...$args);
 }
 
-function stristr()
+function stristr(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function ($needle, string $haystack) {
         return \stristr($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function stristr3()
+function stristr3(...$args)
 {
-    return curry(function ($beforeNeedle, $needle, $haystack) {
+    return curry(function (bool $beforeNeedle, $needle, string $haystack) {
         return \stristr($haystack, $needle, $beforeNeedle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strlen()
+function strlen(...$args)
 {
-    return curry('\strlen')(...func_get_args());
+    return curry('\strlen')(...$args);
 }
 
-function strnatcasecmp()
+function strnatcasecmp(...$args)
 {
-    return curry('\strnatcasecmp')(...func_get_args());
+    return curry('\strnatcasecmp')(...$args);
 }
 
-function strnatcmp()
+function strnatcmp(...$args)
 {
-    return curry('\strnatcasecmp')(...func_get_args());
+    return curry('\strnatcasecmp')(...$args);
 }
 
-function strncasecmp()
+function strncasecmp(...$args)
 {
-    return curry(function ($n, $a, $b) {
+    return curry(function (int $n, string $a, string $b) : int {
         return \strncasecmp($a, $b, $n);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strncmp()
+function strncmp(...$args)
 {
-    return curry(function ($n, $a, $b) {
+    return curry(function (int $n, string $a, string $b) : int {
         return \strncmp($a, $b, $n);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strpbrk()
+function strpbrk(...$args)
 {
-    return curry(function ($charList, $haystack) {
+    return curry(function (string $charList, string $haystack) : string {
         return \strpbrk($haystack, $charList);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strpos()
+function strpos(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function ($needle, string $haystack) {
         return \strpos($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strpos3()
+function strpos3(...$args)
 {
-    return curry(function ($offset, $needle, $haystack) {
+    return curry(function (int $offset, $needle, string $haystack) {
         return \strpos($haystack, $needle, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strrchr()
+function strrchr(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function ($needle, string $haystack) : string {
         return \strrchr($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strrev()
+function strrev(...$args)
 {
-    return curry('\strrev')(...func_get_args());
+    return curry('\strrev')(...$args);
 }
 
-function strripos()
+function strripos(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function (string $needle, string $haystack) : int {
         return \strripos($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strripos3()
+function strripos3(...$args)
 {
-    return curry(function ($offset, $needle, $haystack) {
+    return curry(function (int $offset, string $needle, string $haystack) : int {
         return \strripos($haystack, $needle, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strrpos()
+function strrpos(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function (string $needle, string $haystack) : int {
         return \strrpos($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strrpos3()
+function strrpos3(...$args)
 {
-    return curry(function ($offset, $needle, $haystack) {
+    return curry(function (int $offset, string $needle, string $haystack) : int {
         return \strrpos($haystack, $needle, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strspn()
+function strspn(...$args)
 {
-    return curry(function ($mask, $subject) {
+    return curry(function (string $mask, string $subject) : int {
         return \strspn($subject, $mask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strspn3()
+function strspn3(...$args)
 {
-    return curry(function ($start, $mask, $subject) {
+    return curry(function (int $start, string $mask, string $subject) : int {
         return \strspn($subject, $mask, $start);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strspn4()
+function strspn4(...$args)
 {
-    return curry(function ($start, $length, $mask, $subject) {
+    return curry(function (int $start, int $length, string $mask, string $subject) : int {
         return \strspn($subject, $mask, $start, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strstr()
+function strstr(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function ($needle, string $haystack) : string {
         return \strstr($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strstr3()
+function strstr3(...$args)
 {
-    return curry(function ($beforeNeedle, $needle, $haystack) {
+    return curry(function (bool $beforeNeedle, $needle, string $haystack) : string {
         return \strstr($haystack, $needle, $beforeNeedle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strtok()
+function strtok(...$args)
 {
-    return curry(function ($token, $str) {
+    return curry(function (string $token, string $str) {
         return \strtok($str, $token);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strtok1()
+function strtok1(...$args)
 {
-    return curry(function ($token) {
+    return curry(function (string $token) {
         return \strtok($token);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strtolower()
+function strtolower(...$args)
 {
-    return curry('\strtolower')(...func_get_args());
+    return curry('\strtolower')(...$args);
 }
 
-function strtoupper()
+function strtoupper(...$args)
 {
-    return curry('\strtoupper')(...func_get_args());
+    return curry('\strtoupper')(...$args);
 }
 
-function strtr()
+function strtr(...$args)
 {
-    $f = function () use (&$f) {
-        $args = func_get_args();
-        if (count($args) > 0) {
-            if (is_array($args[0])) {
-                return curry(function ($replacePairs, $str) {
+    $f = function (...$args2) use (&$f) {
+        if (count($args2) > 0) {
+            if (is_array($args2[0])) {
+                return curry(function (array $replacePairs, string $str) : string {
                     return \strtr($str, $replacePairs);
-                })(...$args);
-            } elseif (is_string($args[0])) {
-                return curry(function ($from, $to, $str) {
+                })(...$args2);
+            } elseif (is_string($args2[0])) {
+                return curry(function (string $from, string $to, string $str) : string {
                     return \strtr($str, $from, $to);
-                })(...$args);
+                })(...$args2);
             }
         }
 
         return $f;
     };
 
-    return $f(...func_get_args());
+    return $f(...$args);
 }
 
-function substr_compare()
+function substr_compare(...$args)
 {
-    return curry(function ($offset, $str, $mainStr) {
+    return curry(function (int $offset, string $str, string $mainStr) : int {
         return \substr_compare($mainStr, $str, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_compare4()
+function substr_compare4(...$args)
 {
-    return curry(function ($length, $offset, $str, $mainStr) {
+    return curry(function (int $length, int $offset, string $str, string $mainStr) : int {
         return \substr_compare($mainStr, $str, $offset, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_compare5()
+function substr_compare5(...$args)
 {
-    return curry(function ($caseInsensitive, $length, $offset, $str, $mainStr) {
+    return curry(function (bool $caseInsensitive, int $length, int $offset, string $str, string $mainStr) : int {
         return \substr_compare($mainStr, $str, $offset, $length, $caseInsensitive);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_count()
+function substr_count(...$args)
 {
-    return curry(function ($needle, $haystack) {
+    return curry(function (string $needle, string $haystack) : int {
         return \substr_count($haystack, $needle);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_count3()
+function substr_count3(...$args)
 {
-    return curry(function ($offset, $needle, $haystack) {
+    return curry(function (int $offset, string $needle, string $haystack) : int {
         return \substr_count($haystack, $needle, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_count4()
+function substr_count4(...$args)
 {
-    return curry(function ($length, $offset, $needle, $haystack) {
+    return curry(function (int $length, int $offset, string $needle, string $haystack) : int {
         return \substr_count($haystack, $needle, $offset, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_replace()
+function substr_replace(...$args)
 {
     return curry(function ($start, $replacement, $str) {
         return \substr_replace($str, $replacement, $start);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr_replace4()
+function substr_replace4(...$args)
 {
     return curry(function ($length, $start, $replacement, $str) {
         return \substr_replace($str, $replacement, $start, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr()
+function substr(...$args)
 {
-    return curry(function ($start, $str) {
+    return curry(function (int $start, string $str) : string {
         return \substr($str, $start);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function substr3()
+function substr3(...$args)
 {
-    return curry(function ($length, $start, $str) {
+    return curry(function (int $length, string $start, string $str) : string {
         return \substr($str, $start, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function trim()
+function trim(...$args)
 {
-    return curry('\trim')(...func_get_args());
+    return curry('\trim')(...$args);
 }
 
-function trim2()
+function trim2(...$args)
 {
-    return curry(function ($charMask, $str) {
+    return curry(function (string $charMask, string $str) : string {
         return \trim($str, $charMask);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function ucfirst()
+function ucfirst(...$args)
 {
-    return curry('\ucfirst')(...func_get_args());
+    return curry('\ucfirst')(...$args);
 }
 
-function ucwords()
+function ucwords(...$args)
 {
-    return curry('\ucwords')(...func_get_args());
+    return curry('\ucwords')(...$args);
 }
 
-function ucwords2()
+function ucwords2(...$args)
 {
-    return curry(function ($delims, $str) {
+    return curry(function (string $delims, string $str) : string {
         return \ucwords($str, $delims);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function wordwrap()
+function wordwrap(...$args)
 {
-    return curry('\wordwrap')(...func_get_args());
+    return curry('\wordwrap')(...$args);
 }
 
-function wordwrap2()
+function wordwrap2(...$args)
 {
-    return curry(function ($width, $str) {
+    return curry(function (int $width, string $str) : string {
         return \wordwrap($str, $width);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function wordwrap3()
+function wordwrap3(...$args)
 {
-    return curry(function ($break, $width, $str) {
+    return curry(function (string $break, int $width, string $str) : string {
         return \wordwrap($str, $width, $break);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function wordwrap4()
+function wordwrap4(...$args)
 {
-    return curry(function ($cut, $break, $width, $str) {
+    return curry(function (bool $cut, string $break, int $width, string $str) : string {
         return \wordwrap($str, $width, $break, $cut);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_change_key_case()
+function array_change_key_case(...$args)
 {
-    return curry('\array_change_key_case')(...func_get_args());
+    return curry('\array_change_key_case')(...$args);
 }
 
-function array_change_key_case2()
+function array_change_key_case2(...$args)
 {
-    return curry(function ($case, $arr) {
+    return curry(function (int $case, array $arr) : array {
         return \array_change_key_case($arr, $case);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_chunk()
+function array_chunk(...$args)
 {
-    return curry(function ($size, $arr) {
+    return curry(function (int $size, array $arr) : array {
         return \array_chunk($arr, $size);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_chunk3()
+function array_chunk3(...$args)
 {
-    return curry(function ($preserveKeys, $size, $arr) {
+    return curry(function (bool $preserveKeys, int $size, array $arr) : array {
         return \array_chunk($arr, $size, $preserveKeys);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_column()
+function array_column(...$args)
 {
-    return curry(function ($column_key, $input) {
+    return curry(function ($column_key, array $input) : array {
         return \array_column($input, $column_key);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_column3()
+function array_column3(...$args)
 {
-    return curry(function ($index_key, $column_key, $input) {
+    return curry(function ($index_key, $column_key, array $input) : array {
         return \array_column($input, $column_key, $index_key);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_combine()
+function array_combine(...$args)
 {
-    return curry('\array_combine')(...func_get_args());
+    return curry('\array_combine')(...$args);
 }
 
-function array_count_values()
+function array_count_values(...$args)
 {
-    return curry('\array_count_values')(...func_get_args());
+    return curry('\array_count_values')(...$args);
 }
 
-function array_diff_assoc()
+function array_diff_assoc(...$args)
 {
-    return curry('\array_diff_assoc')(...func_get_args());
+    return curry('\array_diff_assoc')(...$args);
 }
 
-function array_diff_key()
+function array_diff_key(...$args)
 {
-    return curry('\array_diff_key')(...func_get_args());
+    return curry('\array_diff_key')(...$args);
 }
 
-function array_diff_uassoc()
+function array_diff_uassoc(...$args)
 {
-    return curry(function ($f, $a, $b) {
+    return curry(function (callable $f, array $a, array $b) : array {
         return \array_diff_uassoc($a, $b, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_diff_ukey()
+function array_diff_ukey(...$args)
 {
-    return curry(function ($f, $a, $b) {
+    return curry(function (callable $f, array $a, array $b) : array {
         return \array_diff_ukey($a, $b, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_diff()
+function array_diff(...$args)
 {
-    return curry('\array_diff')(...func_get_args());
+    return curry('\array_diff')(...$args);
 }
 
-function array_fill_keys()
+function array_fill_keys(...$args)
 {
-    return curry(function ($val, $arr) {
-        return \array_fill_keys($arr, $val);
-    })(...func_get_args());
+    return curry(function ($val, array $keys) : array {
+        return \array_fill_keys($keys, $val);
+    })(...$args);
 }
 
-function array_fill()
+function array_fill(...$args)
 {
-    return curry(function ($num, $startIndex, $value) {
+    return curry(function (int $num, int $startIndex, $value) : array {
         return \array_fill($startIndex, $num, $value);
-    })(...func_get_args());
-    return curry('\array_fill')(...func_get_args());
+    })(...$args);
+    return curry('\array_fill')(...$args);
 }
 
-function array_filter()
+function array_filter(...$args)
 {
-    return curry('\array_filter')(...func_get_args());
+    return curry('\array_filter')(...$args);
 }
 
-function array_filter2()
+function array_filter2(...$args)
 {
-    return curry(function ($f, $a) {
+    return curry(function (callable $f, array $a) : array {
         return \array_filter($a, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_filter3()
+function array_filter3(...$args)
 {
-    return curry(function ($flag, $f, $a) {
+    return curry(function (int $flag, callable $f, array $a) : array {
         return \array_filter($a, $f, $flag);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_flip()
+function array_flip(...$args)
 {
-    return curry('\array_flip')(...func_get_args());
+    return curry('\array_flip')(...$args);
 }
 
-function array_intersect_assoc()
+function array_intersect_assoc(...$args)
 {
-    return curry('\array_intersect_assoc')(...func_get_args());
+    return curry('\array_intersect_assoc')(...$args);
 }
 
-function array_intersect_key()
+function array_intersect_key(...$args)
 {
-    return curry('\array_intersect_key')(...func_get_args());
+    return curry('\array_intersect_key')(...$args);
 }
 
-function array_intersect_uassoc()
+function array_intersect_uassoc(...$args)
 {
-    return curry(function ($f, $a, $b) {
+    return curry(function (callable $f, array $a, array $b) : array {
         return \array_intersect_uassoc($a, $b, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_intersect_ukey()
+function array_intersect_ukey(...$args)
 {
-    return curry(function ($f, $a, $b) {
+    return curry(function (callable $f, array $a, array $b) : array {
         return \array_intersect_ukey($a, $b, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_intersect()
+function array_intersect(...$args)
 {
-    return curry('\array_intersect')(...func_get_args());
+    return curry('\array_intersect')(...$args);
 }
 
-function array_key_exists()
+function array_key_exists(...$args)
 {
-    return curry('\array_key_exists')(...func_get_args());
+    return curry('\array_key_exists')(...$args);
 }
 
-function key_exists()
+function key_exists(...$args)
 {
-    return curry('\key_exists')(...func_get_args());
+    return curry('\key_exists')(...$args);
 }
 
-function array_keys()
+function array_keys(...$args)
 {
-    return curry('\array_keys')(...func_get_args());
+    return curry('\array_keys')(...$args);
 }
 
-function array_keys2()
+function array_keys2(...$args)
 {
-    return curry(function ($searchVal, $arr) {
+    return curry(function ($searchVal, array $arr) : array {
         return \array_keys($arr, $searchVal);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_keys3()
+function array_keys3(...$args)
 {
-    return curry(function ($strict, $searchVal, $arr) {
+    return curry(function (bool $strict, $searchVal, array $arr) : array {
         return \array_keys($arr, $searchVal, $strict);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_map()
+function array_map(...$args)
 {
-    return curry('\array_map')(...func_get_args());
+    return curry('\array_map')(...$args);
 }
 
-function array_merge_recursive()
+function array_merge_recursive(...$args)
 {
-    return curry(function ($a, $b) {
+    return curry(function (array $a, array $b) : array {
         return \array_merge_recursive($a, $b);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_merge()
+function array_merge(...$args)
 {
-    return curry(function ($a, $b) {
+    return curry(function (array $a, array $b) : array {
         return \array_merge($a, $b);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_pad()
+function array_pad(...$args)
 {
-    return curry(function ($size, $value, $arr) {
+    return curry(function (int $size, $value, array $arr) : array {
         return \array_pad($arr, $size, $value);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_product()
+function array_product(...$args)
 {
-    return curry('\array_product')(...func_get_args());
+    return curry('\array_product')(...$args);
 }
 
-function array_rand()
+function array_rand(...$args)
 {
-    return curry('\array_rand')(...func_get_args());
+    return curry('\array_rand')(...$args);
 }
 
-function array_rand2()
+function array_rand2(...$args)
 {
-    return curry(function ($num, $arr) {
+    return curry(function (int $num, array $arr) {
         return \array_rand($arr, $num);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_reduce()
+function array_reduce(...$args)
 {
-    return curry(function ($f, $i, $x) {
+    return curry(function (callable $f, $i, array $x) {
         return \array_reduce($x, $f, $i);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_replace_recursive()
+function array_replace_recursive(...$args)
 {
-    return curry(function ($replacements, $base) {
+    return curry(function (array $replacements, array $base) : array {
         return \array_replace_recursive($base, $replacements);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_replace()
+function array_replace(...$args)
 {
-    return curry(function ($replacements, $base) {
+    return curry(function (array $replacements, array $base) : array {
         return \array_replace($base, $replacements);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_reverse()
+function array_reverse(...$args)
 {
-    return curry('\array_reverse')(...func_get_args());
+    return curry('\array_reverse')(...$args);
 }
 
-function array_reverse2()
+function array_reverse2(...$args)
 {
-    return curry(function ($preserveKeys, $arr) {
+    return curry(function (bool $preserveKeys, array $arr) : array {
         return \array_reverse($arr, $preserveKeys);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_search()
+function array_search(...$args)
 {
-    return curry('\array_search')(...func_get_args());
+    return curry('\array_search')(...$args);
 }
 
-function array_search3()
+function array_search3(...$args)
 {
-    return curry(function ($strict, $needle, $haystack) {
+    return curry(function (bool $strict, $needle, array $haystack) {
         return \array_search($needle, $haystack, $strict);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_slice()
+function array_slice(...$args)
 {
-    return curry(function ($offset, $arr) {
+    return curry(function (int $offset, array $arr) : array {
         return \array_slice($arr, $offset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_slice3()
+function array_slice3(...$args)
 {
-    return curry(function ($length, $offset, $arr) {
+    return curry(function (int $length, int $offset, array $arr) : array {
         return \array_slice($arr, $offset, $length);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_slice4()
+function array_slice4(...$args)
 {
-    return curry(function ($preserveKeys, $length, $offset, $arr) {
+    return curry(function (bool $preserveKeys, int $length, int $offset, array $arr) : array {
         return \array_slice($arr, $offset, $length, $preserveKeys);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_sum()
+function array_sum(...$args)
 {
-    return curry('\array_sum')(...func_get_args());
+    return curry('\array_sum')(...$args);
 }
 
-function array_udiff_assoc()
+function array_udiff_assoc(...$args)
 {
-    return curry(function ($f, $a1, $a2) {
+    return curry(function (callable $f, array $a1, array $a2) : array {
         return \array_udiff_assoc($a1, $a2, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_udiff_uassoc()
+function array_udiff_uassoc(...$args)
 {
-    return curry(function ($f, $g, $a1, $a2) {
+    return curry(function (callable $f, callable $g, array $a1, array $a2) : array {
         return \array_udiff_uassoc($a1, $a2, $f, $g);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_udiff()
+function array_udiff(...$args)
 {
-    return curry(function ($f, $a1, $a2) {
+    return curry(function (callable $f, array $a1, array $a2) : array {
         return \array_udiff($a1, $a2, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_uintersect_assoc()
+function array_uintersect_assoc(...$args)
 {
-    return curry(function ($f, $a1, $a2) {
+    return curry(function (callable $f, array $a1, array $a2) : array {
         return \array_uintersect_assoc($a1, $a2, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_uintersect_uassoc()
+function array_uintersect_uassoc(...$args)
 {
-    return curry(function ($f, $g, $a1, $a2) {
+    return curry(function (callable $f, callable $g, array $a1, array $a2) : array {
         return \array_uintersect_uassoc($a1, $a2, $f, $g);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_uintersect()
+function array_uintersect(...$args)
 {
-    return curry(function ($f, $a1, $a2) {
+    return curry(function (callable $f, array $a1, array $a2) : array {
         return \array_uintersect($a1, $a2, $f);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_unique()
+function array_unique(...$args)
 {
-    return curry('\array_unique')(...func_get_args());
+    return curry('\array_unique')(...$args);
 }
 
-function array_unique2()
+function array_unique2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         return \array_unique($arr, $sortFlags);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function count()
+function count(...$args)
 {
-    return curry('\count')(...func_get_args());
+    return curry('\count')(...$args);
 }
 
-function count2()
+function count2(...$args)
 {
-    return curry(function ($mode, $arr) {
+    return curry(function (int $mode, $arr) : int {
         return \count($arr, $mode);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function sizeof()
+function sizeof(...$args)
 {
-    return curry('\sizeof')(...func_get_args());
+    return curry('\sizeof')(...$args);
 }
 
-function sizeof2()
+function sizeof2(...$args)
 {
-    return curry(function ($mode, $arr) {
+    return curry(function (int $mode, $arr) : int {
         return \sizeof($arr, $mode);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function in_array()
+function in_array(...$args)
 {
-    return curry('\in_array')(...func_get_args());
+    return curry('\in_array')(...$args);
 }
 
-function in_array3()
+function in_array3(...$args)
 {
-    return curry(function ($strict, $needle, $haystack) {
+    return curry(function (bool $strict, $needle, array $haystack) : bool {
         return \in_array($needle, $haystack, $strict);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function range()
+function range(...$args)
 {
-    return curry('\range')(...func_get_args());
+    return curry('\range')(...$args);
 }
 
-function range3()
+function range3(...$args)
 {
-    return curry(function ($step, $start, $end) {
+    return curry(function (float $step, $start, $end) : array {
         return \range($start, $end, $step);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function shuffle()
+function shuffle(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \shuffle($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function rsort()
+function rsort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \rsort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function rsort2()
+function rsort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \rsort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function krsort()
+function krsort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \krsort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function krsort2()
+function krsort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \krsort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function ksort()
+function ksort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \ksort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function ksort2()
+function ksort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \ksort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function natcasesort()
+function natcasesort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \natcasesort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function natsort()
+function natsort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \natsort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function arsort()
+function arsort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \arsort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function arsort2()
+function arsort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \arsort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function asort()
+function asort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \asort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function asort2()
+function asort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \asort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function sort()
+function sort(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) : array {
         \sort($arr);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function sort2()
+function sort2(...$args)
 {
-    return curry(function ($sortFlags, $arr) {
+    return curry(function (int $sortFlags, array $arr) : array {
         \sort($arr, $sortFlags);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function uasort()
+function uasort(...$args)
 {
-    return curry(function ($f, $arr) {
+    return curry(function (callable $f, array $arr) : array {
         \uasort($arr, $f);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function uksort()
+function uksort(...$args)
 {
-    return curry(function ($f, $arr) {
+    return curry(function (callable $f, array $arr) : array {
         \uksort($arr, $f);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function usort()
+function usort(...$args)
 {
-    return curry(function ($f, $arr) {
+    return curry(function (callable $f, array $arr) : array {
         \usort($arr, $f);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_push()
+function array_push(...$args)
 {
-    return curry(function ($value, $arr) {
+    return curry(function ($value, array $arr) : array {
         return \array_merge($arr, [$value]);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_pop()
+function array_pop(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) {
         return \array_pop($arr);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_shift()
+function array_shift(...$args)
 {
-    return curry(function ($arr) {
+    return curry(function (array $arr) {
         return \array_shift($arr);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_unshift()
+function array_unshift(...$args)
 {
-    return curry(function ($elem, $arr) {
+    return curry(function ($elem, array $arr) {
         \array_unshift($arr, $elem);
         return $arr;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_splice()
+function array_splice(...$args)
 {
-    return curry(function ($offset, $input) {
+    return curry(function (int $offset, array $input) : array {
         \array_splice($input, $offset);
         return $input;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_splice3()
+function array_splice3(...$args)
 {
-    return curry(function ($offset, $length, $input) {
+    return curry(function (int $offset, int $length, array $input) : array {
         \array_splice($input, $offset, $length);
         return $input;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function array_splice4()
+function array_splice4(...$args)
 {
-    return curry(function ($offset, $length, $replacement, $input) {
+    return curry(function (int $offset, int $length, $replacement, array $input) : array {
         \array_splice($input, $offset, $length, $replacement);
         return $input;
-    })(...func_get_args());
+    })(...$args);
 }
 
-function checkdate()
+function checkdate(...$args)
 {
-    return curry('\checkdate')(...func_get_args());
+    return curry('\checkdate')(...$args);
 }
 
-function date_create_from_format()
+function date_create_from_format(...$args)
 {
-    return curry('\date_create_from_format')(...func_get_args());
+    return curry('\date_create_from_format')(...$args);
 }
 
-function date_create_from_format3()
+function date_create_from_format3(...$args)
 {
-    return curry(function (\DateTimeZone $timezone, $format, $time) {
+    return curry(function (\DateTimeZone $timezone, string $format, string $time) : \DateTime {
         return \date_create_from_format($format, $time, $timezone);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_create_immutable_from_format()
+function date_create_immutable_from_format(...$args)
 {
-    return curry('\date_create_immutable_from_format')(...func_get_args());
+    return curry('\date_create_immutable_from_format')(...$args);
 }
 
-function date_create_immutable_from_format3()
+function date_create_immutable_from_format3(...$args)
 {
-    return curry(function (\DateTimeZone $timezone, $format, $time) {
+    return curry(function (\DateTimeZone $timezone, string $format, string $time) : \DateTimeImmutable {
         return \date_create_immutable_from_format($format, $time, $timezone);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_create_immutable1()
+function date_create_immutable1(...$args)
 {
-    return curry(function ($time) {
+    return curry(function (string $time) : \DateTimeImmutable {
         return \date_create_immutable($time);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_create_immutable2()
+function date_create_immutable2(...$args)
 {
-    return curry(function (\DateTimeZone $timezone, $time) {
+    return curry(function (\DateTimeZone $timezone, string $time) : \DateTimeImmutable {
         return \date_create_immutable($time, $timezone);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_create1()
+function date_create1(...$args)
 {
-    return curry(function ($time) {
+    return curry(function (string $time) : \DateTime {
         return \date_create($time);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_create2()
+function date_create2(...$args)
 {
-    return curry(function (\DateTimeZone $timezone, $time) {
+    return curry(function (\DateTimeZone $timezone, string $time) : \DateTime {
         return \date_create($time, $timezone);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_add()
+function date_add(...$args)
 {
-    return curry(function ($interval, $date) {
+    return curry(function (\DateInterval $interval, \DateTime $date) : \DateTime {
         return \date_add(clone $date, $interval);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_date_set()
+function date_date_set(...$args)
 {
-    return curry(function ($year, $month, $day, \DateTime $object) {
+    return curry(function (int $year, int $month, int $day, \DateTime $object) : \DateTime {
         return \date_date_set(clone $object, $year, $month, $day);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_default_timezone_set()
+function date_default_timezone_set(...$args)
 {
-    return curry('\date_default_timezone_set')(...func_get_args());
+    return curry('\date_default_timezone_set')(...$args);
 }
 
-function date_diff()
+function date_diff(...$args)
 {
-    return curry('\date_diff')(...func_get_args());
+    return curry('\date_diff')(...$args);
 }
 
-function date_diff3()
+function date_diff3(...$args)
 {
-    return curry(function ($absolute, \DateTimeInterface $d1, \DateTimeInterface $d2) {
+    return curry(function (bool $absolute, \DateTimeInterface $d1, \DateTimeInterface $d2) : \DateInterval {
         return \date_diff($d1, $d2, $absolute);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_format()
+function date_format(...$args)
 {
-    return curry(function ($format, \DateTimeInterface $object) {
+    return curry(function (string $format, \DateTimeInterface $object) : string {
         return \date_format($object, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_interval_create_from_date_string()
+function date_interval_create_from_date_string(...$args)
 {
-    return curry('\date_interval_create_from_date_string')(...func_get_args());
+    return curry('\date_interval_create_from_date_string')(...$args);
 }
 
-function date_interval_format()
+function date_interval_format(...$args)
 {
-    return curry(function ($format, \DateInterval $obj) {
+    return curry(function (string $format, \DateInterval $obj) : string {
         return \date_interval_format($obj, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_isodate_set()
+function date_isodate_set(...$args)
 {
-    return curry(function ($year, $week, \DateTime $object) {
+    return curry(function (int $year, int $week, \DateTime $object) : \DateTime {
         return \date_isodate_set(clone $object, $year, $week);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_isodate_set4()
+function date_isodate_set4(...$args)
 {
-    return curry(function ($year, $week, $day, \DateTime $object) {
+    return curry(function (int $year, int $week, int $day, \DateTime $object) : \DateTime {
         return \date_isodate_set(clone $object, $year, $week, $day);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_modify()
+function date_modify(...$args)
 {
-    return curry(function ($modify, \DateTime $object) {
+    return curry(function (string $modify, \DateTime $object) : \DateTime {
         return \date_modify(clone $object, $modify);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_offset_get()
+function date_offset_get(...$args)
 {
-    return curry('\date_offset_get')(...func_get_args());
+    return curry('\date_offset_get')(...$args);
 }
 
-function date_parse_from_format()
+function date_parse_from_format(...$args)
 {
-    return curry('\date_parse_from_format')(...func_get_args());
+    return curry('\date_parse_from_format')(...$args);
 }
 
-function date_parse()
+function date_parse(...$args)
 {
-    return curry('\date_parse')(...func_get_args());
+    return curry('\date_parse')(...$args);
 }
 
-function date_sub()
+function date_sub(...$args)
 {
-    return curry(function (\DateInterval $interval, \DateTime $object) {
+    return curry(function (\DateInterval $interval, \DateTime $object) : \DateTime {
         return \date_sub(clone $object, $interval);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_sun_info()
+function date_sun_info(...$args)
 {
-    return curry(function ($latitude, $longitude, $time) {
+    return curry(function (float $latitude, float $longitude, int $time) : array {
         return \date_sun_info($time, $latitude, $longitude);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_sunrise()
+function date_sunrise(...$args)
 {
-    return curry('\date_sunrise')(...func_get_args());
+    return curry('\date_sunrise')(...$args);
 }
 
-function date_sunrise2()
+function date_sunrise2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (int $format, int $timestamp) {
         return \date_sunrise($timestamp, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_sunset()
+function date_sunset(...$args)
 {
-    return curry('\date_sunset')(...func_get_args());
+    return curry('\date_sunset')(...$args);
 }
 
-function date_sunset2()
+function date_sunset2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (int $format, int $timestamp) {
         return \date_sunset($timestamp, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_time_set()
+function date_time_set(...$args)
 {
-    return curry(function ($hour, $minute, $object) {
+    return curry(function (int $hour, int $minute, \DateTime $object) : \DateTime {
         return \date_time_set(clone $object, $hour, $minute);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_time_set4()
+function date_time_set4(...$args)
 {
-    return curry(function ($hour, $minute, $second, $object) {
+    return curry(function (int $hour, int $minute, int $second, \DateTime $object) : \DateTime {
         return \date_time_set(clone $object, $hour, $minute, $second);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_timestamp_get()
+function date_timestamp_get(...$args)
 {
-    return curry('\date_timestamp_get')(...func_get_args());
+    return curry('\date_timestamp_get')(...$args);
 }
 
-function date_timestamp_set()
+function date_timestamp_set(...$args)
 {
-    return curry(function ($unix, \DateTime $object) {
+    return curry(function (int $unix, \DateTime $object) : \DateTime {
         return \date_timestamp_set(clone $object, $unix);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date_timezone_get()
+function date_timezone_get(...$args)
 {
-    return curry('\date_timezone_get')(...func_get_args());
+    return curry('\date_timezone_get')(...$args);
 }
 
-function date_timezone_set()
+function date_timezone_set(...$args)
 {
-    return curry(function (\DateTimeZone $time, \DateTime $object) {
+    return curry(function (\DateTimeZone $time, \DateTime $object) : \DateTime {
         return \date_timezone_set(clone $object, $time);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function date()
+function date(...$args)
 {
-    return curry('\date')(...func_get_args());
+    return curry('\date')(...$args);
 }
 
-function date2()
+function date2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (string $format, int $timestamp) : string {
         return \date($format, $timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function getdate1()
+function getdate1(...$args)
 {
-    return curry(function ($timestamp) {
+    return curry(function (int $timestamp) : array {
         return \getdate($timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function gettimeofday1()
+function gettimeofday1(...$args)
 {
-    return curry(function ($returnFloat) {
+    return curry(function (bool $returnFloat) {
         return \gettimeofday($returnFloat);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function gmdate()
+function gmdate(...$args)
 {
-    return curry('\gmdate')(...func_get_args());
+    return curry('\gmdate')(...$args);
 }
 
-function gmdate2()
+function gmdate2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (string $format, int $timestamp) : string {
         return \gmdate($format, $timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function gmstrftime()
+function gmstrftime(...$args)
 {
-    return curry('\gmstrftime')(...func_get_args());
+    return curry('\gmstrftime')(...$args);
 }
 
-function gmstrftime2()
+function gmstrftime2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (string $format, int $timestamp) : string {
         return \gmstrftime($format, $timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function idate()
+function idate(...$args)
 {
-    return curry('\idate')(...func_get_args());
+    return curry('\idate')(...$args);
 }
 
-function idate2()
+function idate2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (string $format, int $timestamp) : int {
         return \idate($format, $timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function localtime1()
+function localtime1(...$args)
 {
-    return curry(function ($time) {
+    return curry(function (int $time) : array {
         return \localtime($time);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function localtime2()
+function localtime2(...$args)
 {
-    return curry(function ($isAssociative, $time) {
+    return curry(function (bool $isAssociative, int $time) : array {
         return \localtime($time, $isAssociative);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function microtime1()
+function microtime1(...$args)
 {
-    return curry(function ($getAsFloat) {
+    return curry(function (bool $getAsFloat) {
         return \microtime($getAsFloat);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strftime()
+function strftime(...$args)
 {
-    return curry('\strftime')(...func_get_args());
+    return curry('\strftime')(...$args);
 }
 
-function strftime2()
+function strftime2(...$args)
 {
-    return curry(function ($format, $timestamp) {
+    return curry(function (string $format, int $timestamp) : string {
         return \strftime($format, $timestamp);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strptime()
+function strptime(...$args)
 {
-    return curry(function ($format, $date) {
+    return curry(function (string $format, string $date) : array {
         return \strptime($date, $format);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function strtotime()
+function strtotime(...$args)
 {
-    return curry('\strtotime')(...func_get_args());
+    return curry('\strtotime')(...$args);
 }
 
-function strtotime2()
+function strtotime2(...$args)
 {
-    return curry(function ($now, $time) {
+    return curry(function (int $now, string $time) : int {
         return \strtotime($time, $now);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_identifiers_list1()
+function timezone_identifiers_list1(...$args)
 {
-    return curry(function ($what) {
+    return curry(function (int $what) : array {
         return \timezone_identifiers_list($what);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_identifiers_list2()
+function timezone_identifiers_list2(...$args)
 {
-    return curry(function ($country, $what) {
+    return curry(function (string $country, int $what) : array {
         return \timezone_identifiers_list($what, $country);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_location_get()
+function timezone_location_get(...$args)
 {
-    return curry('\timezone_location_get')(...func_get_args());
+    return curry('\timezone_location_get')(...$args);
 }
 
-function timezone_name_from_abbr()
+function timezone_name_from_abbr(...$args)
 {
-    return curry('\timezone_name_from_abbr')(...func_get_args());
+    return curry('\timezone_name_from_abbr')(...$args);
 }
 
-function timezone_name_from_abbr2()
+function timezone_name_from_abbr2(...$args)
 {
-    return curry(function ($gmtOffset, $abbr) {
+    return curry(function (int $gmtOffset, string $abbr) : string {
         return \timezone_name_from_abbr($abbr, $gmtOffset);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_name_from_abbr3()
+function timezone_name_from_abbr3(...$args)
 {
-    return curry(function ($isdst, $gmtOffset, $abbr) {
+    return curry(function (int $isdst, int $gmtOffset, string $abbr) : string {
         return \timezone_name_from_abbr($abbr, $gmtOffset, $isdst);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_name_get()
+function timezone_name_get(...$args)
 {
-    return curry('\timezone_name_get')(...func_get_args());
+    return curry('\timezone_name_get')(...$args);
 }
 
-function timezone_offset_get()
+function timezone_offset_get(...$args)
 {
-    return curry('\timezone_offset_get')(...func_get_args());
+    return curry('\timezone_offset_get')(...$args);
 }
 
-function timezone_open()
+function timezone_open(...$args)
 {
-    return curry('\timezone_open')(...func_get_args());
+    return curry('\timezone_open')(...$args);
 }
 
-function timezone_transitions_get()
+function timezone_transitions_get(...$args)
 {
-    return curry('\timezone_transitions_get')(...func_get_args());
+    return curry('\timezone_transitions_get')(...$args);
 }
 
-function timezone_transitions_get2()
+function timezone_transitions_get2(...$args)
 {
-    return curry(function ($timestampBegin, \DateTimeZone $object) {
+    return curry(function (int $timestampBegin, \DateTimeZone $object) : array {
         return \timezone_transitions_get($object, $timestampBegin);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function timezone_transitions_get3()
+function timezone_transitions_get3(...$args)
 {
-    return curry(function ($timestampBegin, $timestampEnd, \DateTimeZone $object) {
+    return curry(function (int $timestampBegin, int $timestampEnd, \DateTimeZone $object) : array {
         return \timezone_transitions_get($object, $timestampBegin, $timestampEnd);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function json_decode()
+function json_decode(...$args)
 {
-    return curry('\json_decode')(...func_get_args());
+    return curry('\json_decode')(...$args);
 }
 
-function json_decode2()
+function json_decode2(...$args)
 {
-    return curry(function ($assoc, $json) {
+    return curry(function (bool $assoc, string $json) {
         return \json_decode($json, $assoc);
-    })(...func_get_args());
+    })(...$args);
 }
 
-function json_encode()
+function json_encode(...$args)
 {
-    return curry('\json_encode')(...func_get_args());
+    return curry('\json_encode')(...$args);
 }
 
-function json_encode2()
+function json_encode2(...$args)
 {
-    return curry(function ($options, $value) {
+    return curry(function (int $options, $value) : string {
         return \json_encode($value, $options);
-    })(...func_get_args());
+    })(...$args);
+}
+
+function json_encode3(...$args)
+{
+    return curry(function (int $depth, int $options, $value) : string {
+        return \json_encode($value, $options, $depth);
+    })(...$args);
+}
+
+function basename(...$args)
+{
+    return curry('\basename')(...$args);
+}
+
+function basename2(...$args)
+{
+    return curry(function (string $suffix, string $path) : string {
+        return \basename($path, $suffix);
+    })(...$args);
+}
+
+function chgrp(...$args)
+{
+    return curry(function ($group, string $filename) : bool {
+        return \chgrp($filename, $group);
+    })(...$args);
+}
+
+function filegroup(...$args)
+{
+    return curry('\filegroup')(...$args);
+}
+
+function chmod(...$args)
+{
+    return curry(function (int $mode, string $filename) : bool {
+        return \chmod($filename, $mode);
+    })(...$args);
+}
+
+function chown(...$args)
+{
+    return curry(function ($user, string $filename) : bool {
+        return \chown($filename, $user);
+    })(...$args);
+}
+
+function copy(...$args)
+{
+    return curry('\copy')(...$args);
+}
+
+function copy3(...$args)
+{
+    return curry(function ($context, string $source, string $dest) : bool {
+        return \copy($source, $dest, $context);
+    })(...$args);
+}
+
+function unlink(...$args)
+{
+    return curry('\unlink')(...$args);
+}
+
+function unlink2(...$args)
+{
+    return curry(function ($context, string $filename) : bool {
+        return \unlink($filename, $context);
+    })(...$args);
+}
+
+function dirname(...$args)
+{
+    return curry('\dirname')(...$args);
+}
+
+function dirname2(...$args)
+{
+    return curry(function (int $levels, string $path) : string {
+        return \dirname($path, $levels);
+    })(...$args);
+}
+
+function disk_free_space(...$args)
+{
+    return curry('\disk_free_space')(...$args);
+}
+
+function disk_total_space(...$args)
+{
+    return curry('\disk_total_space')(...$args);
+}
+
+function diskfreespace(...$args)
+{
+    return curry('\diskfreespace')(...$args);
+}
+
+function fclose(...$args)
+{
+    return curry('\fclose')(...$args);
+}
+
+function feof(...$args)
+{
+    return curry('\feof')(...$args);
+}
+
+function fflush(...$args)
+{
+    return curry('\fflush')(...$args);
+}
+
+function fgetc(...$args)
+{
+    return curry('\fgetc')(...$args);
+}
+
+function fgetcsv(...$args)
+{
+    return curry('\fgetcsv')(...$args);
+}
+
+function fgetcsv2(...$args)
+{
+    return curry(function (int $length, $handle) : array {
+        return \fgetcsv($handle, $length);
+    })(...$args);
+}
+
+function fgetcsv3(...$args)
+{
+    return curry(function (string $delimiter, int $length, $handle) : array {
+        return \fgetcsv($handle, $length, $delimiter);
+    })(...$args);
+}
+
+function fgetcsv4(...$args)
+{
+    return curry(function (string $enclosure, string $delimiter, int $length, $handle) : array {
+        return \fgetcsv($handle, $length, $delimiter, $enclosure);
+    })(...$args);
+}
+
+function fgetcsv5(...$args)
+{
+    return curry(function (string $escape, string $enclosure, string $delimiter, int $length, $handle) : array {
+        return \fgetcsv($handle, $length, $delimiter, $enclosure, $escape);
+    })(...$args);
+}
+
+function fgets(...$args)
+{
+    return curry('\fgets')(...$args);
+}
+
+function fgets2(...$args)
+{
+    return curry(function (int $length, $resource) : string {
+        return \fgets($resource, $length);
+    })(...$args);
+}
+
+function fgetss(...$args)
+{
+    return curry('\fgetss')(...$args);
+}
+
+function fgetss2(...$args)
+{
+    return curry(function (int $length, $handle) : string {
+        return \fgetss($handle, $length);
+    })(...$args);
+}
+
+function fgetss3(...$args)
+{
+    return curry(function (string $allowableTags, int $length, $handle) : string {
+        return \fgetss($handle, $length, $allowable_tags);
+    })(...$args);
+}
+
+function file_exists(...$args)
+{
+    return curry('\file_exists')(...$args);
 }
