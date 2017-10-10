@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Phantasy\PHP;
 
 function curry(callable $f)
@@ -649,7 +649,7 @@ function strripos3(...$args)
 
 function strrpos(...$args)
 {
-    return curry(function (string $needle, string $haystack) : int {
+    return curry(function (string $needle, string $haystack) {
         return \strrpos($haystack, $needle);
     })(...$args);
 }
@@ -1910,11 +1910,6 @@ function chgrp(...$args)
     })(...$args);
 }
 
-function filegroup(...$args)
-{
-    return curry('\filegroup')(...$args);
-}
-
 function chmod(...$args)
 {
     return curry(function (int $mode, string $filename) : bool {
@@ -1938,18 +1933,6 @@ function copy3(...$args)
 {
     return curry(function ($context, string $source, string $dest) : bool {
         return \copy($source, $dest, $context);
-    })(...$args);
-}
-
-function unlink(...$args)
-{
-    return curry('\unlink')(...$args);
-}
-
-function unlink2(...$args)
-{
-    return curry(function ($context, string $filename) : bool {
-        return \unlink($filename, $context);
     })(...$args);
 }
 
@@ -2067,4 +2050,563 @@ function fgetss3(...$args)
 function file_exists(...$args)
 {
     return curry('\file_exists')(...$args);
+}
+
+function file_get_contents(...$args)
+{
+    return curry('\file_get_contents')(...$args);
+}
+
+function file_get_contents2(...$args)
+{
+    return curry(function (bool $use_include_path, string $filename) : string {
+        return \file_get_contents($filename, $use_include_path);
+    })(...$args);
+}
+
+function file_get_contents3(...$args)
+{
+    return curry(function ($context, bool $use_include_path, string $filename) : string {
+        return \file_get_contents($filename, $use_include_path, $context);
+    })(...$args);
+}
+
+function file_get_contents4(...$args)
+{
+    return curry(function (int $offset, $context, bool $use_include_path, string $filename) : string {
+        return \file_get_contents($filename, $use_include_path, $context, $offset);
+    })(...$args);
+}
+
+function file_get_contents5(...$args)
+{
+    return curry(function (int $maxLen, int $offset, $context, bool $use_include_path, string $filename) : string {
+        return \file_get_contents($filename, $use_include_path, $context, $offset, $maxLen);
+    })(...$args);
+}
+
+function file_put_contents(...$args)
+{
+    return curry(function ($data, string $filename) : int {
+        return \file_put_contents($filename, $data);
+    })(...$args);
+}
+
+function file_put_contents3(...$args)
+{
+    return curry(function (int $flags, $data, string $filename) : int {
+        return \file_put_contents($filename, $data, $flags);
+    })(...$args);
+}
+
+function file_put_contents4(...$args)
+{
+    return curry(function ($context, int $flags, $data, string $filename) : int {
+        return \file_put_contents($filename, $data, $flags, $context);
+    })(...$args);
+}
+
+function file(...$args)
+{
+    return curry('\file')(...$args);
+}
+
+function file2(...$args)
+{
+    return curry(function (int $flags, string $filename) : array {
+        return \file($filename, $flags);
+    })(...$args);
+}
+
+function file3(...$args)
+{
+    return curry(function ($context, int $flags, string $filename) : array {
+        return \file($filename, $flags, $context);
+    })(...$args);
+}
+
+function fileatime(...$args)
+{
+    return curry('\fileatime')(...$args);
+}
+
+function filectime(...$args)
+{
+    return curry('\filectime')(...$args);
+}
+
+function filegroup(...$args)
+{
+    return curry('\filegroup')(...$args);
+}
+
+function fileinode(...$args)
+{
+    return curry('\fileinode')(...$args);
+}
+
+function filemtime(...$args)
+{
+    return curry('\filemtime')(...$args);
+}
+
+function fileowner(...$args)
+{
+    return curry('\fileowner')(...$args);
+}
+
+function fileperms(...$args)
+{
+    return curry('\fileperms')(...$args);
+}
+
+function filesize(...$args)
+{
+    return curry('\filesize')(...$args);
+}
+
+function filetype(...$args)
+{
+    return curry('\filetype')(...$args);
+}
+
+function flock(...$args)
+{
+    return curry(function (int $operation, $handle) : bool {
+        return \flock($handle, $operation);
+    })(...$args);
+}
+
+function fnmatch(...$args)
+{
+    return curry('\fnmatch')(...$args);
+}
+
+function fnmatch3(...$args)
+{
+    return curry(function (int $flags, string $pattern, string $string) : bool {
+        return \fnmatch($pattern, $string, $flags);
+    })(...$args);
+}
+
+function fopen(...$args)
+{
+    return curry(function (string $mode, string $filename) {
+        return \fopen($filename, $mode);
+    })(...$args);
+}
+
+function fopen3(...$args)
+{
+    return curry(function (bool $use_include_path, string $mode, string $filename) {
+        return \fopen($filename, $mode, $use_include_path);
+    })(...$args);
+}
+
+function fopen4(...$args)
+{
+    return curry(function ($context, bool $use_include_path, string $mode, string $filename) {
+        return \fopen($filename, $mode, $use_include_path, $context);
+    })(...$args);
+}
+
+function fpassthru(...$args)
+{
+    return curry('\fpassthru')(...$args);
+}
+
+function fputcsv(...$args)
+{
+    return curry(function (array $fields, $handle) : int {
+        return \fputcsv($handle, $fields);
+    })(...$args);
+}
+
+function fputcsv3(...$args)
+{
+    return curry(function (string $delimiter, array $fields, $handle) : int {
+        return \fputcsv($handle, $fields, $delimiter);
+    })(...$args);
+}
+
+function fputcsv4(...$args)
+{
+    return curry(function (string $enclosure, string $delimiter, array $fields, $handle) : int {
+        return \fputcsv($handle, $fields, $delimiter, $enclosure);
+    })(...$args);
+}
+
+function fputcsv5(...$args)
+{
+    return curry(function (string $escape_char, string $enclosure, string $delimiter, array $fields, $handle) : int {
+        return \fputcsv($handle, $fields, $delimiter, $enclosure, $escape_char);
+    })(...$args);
+}
+
+function fputs(...$args)
+{
+    return curry(function (string $string, $handle) : int {
+        return \fputs($handle, $string);
+    })(...$args);
+}
+
+function fputs2(...$args)
+{
+    return curry(function (int $length, string $string, $handle) : int {
+        return \fputs($handle, $string, $length);
+    })(...$args);
+}
+
+function fread(...$args)
+{
+    return curry(function (int $length, $handle) : string {
+        return \fread($handle, $length);
+    })(...$args);
+}
+
+function fseek(...$args)
+{
+    return curry(function (int $offset, $handle) : int {
+        return \fseek($handle, $offset);
+    })(...$args);
+}
+
+function fseek3(...$args)
+{
+    return curry(function (int $whence, int $offset, $handle) : int {
+        return \fseek($handle, $offset, $whence);
+    })(...$args);
+}
+
+function fstat(...$args)
+{
+    return curry('\fstat')(...$args);
+}
+
+function ftell(...$args)
+{
+    return curry('\ftell')(...$args);
+}
+
+function ftruncate(...$args)
+{
+    return curry(function (int $size, $handle) : bool {
+        return \ftruncate($handle, $size);
+    })(...$args);
+}
+
+function fwrite(...$args)
+{
+    return curry(function (string $string, $handle) : int {
+        return \fwrite($handle, $string);
+    })(...$args);
+}
+
+function fwrite2(...$args)
+{
+    return curry(function (int $length, string $string, $handle) : int {
+        return \fwrite($handle, $string, $length);
+    })(...$args);
+}
+
+function glob(...$args)
+{
+    return curry('\glob')(...$args);
+}
+
+function glob2(...$args)
+{
+    return curry(function (int $flags, string $pattern) : array {
+        return \glob($pattern, $flags);
+    })(...$args);
+}
+
+function is_dir(...$args)
+{
+    return curry('\is_dir')(...$args);
+}
+
+function is_executable(...$args)
+{
+    return curry('\is_executable')(...$args);
+}
+
+function is_file(...$args)
+{
+    return curry('\is_file')(...$args);
+}
+
+function is_link(...$args)
+{
+    return curry('\is_link')(...$args);
+}
+
+function is_readable(...$args)
+{
+    return curry('\is_readable')(...$args);
+}
+
+function is_uploaded_file(...$args)
+{
+    return curry('\is_uploaded_file')(...$args);
+}
+
+function is_writable(...$args)
+{
+    return curry('\is_writable')(...$args);
+}
+
+function is_writeable(...$args)
+{
+    return curry('\is_writeable')(...$args);
+}
+
+function lchgrp(...$args)
+{
+    return curry(function ($group, string $filename) : bool {
+        return \lchgrp($filename, $group);
+    })(...$args);
+}
+
+function lchown(...$args)
+{
+    return curry(function ($user, string $filename) : bool {
+        return \lchown($filename, $user);
+    })(...$args);
+}
+
+function link(...$args)
+{
+    return curry(function (string $link, string $target) : bool {
+        return \link($target, $link);
+    })(...$args);
+}
+
+function linkinfo(...$args)
+{
+    return curry('\linkinfo')(...$args);
+}
+
+function lstat(...$args)
+{
+    return curry('\lstat')(...$args);
+}
+
+function mkdir(...$args)
+{
+    return curry('\mkdir')(...$args);
+}
+
+function mkdir2(...$args)
+{
+    return curry(function (int $mode, string $pathname) : bool {
+        return \mkdir($pathname, $mode);
+    })(...$args);
+}
+
+function mkdir3(...$args)
+{
+    return curry(function (bool $recursive, int $mode, string $pathname) : bool {
+        return \mkdir($pathname, $mode, $recursive);
+    })(...$args);
+}
+
+function mkdir4(...$args)
+{
+    return curry(function ($context, bool $recursive, int $mode, string $pathname) : bool {
+        return \mkdir($pathname, $mode, $recursive, $context);
+    })(...$args);
+}
+
+function move_uploaded_file(...$args)
+{
+    return curry(function (string $destination, string $filename) : bool {
+        return \move_uploaded_file($filename, $destination);
+    })(...$args);
+}
+
+function parse_ini_file(...$args)
+{
+    return curry('\parse_ini_file')(...$args);
+}
+
+function parse_ini_file2(...$args)
+{
+    return curry(function (bool $process_sections, string $filename) : array {
+        return \parse_ini_file($filename, $process_sections);
+    })(...$args);
+}
+
+function parse_ini_file3(...$args)
+{
+    return curry(function (int $scanner_mode, bool $process_sections, string $filename) : array {
+        return \parse_ini_file($filename, $process_sections, $scanner_mode);
+    })(...$args);
+}
+
+function parse_ini_string(...$args)
+{
+    return curry('\parse_ini_string')(...$args);
+}
+
+function parse_ini_string2(...$args)
+{
+    return curry(function (bool $process_sections, string $ini) : array {
+        return \parse_ini_string($ini, $process_sections);
+    })(...$args);
+}
+
+function parse_ini_string3(...$args)
+{
+    return curry(function (int $scanner_mode, bool $process_sections, string $ini) : array {
+        return \parse_ini_string($ini, $process_sections, $scanner_mode);
+    })(...$args);
+}
+
+function pathinfo(...$args)
+{
+    return curry('\pathinfo')(...$args);
+}
+
+function pathinfo2(...$args)
+{
+    return curry(function (int $options, string $path) {
+        return \pathinfo($path, $options);
+    })(...$args);
+}
+
+function pclose(...$args)
+{
+    return curry('\pclose')(...$args);
+}
+
+function popen(...$args)
+{
+    return curry(function (string $mode, string $command) {
+        return \popen($command, $mode);
+    })(...$args);
+}
+
+function readfile(...$args)
+{
+    return curry('\readfile')(...$args);
+}
+
+function readfile2(...$args)
+{
+    return curry(function (bool $use_include_path, string $filename) : int {
+        return \readfile($filename, $use_include_path);
+    })(...$args);
+}
+
+function readfile3(...$args)
+{
+    return curry(function ($context, bool $use_include_path, string $filename) : int {
+        return \readfile($filename, $use_include_path, $context);
+    })(...$args);
+}
+
+function readlink(...$args)
+{
+    return curry('\readlink')(...$args);
+}
+
+function realpath(...$args)
+{
+    return curry('\realpath')(...$args);
+}
+
+function rename(...$args)
+{
+    return curry(function (string $newname, string $oldname) : bool {
+        return \rename($oldname, $newname);
+    })(...$args);
+}
+
+function rename3(...$args)
+{
+    return curry(function ($context, string $newname, string $oldname) : bool {
+        return \rename($oldname, $newname, $context);
+    })(...$args);
+}
+
+function rewind(...$args)
+{
+    return curry('\rewind')(...$args);
+}
+
+function rmdir(...$args)
+{
+    return curry('\rmdir')(...$args);
+}
+
+function rmdir2(...$args)
+{
+    return curry(function ($context, string $dirname) : bool {
+        return \rmdir($dirname, $context);
+    })(...$args);
+}
+
+function set_file_buffer(...$args)
+{
+    return curry(function (int $buffer, $stream) : int {
+        return \set_file_buffer($stream, $buffer);
+    })(...$args);
+}
+
+function stat(...$args)
+{
+    return curry('\stat')(...$args);
+}
+
+function symlink(...$args)
+{
+    return curry(function (string $link, string $target) : bool {
+        return \symlink($target, $link);
+    })(...$args);
+}
+
+function tempnam(...$args)
+{
+    return curry(function (string $prefix, string $dir) : string {
+        return \tempnam($dir, $prefix);
+    })(...$args);
+}
+
+function touch(...$args)
+{
+    return curry('\touch')(...$args);
+}
+
+function touch2(...$args)
+{
+    return curry(function (int $time, string $filename) : bool {
+        return \touch($filename, $time);
+    })(...$args);
+}
+
+function touch3(...$args)
+{
+    return curry(function (int $atime, int $time, string $filename) : bool {
+        return \touch($filename, $time, $atime);
+    })(...$args);
+}
+
+function umask1(...$args)
+{
+    return curry(function (int $mask) {
+        return \umask($mask);
+    })(...$args);
+}
+
+function unlink(...$args)
+{
+    return curry('\unlink')(...$args);
+}
+
+function unlink2(...$args)
+{
+    return curry(function ($context, string $filename) : bool {
+        return \unlink($filename, $context);
+    })(...$args);
 }
