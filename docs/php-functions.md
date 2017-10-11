@@ -6412,6 +6412,13 @@ use function Phantasy\PHP\fflush;
 ```
 #### Examples
 ```php
+$filename = 'bar.txt';
+$file = fopen('r+', $filename);
+rewind($file);
+fwrite('Foo', $file);
+fflush($file);
+ftruncate(ftell($file), $file);
+fclose($handle);
 ```
 
 ### fgetc (resource $handle) : string

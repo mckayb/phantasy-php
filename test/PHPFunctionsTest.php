@@ -475,7 +475,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testChmod()
     {
-        $file = \dirname(__FILE__) . '/fixtures/config.json';
+        $file = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
         $this->assertTrue(chmod(755, $file));
         $this->assertEquals(chmod(755, $file), \chmod($file, 755));
 
@@ -486,7 +486,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testChown()
     {
-        $file = \dirname(__FILE__) . '/fixtures/config.json';
+        $file = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
         $this->assertTrue(chown(\get_current_user(), $file));
         $this->assertEquals(chown(\get_current_user(), $file), \chown($file, \get_current_user()));
 
@@ -497,8 +497,8 @@ class PHPFunctionsTest extends TestCase
 
     public function testCopy()
     {
-        $src = \dirname(__FILE__) . '/fixtures/config.json';
-        $dest = \dirname(__FILE__) . '/fixtures/config_copy.json';
+        $src = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $dest = \realpath(\dirname(__FILE__)) . '/fixtures/config_copy.json';
 
         $this->assertTrue(copy($src, $dest));
         $this->assertFileExists($dest);
@@ -508,8 +508,8 @@ class PHPFunctionsTest extends TestCase
     public function testCopy3()
     {
         $streamContext = \stream_context_create();
-        $src = \dirname(__FILE__) . '/fixtures/config.json';
-        $dest = \dirname(__FILE__) . '/fixtures/config_copy.json';
+        $src = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $dest = \realpath(\dirname(__FILE__)) . '/fixtures/config_copy.json';
 
         $this->assertTrue(copy3($streamContext, $src, $dest));
         $this->assertFileExists($dest);
@@ -557,7 +557,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testFclose()
     {
-        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
         $handle = \fopen($path, 'r');
         $this->assertTrue(fclose($handle));
 
@@ -568,7 +568,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testFeof()
     {
-        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
         $handle = \fopen($path, 'r');
         $this->assertFalse(feof($handle));
         $this->assertEquals(feof($handle), \feof($handle));
@@ -581,7 +581,10 @@ class PHPFunctionsTest extends TestCase
 
     public function testFflush()
     {
-
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertTrue(fflush($handle));
+        \fclose($handle);
     }
 
     public function testFgetc()
