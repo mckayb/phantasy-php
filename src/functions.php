@@ -656,7 +656,7 @@ function strrpos(...$args)
 
 function strrpos3(...$args)
 {
-    return curry(function (int $offset, string $needle, string $haystack) : int {
+    return curry(function (int $offset, string $needle, string $haystack) {
         return \strrpos($haystack, $needle, $offset);
     })(...$args);
 }
@@ -806,7 +806,7 @@ function substr(...$args)
 
 function substr3(...$args)
 {
-    return curry(function (int $length, string $start, string $str) : string {
+    return curry(function (int $length, int $start, string $str) : string {
         return \substr($str, $start, $length);
     })(...$args);
 }
@@ -1814,7 +1814,7 @@ function timezone_name_from_abbr(...$args)
 
 function timezone_name_from_abbr2(...$args)
 {
-    return curry(function (int $gmtOffset, string $abbr) : string {
+    return curry(function (int $gmtOffset, string $abbr) {
         return \timezone_name_from_abbr($abbr, $gmtOffset);
     })(...$args);
 }
