@@ -7,9 +7,6 @@ php:
 install:
   - composer install --prefer-source
 
-before_script:
-  - cp test/fixtures/config.json test/fixtures/config_copy.json
-
 script:
   - mkdir -p build/logs
   - composer coverage

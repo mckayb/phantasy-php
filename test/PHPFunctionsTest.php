@@ -476,12 +476,12 @@ class PHPFunctionsTest extends TestCase
     public function testChmod()
     {
         $file = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
-        $this->assertTrue(chmod(755, $file));
-        $this->assertEquals(chmod(755, $file), \chmod($file, 755));
+        $this->assertTrue(chmod(777, $file));
+        $this->assertEquals(chmod(777, $file), \chmod($file, 777));
 
-        $chmod755 = chmod(775);
-        $this->assertTrue($chmod755($file));
-        $this->assertEquals($chmod755($file), \chmod($file, 755));
+        $chmod777 = chmod(777);
+        $this->assertTrue($chmod777($file));
+        $this->assertEquals($chmod777($file), \chmod($file, 777));
     }
 
     public function testChown()
