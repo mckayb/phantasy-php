@@ -293,6 +293,8 @@ use function Phantasy\PHP\{
     json_encode3,
     json_decode,
     json_decode2,
+    json_decode3,
+    json_decode4,
     basename,
     basename2,
     chgrp,
@@ -352,7 +354,7 @@ use function Phantasy\PHP\{
     fputcsv4,
     fputcsv5,
     fputs,
-    fputs2,
+    fputs3,
     fread,
     fseek,
     fseek3,
@@ -360,7 +362,7 @@ use function Phantasy\PHP\{
     ftell,
     ftruncate,
     fwrite,
-    fwrite2,
+    fwrite3,
     glob,
     glob2,
     is_dir,
@@ -415,7 +417,17 @@ use function Phantasy\PHP\{
 
 class PHPFunctionsTest extends TestCase
 {
+    public function testJsonEncode3()
+    {
+
+    }
+
     public function testJsonDecode3()
+    {
+
+    }
+
+    public function testJsonDecode4()
     {
 
     }
@@ -699,7 +711,7 @@ class PHPFunctionsTest extends TestCase
 
     }
 
-    public function testFputs2()
+    public function testFputs3()
     {
 
     }
@@ -739,7 +751,7 @@ class PHPFunctionsTest extends TestCase
 
     }
 
-    public function testFwrite2()
+    public function testFwrite3()
     {
 
     }

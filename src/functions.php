@@ -1872,6 +1872,20 @@ function json_decode2(...$args)
     })(...$args);
 }
 
+function json_decode3(...$args)
+{
+    return curry(function (int $depth, bool $assoc, string $json) {
+        return \json_decode($json, $assoc, $depth);
+    })(...$args);
+}
+
+function json_decode4(...$args)
+{
+    return curry(function (int $options, int $depth, bool $assoc, string $json) {
+        return \json_decode($json, $assoc, $depth, $options);
+    })(...$args);
+}
+
 function json_encode(...$args)
 {
     return curry('\json_encode')(...$args);
@@ -2217,49 +2231,49 @@ function fpassthru(...$args)
 
 function fputcsv(...$args)
 {
-    return curry(function (array $fields, $handle) : int {
+    return curry(function (array $fields, $handle) {
         return \fputcsv($handle, $fields);
     })(...$args);
 }
 
 function fputcsv3(...$args)
 {
-    return curry(function (string $delimiter, array $fields, $handle) : int {
+    return curry(function (string $delimiter, array $fields, $handle) {
         return \fputcsv($handle, $fields, $delimiter);
     })(...$args);
 }
 
 function fputcsv4(...$args)
 {
-    return curry(function (string $enclosure, string $delimiter, array $fields, $handle) : int {
+    return curry(function (string $enclosure, string $delimiter, array $fields, $handle) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure);
     })(...$args);
 }
 
 function fputcsv5(...$args)
 {
-    return curry(function (string $escape_char, string $enclosure, string $delimiter, array $fields, $handle) : int {
+    return curry(function (string $escape_char, string $enclosure, string $delimiter, array $fields, $handle) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure, $escape_char);
     })(...$args);
 }
 
 function fputs(...$args)
 {
-    return curry(function (string $string, $handle) : int {
+    return curry(function (string $string, $handle) {
         return \fputs($handle, $string);
     })(...$args);
 }
 
-function fputs2(...$args)
+function fputs3(...$args)
 {
-    return curry(function (int $length, string $string, $handle) : int {
+    return curry(function (int $length, string $string, $handle) {
         return \fputs($handle, $string, $length);
     })(...$args);
 }
 
 function fread(...$args)
 {
-    return curry(function (int $length, $handle) : string {
+    return curry(function (int $length, $handle) {
         return \fread($handle, $length);
     })(...$args);
 }
@@ -2297,14 +2311,14 @@ function ftruncate(...$args)
 
 function fwrite(...$args)
 {
-    return curry(function (string $string, $handle) : int {
+    return curry(function (string $string, $handle) {
         return \fwrite($handle, $string);
     })(...$args);
 }
 
-function fwrite2(...$args)
+function fwrite3(...$args)
 {
-    return curry(function (int $length, string $string, $handle) : int {
+    return curry(function (int $length, string $string, $handle) {
         return \fwrite($handle, $string, $length);
     })(...$args);
 }

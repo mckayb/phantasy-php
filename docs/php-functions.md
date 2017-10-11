@@ -6009,7 +6009,7 @@ array(42) {
 ```
 
 ## JSON Functions
-### json_encode
+### json_encode ($value) : string
 #### Usage
 ```php
 use function Phantasy\PHP\json_encode;
@@ -6025,7 +6025,7 @@ $jsonEncode($val);
 // '{"a":1,"b":2,"c":3}';
 ```
 
-### json_encode2
+### json_encode2 (int $options, $value) : string
 #### Usage
 ```php
 use function Phantasy\PHP\json_encode2;
@@ -6041,7 +6041,16 @@ $jsonEncodeNumCheck($val);
 // '{"a":1,"b":2,"c":3}';
 ```
 
-### json_decode
+### json_encode3 (int $depth, int $options, $value) : string
+#### Usage
+```php
+use function Phantasy\PHP\json_encode3;
+```
+#### Examples
+```php
+```
+
+### json_decode (string $json)
 #### Usage
 ```php
 use function Phantasy\PHP\json_decode;
@@ -6069,7 +6078,7 @@ object(stdClass)#1 (3) {
 */
 ```
 
-### json_decode2
+### json_decode2 (bool $assoc, string $json)
 #### Usage
 ```php
 use function Phantasy\PHP\json_decode2;
@@ -6085,9 +6094,27 @@ $jsonDecodeAssoc($json);
 // ['a' => 3, 'b' => 2, 'c' => 3];
 ```
 
+### json_decode3 (int $depth, bool $assoc, string $json)
+#### Usage
+```php
+use function Phantasy\PHP\json_decode3;
+```
+#### Examples
+```php
+```
+
+### json_decode4 (int $options, int $depth, bool $assoc, string $json)
+#### Usage
+```php
+use function Phantasy\PHP\json_decode4;
+```
+#### Examples
+```php
+```
+
 ## File Functions
 
-### basename
+### basename (string $path) : string
 #### Usage
 ```php
 use function Phantasy\PHP\basename;
@@ -6103,7 +6130,7 @@ $basename($path);
 // "passwd"
 ```
 
-### basename2
+### basename2 (string $suffix, string $path) : string
 #### Usage
 ```php
 use function Phantasy\PHP\basename2;
@@ -6137,7 +6164,7 @@ $filegroup($path);
 // 'my-file-group'
 ```
 
-### chgrp
+### chgrp ($group, string $filename) : bool
 #### Usage
 ```php
 use function Phantasy\PHP\chgrp;
@@ -6166,4 +6193,805 @@ chmod($perm, $filename);
 
 $chmod755 = chmod($perm);
 $chmod755($filename);
+```
+
+### chown ($user, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\chown;
+```
+#### Examples
+```php
+```
+
+### copy (string $source, string $dest) : bool
+#### Usage
+```php
+use function Phantasy\PHP\copy;
+```
+#### Examples
+```php
+```
+
+### copy3 (resource $context, string $source, string $dest) : bool
+#### Usage
+```php
+use function Phantasy\PHP\copy3;
+```
+#### Examples
+```php
+```
+
+### dirname (string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\dirname;
+```
+#### Examples
+```php
+```
+
+### dirname2 (int $levels, string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\dirname2;
+```
+#### Examples
+```php
+```
+
+### disk_free_space (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\disk_free_space;
+```
+#### Examples
+```php
+```
+
+### diskfreespace (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\diskfreespace;
+```
+#### Examples
+```php
+```
+
+### disk_total_space (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\disk_total_space;
+```
+#### Examples
+```php
+```
+
+### fclose (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fclose;
+```
+#### Examples
+```php
+```
+
+### feof (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\feof;
+```
+#### Examples
+```php
+```
+
+### fflush (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fflush;
+```
+#### Examples
+```php
+```
+
+### fgetc (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetc;
+```
+#### Examples
+```php
+```
+
+### fgetcsv (resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv;
+```
+#### Examples
+```php
+```
+
+### fgetcsv2 (int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv2;
+```
+#### Examples
+```php
+```
+
+### fgetcsv3 (string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv3;
+```
+#### Examples
+```php
+```
+
+### fgetcsv4 (string $enclosure, string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv4;
+```
+#### Examples
+```php
+```
+
+### fgetcsv5 (string $escape, string $enclosure, string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv4;
+```
+#### Examples
+```php
+```
+
+### fgets (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgets;
+```
+#### Examples
+```php
+```
+
+### fgets2 (int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgets2;
+```
+#### Examples
+```php
+```
+
+### fgetss (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss;
+```
+#### Examples
+```php
+```
+
+### fgetss2 (int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss2;
+```
+#### Examples
+```php
+```
+
+### fgetss3 (string $allowable_tags, int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss3;
+```
+#### Examples
+```php
+```
+
+### file_exists (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\file_exists;
+```
+#### Examples
+```php
+```
+
+### file_get_contents (string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents;
+```
+#### Examples
+```php
+```
+
+### file_get_contents2 (bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents2;
+```
+#### Examples
+```php
+```
+
+### file_get_contents3 (resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents3;
+```
+#### Examples
+```php
+```
+
+### file_get_contents4 (int $offset, resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents4;
+```
+#### Examples
+```php
+```
+
+### file_get_contents5 (int $maxlen, int $offset, resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents5;
+```
+#### Examples
+```php
+```
+
+### file_put_contents ($data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents;
+```
+#### Examples
+```php
+```
+
+### file_put_contents3 (int $flags, $data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents3;
+```
+#### Examples
+```php
+```
+
+### file_put_contents4 (resource $context, int $flags, $data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents4;
+```
+#### Examples
+```php
+```
+
+### file (string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file;
+```
+#### Examples
+```php
+```
+
+### file2 (int $flags, string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file2;
+```
+#### Examples
+```php
+```
+
+### file3 (resource $context, int $flags, string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file3;
+```
+#### Examples
+```php
+```
+
+### fileatime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileatime;
+```
+#### Examples
+```php
+```
+
+### filectime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filectime;
+```
+#### Examples
+```php
+```
+
+### filemtime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filemtime;
+```
+#### Examples
+```php
+```
+
+### fileowner (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileowner;
+```
+#### Examples
+```php
+```
+
+### fileperms (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileperms;
+```
+#### Examples
+```php
+```
+
+### filesize (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filesize;
+```
+#### Examples
+```php
+```
+
+### filetype (string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\filetype;
+```
+#### Examples
+```php
+```
+
+### flock (int $operation, resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\flock;
+```
+#### Examples
+```php
+```
+
+### fnmatch (string $pattern, string $string) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fnmatch;
+```
+#### Examples
+```php
+```
+
+### fnmatch3 (int $flags, string $pattern, string $string) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fnmatch3;
+```
+#### Examples
+```php
+```
+
+### fopen (string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen;
+```
+#### Examples
+```php
+```
+
+### fopen3 (bool $use_include_path, string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen3;
+```
+#### Examples
+```php
+```
+
+### fopen4 (resource $context, bool $use_include_path, string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen4;
+```
+#### Examples
+```php
+```
+
+### fpassthru (resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fpassthru;
+```
+#### Examples
+```php
+```
+
+### fputcsv (array $fields, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv;
+```
+#### Examples
+```php
+```
+
+### fputcsv3 (string $delimiter, array $fields, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv3;
+```
+#### Examples
+```php
+```
+
+### fputcsv4 (string $enclosure, string $delimiter, array $fields, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv4;
+```
+#### Examples
+```php
+```
+
+### fputcsv5 (string $escape_char, string $enclosure, string $delimiter, array $fields, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv5;
+```
+#### Examples
+```php
+```
+
+### fputs (string $string, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputs;
+```
+#### Examples
+```php
+```
+
+### fputs3 (int $length, string $string, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fputs3;
+```
+#### Examples
+```php
+```
+
+### fread (int $length, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fread;
+```
+#### Examples
+```php
+```
+
+### fseek (int $offset, resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\fseek;
+```
+#### Examples
+```php
+```
+
+### fseek3 (int $whence, int $offset, resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\fseek3;
+```
+#### Examples
+```php
+```
+
+### fstat (resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fstat;
+```
+#### Examples
+```php
+```
+
+### ftell (resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\ftell;
+```
+#### Examples
+```php
+```
+
+### ftruncate (int $size, resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\ftruncate;
+```
+#### Examples
+```php
+```
+
+### fwrite (string $string, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fwrite;
+```
+#### Examples
+```php
+```
+
+### fwrite3 (int $length, string $string, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fwrite3;
+```
+#### Examples
+```php
+```
+
+### glob (string $pattern) : array
+#### Usage
+```php
+use function Phantasy\PHP\glob;
+```
+#### Examples
+```php
+```
+
+### glob2 (int $flags, string $pattern) : array
+#### Usage
+```php
+use function Phantasy\PHP\glob2;
+```
+#### Examples
+```php
+```
+
+### is_dir (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_dir;
+```
+#### Examples
+```php
+```
+
+### is_executable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_executable;
+```
+#### Examples
+```php
+```
+
+### is_file (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_file;
+```
+#### Examples
+```php
+```
+
+### is_link (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_link;
+```
+#### Examples
+```php
+```
+
+### is_readable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_readable;
+```
+#### Examples
+```php
+```
+
+### is_writable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_writable;
+```
+#### Examples
+```php
+```
+
+### is_writeable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_writeable;
+```
+#### Examples
+```php
+```
+
+### lchgrp ($group, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\lchgrp;
+```
+#### Examples
+```php
+```
+
+### lchown ($user, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\lchown;
+```
+#### Examples
+```php
+```
+
+### link (string $link, string $target) : bool
+#### Usage
+```php
+use function Phantasy\PHP\link;
+```
+#### Examples
+```php
+```
+
+### linkinfo (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\linkinfo;
+```
+#### Examples
+```php
+```
+
+### lstat (string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\lstat;
+```
+#### Examples
+```php
+```
+
+### mkdir (string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir;
+```
+#### Examples
+```php
+```
+
+### mkdir2 (int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir2;
+```
+#### Examples
+```php
+```
+
+### mkdir3 (bool $recursive, int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir3;
+```
+#### Examples
+```php
+```
+
+### mkdir4 (resource $context, bool $recursive, int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir4;
+```
+#### Examples
+```php
+```
+
+### move_uploaded_file (string $destination, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\move_uploaded_file;
+```
+#### Examples
+```php
+```
+
+### parse_ini_file (string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file;
+```
+#### Examples
+```php
+```
+
+### parse_ini_file2 (bool $process_sections, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file2;
+```
+#### Examples
+```php
+```
+
+### parse_ini_file3 (int $scanner_mode, bool $process_sections, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file3;
+```
+#### Examples
+```php
+```
+
+### parse_ini_string (string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string;
+```
+#### Examples
+```php
+```
+
+### parse_ini_string2 (bool $process_sections, string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string2;
+```
+#### Examples
+```php
+```
+
+### parse_ini_string3 (int $scanner_mode, bool $process_sections, string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string3;
+```
+#### Examples
+```php
+```
+
+### pathinfo (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\pathinfo;
+```
+#### Examples
+```php
+```
+
+### pathinfo2 (int $options, string $path)
+#### Usage
+```php
+use function Phantasy\PHP\pathinfo2;
+```
+#### Examples
+```php
 ```
