@@ -25,8 +25,19 @@ use function Phantasy\PHP\{
     crc32,
     crypt,
     hex2bin,
+    html_entity_decode,
+    html_entity_decode2,
+    html_entity_decode3,
+    htmlentities,
+    htmlentities2,
+    htmlentities3,
+    htmlentities4,
     htmlspecialchars_decode,
     htmlspecialchars_decode2,
+    htmlspecialchars,
+    htmlspecialchars2,
+    htmlspecialchars3,
+    htmlspecialchars4,
     join,
     lcfirst,
     levenshtein,
@@ -419,72 +430,153 @@ class PHPFunctionsTest extends TestCase
 {
     public function testJsonEncode3()
     {
+        $a = ['a' => ['b' => '2'], 'd', 'e'];
+        $this->assertFalse(json_encode3(1, JSON_NUMERIC_CHECK, $a));
 
+        $jsonEncodeDepth10 = json_encode3(10);
+        $jsonEncodeDepth10NumericCheck = $jsonEncodeDepth10(JSON_NUMERIC_CHECK);
+        $this->assertEquals(
+            $jsonEncodeDepth10NumericCheck($a),
+            \json_encode($a, JSON_NUMERIC_CHECK, 10)
+        );
     }
 
     public function testJsonDecode3()
     {
+        $a = '{"a":{"b":2},"0":"d","1":"e"}';
+        $this->assertNull(json_decode3(1, true, $a));
 
+        $expected = ['a' => ['b' => '2'], 'd', 'e'];
+        $this->assertEquals(json_decode3(10, true, $a), $expected);
     }
 
     public function testJsonDecode4()
     {
+        $a = '{"a":{"b":2192381230129381029381023},"0":"d","1":"e"}';
+        $expected = ['a' => ['b' => '2192381230129381029381023'], 'd', 'e'];
+        $resFloat = json_decode4(0, 10, true, $a);
+        $resString = json_decode4(JSON_BIGINT_AS_STRING, 10, true, $a);
 
+        $this->assertEquals($resFloat, $expected);
+        $this->assertEquals($resString, $expected);
+        $this->assertTrue(is_float($resFloat['a']['b']));
+        $this->assertFalse(is_float($resString['a']['b']));
+
+        $decodeAsFloatLength10Assoc = json_decode4(0, 10, true);
+        $decodeAsStringLength10Assoc = json_decode4(JSON_BIGINT_AS_STRING, 10, true);
+        $resFloat2 = $decodeAsFloatLength10Assoc($a);
+        $resString2 = $decodeAsStringLength10Assoc($a);
+
+        $this->assertEquals($resFloat2, $expected);
+        $this->assertEquals($resString2, $expected);
+        $this->assertTrue(is_float($resFloat2['a']['b']));
+        $this->assertFalse(is_float($resString2['a']['b']));
     }
 
     public function testChmod()
     {
+        $file = \dirname(__FILE__) . '/fixtures/config.json';
+        $this->assertTrue(chmod(755, $file));
+        $this->assertEquals(chmod(755, $file), \chmod($file, 755));
 
+        $chmod755 = chmod(775);
+        $this->assertTrue($chmod755($file));
+        $this->assertEquals($chmod755($file), \chmod($file, 755));
     }
 
     public function testChown()
     {
+        $file = \dirname(__FILE__) . '/fixtures/config.json';
+        $this->assertTrue(chown(\get_current_user(), $file));
+        $this->assertEquals(chown(\get_current_user(), $file), \chown($file, \get_current_user()));
 
+        $chownCurrentUser = chown(\get_current_user());
+        $this->assertTrue($chownCurrentUser($file));
+        $this->assertTrue($chownCurrentUser($file), \chown($file, get_current_user()));
     }
 
     public function testCopy()
     {
+        $src = \dirname(__FILE__) . '/fixtures/config.json';
+        $dest = \dirname(__FILE__) . '/fixtures/config_copy.json';
 
+        $this->assertTrue(copy($src, $dest));
+        $this->assertFileExists($dest);
+        \unlink($dest);
     }
 
     public function testCopy3()
     {
+        $streamContext = \stream_context_create();
+        $src = \dirname(__FILE__) . '/fixtures/config.json';
+        $dest = \dirname(__FILE__) . '/fixtures/config_copy.json';
 
+        $this->assertTrue(copy3($streamContext, $src, $dest));
+        $this->assertFileExists($dest);
+        \unlink($dest);
     }
 
     public function testDirname()
     {
+        $this->assertEquals(dirname(__FILE__), \dirname(__FILE__));
 
+        $dirname = dirname();
+        $this->assertEquals($dirname(__FILE__), \dirname(__FILE__));
     }
 
     public function testDirname2()
     {
-
+        $this->assertEquals(dirname2(2, __FILE__), \dirname(__FILE__, 2));
+        $dirname2LevelsUp = dirname2(2);
+        $this->assertEquals($dirname2LevelsUp(__FILE__), \dirname(__FILE__, 2));
     }
 
     public function testDiskFreeSpace()
     {
-
+        $dir = __DIR__;
+        $this->assertEquals(disk_free_space($dir), \disk_free_space($dir));
+        $disk_free_space = disk_free_space();
+        $this->assertEquals($disk_free_space($dir), \disk_free_space($dir));
     }
 
-    public function testDiskFreeSpace2()
+    public function testDiskFreeSpaceNoUnderscores()
     {
-
+        $dir = __DIR__;
+        $this->assertEquals(diskfreespace($dir), \diskfreespace($dir));
+        $diskfreespace = diskfreespace();
+        $this->assertEquals($diskfreespace($dir), \diskfreespace($dir));
     }
 
     public function testDiskTotalSpace()
     {
-
+        $dir = __DIR__;
+        $this->assertEquals(disk_total_space($dir), \disk_total_space($dir));
+        $disk_total_space = disk_total_space();
+        $this->assertEquals($disk_total_space($dir), \disk_total_space($dir));
     }
 
     public function testFclose()
     {
+        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertTrue(fclose($handle));
 
+        $handle2 = \fopen($path, 'r');
+        $fclose = fclose();
+        $this->assertTrue($fclose($handle2));
     }
 
     public function testFeof()
     {
+        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertFalse(feof($handle));
+        $this->assertEquals(feof($handle), \feof($handle));
 
+        $feof = feof();
+        $this->assertFalse($feof($handle));
+        $this->assertEquals($feof($handle), \feof($handle));
+        \fclose($handle);
     }
 
     public function testFflush()
@@ -1182,12 +1274,12 @@ class PHPFunctionsTest extends TestCase
 
     public function testChunkSplit3()
     {
-        $this->assertEquals(chunk_split3(2, '.', 'test'), \chunk_split('test', 2, '.'));
-        $this->assertEquals(chunk_split3(2, '.', "test"), "te.st.");
+        $this->assertEquals(chunk_split3('.', 2, 'test'), \chunk_split('test', 2, '.'));
+        $this->assertEquals(chunk_split3('.', 2, "test"), "te.st.");
 
-        $chunkSplitLen2 = chunk_split3(2);
-        $chunkSplitLen2Dot = $chunkSplitLen2('.');
-        $this->assertEquals($chunkSplitLen2('.', "test"), "te.st.");
+        $chunkSplitDot = chunk_split3('.');
+        $chunkSplitLen2Dot = $chunkSplitDot(2);
+        $this->assertEquals($chunkSplitDot(2, "test"), "te.st.");
         $this->assertEquals($chunkSplitLen2Dot("test"), "te.st.");
     }
 

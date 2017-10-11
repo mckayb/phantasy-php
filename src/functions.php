@@ -104,7 +104,7 @@ function chunk_split2(...$args)
 
 function chunk_split3(...$args)
 {
-    return curry(function (int $chunklen, string $end, string $body) : string {
+    return curry(function (string $end, int $chunklen, string $body) : string {
         return \chunk_split($body, $chunklen, $end);
     })(...$args);
 }
@@ -155,6 +155,51 @@ function hex2bin(...$args)
     return curry('\hex2bin')(...$args);
 }
 
+function html_entity_decode(...$args)
+{
+    return curry('\html_entity_decode')(...$args);
+}
+
+function html_entity_decode2(...$args)
+{
+    return curry(function (int $flags, string $string) : string {
+        return \html_entity_decode($string, $flags);
+    })(...$args);
+}
+
+function html_entity_decode3(...$args)
+{
+    return curry(function (string $encoding, int $flags, string $string) : string {
+        return \html_entity_decode($string, $flags, $encoding);
+    })(...$args);
+}
+
+function htmlentities(...$args)
+{
+    return curry('\htmlentities')(...$args);
+}
+
+function htmlentities2(...$args)
+{
+    return curry(function (int $flags, string $string) : string {
+        return \htmlentities($string, $flags);
+    })(...$args);
+}
+
+function htmlentities3(...$args)
+{
+    return curry(function (string $encoding, int $flags, string $string) : string {
+        return \htmlentities($string, $flags, $encoding);
+    })(...$args);
+}
+
+function htmlentities4(...$args)
+{
+    return curry(function (bool $double_encode, string $encoding, int $flags, string $string) : string {
+        return \htmlentities($string, $flags, $encoding, $double_encode);
+    })(...$args);
+}
+
 function htmlspecialchars_decode(...$args)
 {
     return curry('\htmlspecialchars_decode')(...$args);
@@ -164,6 +209,32 @@ function htmlspecialchars_decode2(...$args)
 {
     return curry(function (int $flags, string $str) : string {
         return \htmlspecialchars_decode($str, $flags);
+    })(...$args);
+}
+
+function htmlspecialchars(...$args)
+{
+    return curry('\htmlspecialchars')(...$args);
+}
+
+function htmlspecialchars2(...$args)
+{
+    return curry(function (int $flags, string $string) : string {
+        return \htmlspecialchars($string, $flags);
+    })(...$args);
+}
+
+function htmlspecialchars3(...$args)
+{
+    return curry(function (string $encoding, int $flags, string $string) : string {
+        return \htmlspecialchars($string, $flags, $encoding);
+    })(...$args);
+}
+
+function htmlspecialchars4(...$args)
+{
+    return curry(function (bool $double_encode, string $encoding, int $flags, string $string) : string {
+        return \htmlspecialchars($string, $flags, $encoding, $double_encode);
     })(...$args);
 }
 
@@ -1893,14 +1964,14 @@ function json_encode(...$args)
 
 function json_encode2(...$args)
 {
-    return curry(function (int $options, $value) : string {
+    return curry(function (int $options, $value) {
         return \json_encode($value, $options);
     })(...$args);
 }
 
 function json_encode3(...$args)
 {
-    return curry(function (int $depth, int $options, $value) : string {
+    return curry(function (int $depth, int $options, $value) {
         return \json_encode($value, $options, $depth);
     })(...$args);
 }

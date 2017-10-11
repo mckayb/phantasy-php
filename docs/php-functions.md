@@ -236,13 +236,11 @@ $chunkSplit("test");
 // "test\r\n"
 ```
 
-### chunk_split2
+### chunk_split2 (int $chunklen, string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split2;
 ```
-
 #### Examples
 ```php
 chunk_split2(2, "test");
@@ -253,13 +251,11 @@ $chunkSplitLen2("test");
 // "te\r\nst\r\n"
 ```
 
-### chunk_split3
+### chunk_split3 (string $end, int $chunklen, string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split3;
 ```
-
 #### Examples
 ```php
 chunk_split3(2, '.', 'test');
@@ -267,22 +263,20 @@ chunk_split3(2, '.', 'test');
 
 // Don't have to pass all of the arguments
 // at the same time.
-$chunkSplitLen2 = chunk_split3(2);
-$chunkSplitLen2('.', "test");
+$chunkSplitEndWithDot = chunk_split3('.');
+$chunkSplitEndWithDot(2, "test");
 // "te.st."
 
-$chunkSplitLen2Dot = $chunkSplitLen2('.');
-$chunkSplitLen2Dot("test");
+$chunkSplitEndWithDot = $chunkSplitLen2('.');
+$chunkSplitEndWithDot("test");
 // "te.st."
 ```
 
-### convert_cyr_string
+### convert_cyr_string (string $from, string $to, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_cyr_string;
 ```
-
 #### Examples
 ```php
 convert_cyr_string('w', 'k', "Good Morning..");
@@ -293,13 +287,11 @@ $convertWinToKoi8("Good Morning..");
 // "Good Morning.."
 ```
 
-### convert_uudecode
+### convert_uudecode (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_uudecode;
 ```
-
 #### Examples
 ```php
 $str = "+22!L;W9E(%!(4\"$`\n`";
@@ -309,16 +301,13 @@ convert_uudecode($str);
 $convertUUDecode = convert_uudecode();
 $convertUUDecode($str);
 // "I love PHP!"
-
 ```
 
-### convert_uuencode
+### convert_uuencode (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_uuencode;
 ```
-
 #### Examples
 ```php
 convert_uuencode('I love PHP!');
@@ -329,13 +318,11 @@ $convertUUEncode('I love PHP!');
 // "+22!L;W9E(%!(4\"$`\n`\n"
 ```
 
-### count_chars
+### count_chars (string $string)
 #### Usage
-
 ```php
 use function Phantasy\PHP\count_chars;
 ```
-
 #### Examples
 ```php
 count_chars('Test');
@@ -346,13 +333,11 @@ $countChar('Test');
 // [ ..., '84' => 1, '101' => 1, '115' => 1, '116 => 1, ...]
 ```
 
-### count_chars2
+### count_chars2 (int $mode, string $string)
 #### Usage
-
 ```php
 use function Phantasy\PHP\count_chars2;
 ```
-
 #### Examples
 ```php
 count_chars2(1, 'Test');
@@ -363,13 +348,11 @@ $countCharsMode1('Test');
 // ['84' => 1, '101' => 1, '115' => 1, '116' => 1]
 ```
 
-### crc32
+### crc32 (string) : int
 #### Usage
-
 ```php
 use function Phantasy\PHP\crc32;
 ```
-
 #### Examples
 ```php
 crc32('test');
@@ -378,16 +361,13 @@ crc32('test');
 $crc32 = crc32();
 $crc32('test');
 // 3632233996
-
 ```
 
-### crypt
+### crypt (string $salt, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\crypt;
 ```
-
 #### Examples
 ```php
 crypt('salt', 'str');
@@ -398,13 +378,11 @@ $salted('str');
 // "saEr9QCiBv2PE"
 ```
 
-### hex2bin
+### hex2bin (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\hex2bin;
 ```
-
 #### Examples
 ```php
 hex2bin('6578616d706c65206865782064617461');
@@ -415,13 +393,38 @@ $hex2bin('6578616d706c65206865782064617461');
 // "example hex data"
 ```
 
+### html_entity_decode (string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\html_entity_decode;
+```
+#### Examples
+```php
+```
+
+### html_entity_decode2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\html_entity_decode2;
+```
+#### Examples
+```php
+```
+
+### html_entity_decode3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\html_entity_decode3;
+```
+#### Examples
+```php
+```
+
 ### htmlspecialchars_decode
 #### Usage
-
 ```php
 use function Phantasy\PHP\htmlspecialchars_decode;
 ```
-
 #### Examples
 ```php
 $str = '<p>this -&gt; &quot;</p>\n';
@@ -6048,6 +6051,13 @@ use function Phantasy\PHP\json_encode3;
 ```
 #### Examples
 ```php
+$a = ['a' => ['b' => 'c'], 'd', 'e'];
+json_encode3(1, 0, $a);
+// false
+
+$jsonEncodeDepth10NumericCheck = json_encode3(10, JSON_NUMERIC_CHECK);
+$jsonEncodeDepth10NumericCheck($a);
+// "{"a":{"b":2},"0":"d","1":"e"}"
 ```
 
 ### json_decode (string $json)
@@ -6101,6 +6111,16 @@ use function Phantasy\PHP\json_decode3;
 ```
 #### Examples
 ```php
+$a = '{"a":{"b":2},"0":"d","1":"e"}';
+json_decode3(1, true, $a);
+// null
+
+json_decode3(10, true, $a);
+// ['a' => ['b' => '2'], 'd', 'e'];
+
+$jsonDecodeDepth10AsArr = json_decode3(10, true);
+$jsonDecodeDepth10AsArr($a);
+// ['a' => ['b' => '2'], 'd', 'e'];
 ```
 
 ### json_decode4 (int $options, int $depth, bool $assoc, string $json)
@@ -6110,6 +6130,21 @@ use function Phantasy\PHP\json_decode4;
 ```
 #### Examples
 ```php
+$a = '{"a":{"b":2192381230129381029381023},"0":"d","1":"e"}';
+
+json_decode4(0, 10, true, $a);
+// ['a' => ['b' => float(2192381230129381029381023)], 'd', 'e']
+
+json_decode4(JSON_BIGINT_AS_STRING, 10, true, $a);
+// ['a' => ['b' => "2192381230129381029381023"], 'd', 'e']
+
+$decodeAsFloatLength10Assoc = json_decode4(0, 10, true);
+$decodeAsFloatLength10Assoc($a);
+// ['a' => ['b' => float(2192381230129381029381023)], 'd', 'e']
+
+$decodeAsStringLength10Assoc = json_decode4(JSON_BIGINT_AS_STRING, 10, true);
+$decodeAsStringLength10Assoc($a);
+// ['a' => ['b' => "2192381230129381029381023"], 'd', 'e']
 ```
 
 ## File Functions
@@ -6202,6 +6237,15 @@ use function Phantasy\PHP\chown;
 ```
 #### Examples
 ```php
+$file = '/somedir/somefile';
+$user = 'my_user';
+
+chown($user, $file);
+// true or false, depending on if $user have the right permissions
+
+$chownToUser = chown($user);
+$chownToUser($file);
+// true or false, depending on if $user has the right permissions.
 ```
 
 ### copy (string $source, string $dest) : bool
@@ -6211,6 +6255,15 @@ use function Phantasy\PHP\copy;
 ```
 #### Examples
 ```php
+$src = '/path/to/source';
+$dest = '/path/to/dest';
+
+copy($src, $dest);
+// True or false depending on permissions
+
+$copySrcTo = copy($src);
+$copySrcTo($dest);
+// True or false depending on permissions
 ```
 
 ### copy3 (resource $context, string $source, string $dest) : bool
@@ -6220,6 +6273,16 @@ use function Phantasy\PHP\copy3;
 ```
 #### Examples
 ```php
+$streamContext = \stream_context_create();
+$src = '/path/to/source';
+$dest = '/path/to/dest';
+
+copy3($streamContext, $src, $dest);
+// True or false depending on permissions
+
+$copyInStream = copy3($streamContext);
+$copyInStream($src, $dest);
+// True or false depending on permissions
 ```
 
 ### dirname (string $path) : string
@@ -6229,6 +6292,12 @@ use function Phantasy\PHP\dirname;
 ```
 #### Examples
 ```php
+dirname(__FILE__);
+// "/path/to/current_dir"
+
+$dirname = dirname();
+$dirname(__FILE__);
+// "/path/to/current_dir"
 ```
 
 ### dirname2 (int $levels, string $path) : string
@@ -6238,6 +6307,12 @@ use function Phantasy\PHP\dirname2;
 ```
 #### Examples
 ```php
+dirname2(2, __FILE__);
+// "/path/to/current/directory/parent"
+
+$parentDirname = dirname2(2);
+$parentDirname(__FILE__);
+// "/path/to/current/directory/parent"
 ```
 
 ### disk_free_space (string $directory) : float
@@ -6247,6 +6322,13 @@ use function Phantasy\PHP\disk_free_space;
 ```
 #### Examples
 ```php
+$dir = __DIR__;
+disk_free_space($dir);
+// float(348770705408)
+
+$disk_free_space = disk_free_space();
+$disk_free_space($dir);
+// float(348770705408)
 ```
 
 ### diskfreespace (string $directory) : float
@@ -6256,6 +6338,13 @@ use function Phantasy\PHP\diskfreespace;
 ```
 #### Examples
 ```php
+$dir = __DIR__;
+diskfreespace($dir);
+// float(348770705408)
+
+$diskfreespace = diskfreespace();
+$diskfreespace($dir);
+// float(348770705408)
 ```
 
 ### disk_total_space (string $directory) : float
@@ -6265,6 +6354,13 @@ use function Phantasy\PHP\disk_total_space;
 ```
 #### Examples
 ```php
+$dir = __DIR__;
+disk_total_space($dir);
+// float(498954403840)
+
+$disk_total_space = disk_total_space();
+$disk_total_space($dir);
+// float(498954403840)
 ```
 
 ### fclose (resource $handle) : bool
@@ -6274,6 +6370,15 @@ use function Phantasy\PHP\fclose;
 ```
 #### Examples
 ```php
+$handle = fopen('/path/to/file', 'r');
+// Do some work...
+fclose($handle);
+```
+```php
+$handle = fopen('/path/to/file', 'r');
+// Do some work...
+$fclose = fclose();
+$fclose($handle);
 ```
 
 ### feof (resource $handle) : bool
@@ -6283,6 +6388,21 @@ use function Phantasy\PHP\feof;
 ```
 #### Examples
 ```php
+// Unfold from https://github.com/mckayb/phantasy
+use function Phantasy\Core\unfold;
+
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+
+$getName = function ($fh) {
+    return feof($fh) ? fclose($fh) : [fgetcsv($fh)[0], $fh]
+};
+unfold($getName, fopen('r', $path));
+// ['Foo', 'Bar']
 ```
 
 ### fflush (resource $handle) : bool
