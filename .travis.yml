@@ -6,9 +6,11 @@ php:
 
 install:
   - whoami
+  - groups
   - composer install --prefer-source
 
 before_script:
+  - sudo chown -R travis:travis test/fixtures
   - sudo chmod -R 777 test/fixtures
 
 script:
