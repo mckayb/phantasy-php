@@ -12,6 +12,7 @@ install:
 before_script:
   - sudo chown -R travis:travis test/fixtures
   - sudo chmod -R 777 test/fixtures
+  - ls -la test/fixtures
 
 script:
   - mkdir -p build/logs
