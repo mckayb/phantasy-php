@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use function Phantasy\PHP\{
@@ -581,45 +581,98 @@ class PHPFunctionsTest extends TestCase
 
     public function testFflush()
     {
+        $fflush = fflush();
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
         $handle = \fopen($path, 'r');
         $this->assertTrue(fflush($handle));
         \fclose($handle);
+
+        $handle = \fopen($path, 'r');
+        $this->assertTrue($fflush($handle));
+        \fclose($handle);
     }
 
-    /* public function testFgetc()
+    public function testFgetc()
     {
+        $fgetc = fgetc();
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetc($handle), "{");
+        \fclose($handle);
 
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetc($handle), "{");
+        \fclose($handle);
     }
 
     public function testFgetcsv()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv($handle), ['Foo', 'foo@example.com', '1234', 'foo,bar', 'baz"', '-a', 'b-']);
+        \fclose($handle);
 
+        $fgetcsv = fgetcsv();
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv($handle), ['Foo', 'foo@example.com', '1234', 'foo,bar', 'baz"', '-a', 'b-']);
+        \fclose($handle);
     }
 
     public function testFgetcsv2()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv2(10, $handle), ['Foo', 'foo@ex']);
+        \fclose($handle);
 
+        $fgetcsvLength10 = fgetcsv2(10);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetcsvLength10($handle), ['Foo', 'foo@ex']);
+        \fclose($handle);
     }
 
     public function testFgetcsv3()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv3('@', 10, $handle), ['Foo,foo', 'ex']);
+        \fclose($handle);
 
+        $fgetcsvLength10AtSep = fgetcsv3('@', 10);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetcsvLength10AtSep($handle), ['Foo,foo', 'ex']);
+        \fclose($handle);
     }
 
     public function testFgetcsv4()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv4('-', ',', 50, $handle), ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']);
+        \fclose($handle);
 
+        $fgetcsvLength10DashEnclose = fgetcsv4('-', ',', 50);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetcsvLength10DashEnclose($handle), ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']);
+         \fclose($handle);
     }
 
     public function testFgetcsv5()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        var_dump(fgetcsv5('\\', '"', ',', 0, $handle));
+        // $this->assertEquals(fgetcsv5('-', '"', ',', 10, $handle), ['Foo', 'foo@ex']);
+        \fclose($handle);
 
+        // $fgetcsvLength10 = fgetcsv5('-', '"', ',', 10);
+        // $handle = \fopen($path, 'r');
+        // $this->assertEquals($fgetcsvLength10($handle), ['Foo', 'foo@ex']);
+        // \fclose($handle);
     }
 
     public function testFgets()
     {
-
     }
 
     public function testFgets2()
@@ -1099,7 +1152,7 @@ class PHPFunctionsTest extends TestCase
     public function testUnlink2()
     {
 
-    } */
+    }
 
     public function testCompose()
     {

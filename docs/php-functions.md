@@ -6398,10 +6398,10 @@ Foo,foo@example.com,1234
 Bar,bar@example.com,5678
 */
 
-$getName = function ($fh) {
+$getNames = function ($fh) {
     return feof($fh) ? fclose($fh) : [fgetcsv($fh)[0], $fh]
 };
-unfold($getName, fopen('r', $path));
+unfold($getNames, fopen('r', 'file.csv'));
 // ['Foo', 'Bar']
 ```
 
@@ -6428,6 +6428,9 @@ use function Phantasy\PHP\fgetc;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file.txt');
+$firstChar = fgetc($fh);
+fclose($fh);
 ```
 
 ### fgetcsv (resource $handle) : array
@@ -6437,6 +6440,21 @@ use function Phantasy\PHP\fgetcsv;
 ```
 #### Examples
 ```php
+// Unfold from https://github.com/mckayb/phantasy
+use function Phantasy\Core\unfold;
+
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+
+$getNames = function ($fh) {
+    return feof($fh) ? fclose($fh) : [fgetcsv($fh)[0], $fh]
+};
+unfold($getNames, fopen('r', 'file.csv'));
+// ['Foo', 'Bar']
 ```
 
 ### fgetcsv2 (int $length, resource $handle) : array
@@ -6446,6 +6464,16 @@ use function Phantasy\PHP\fgetcsv2;
 ```
 #### Examples
 ```php
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+$fh = fopen('r', 'file.csv');
+$lineTruncatedTo10 = fgetcsv2(10, $fh);
+// ['Foo', 'foo@ex']
+fclose($fh);
 ```
 
 ### fgetcsv3 (string $delimiter, int $length, resource $handle) : array
@@ -6455,6 +6483,16 @@ use function Phantasy\PHP\fgetcsv3;
 ```
 #### Examples
 ```php
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+$fh = fopen('r', 'file.csv');
+$lineTruncatedTo10SplitByAt = fgetcsv3('@', 10, $fh);
+// ['Foo,foo', 'ex']
+fclose($fh);
 ```
 
 ### fgetcsv4 (string $enclosure, string $delimiter, int $length, resource $handle) : array

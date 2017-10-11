@@ -2075,28 +2075,28 @@ function fgetcsv(...$args)
 
 function fgetcsv2(...$args)
 {
-    return curry(function (int $length, $handle) : array {
+    return curry(function (int $length, $handle) {
         return \fgetcsv($handle, $length);
     })(...$args);
 }
 
 function fgetcsv3(...$args)
 {
-    return curry(function (string $delimiter, int $length, $handle) : array {
+    return curry(function (string $delimiter, int $length, $handle) {
         return \fgetcsv($handle, $length, $delimiter);
     })(...$args);
 }
 
 function fgetcsv4(...$args)
 {
-    return curry(function (string $enclosure, string $delimiter, int $length, $handle) : array {
+    return curry(function (string $enclosure, string $delimiter, int $length, $handle) {
         return \fgetcsv($handle, $length, $delimiter, $enclosure);
     })(...$args);
 }
 
 function fgetcsv5(...$args)
 {
-    return curry(function (string $escape, string $enclosure, string $delimiter, int $length, $handle) : array {
+    return curry(function (string $escape, string $enclosure, string $delimiter, int $length, $handle) {
         return \fgetcsv($handle, $length, $delimiter, $enclosure, $escape);
     })(...$args);
 }
