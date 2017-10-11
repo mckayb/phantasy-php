@@ -589,7 +589,7 @@ class PHPFunctionsTest extends TestCase
         \fclose($handle);
     }
 
-    public function testFgetc()
+    /* public function testFgetc()
     {
 
     }
@@ -1101,7 +1101,7 @@ class PHPFunctionsTest extends TestCase
     public function testUnlink2()
     {
 
-    }
+    } */
 
     public function testCompose()
     {

@@ -10,6 +10,7 @@ install:
   - composer install --prefer-source
 
 before_script:
+  - ls -la test/fixtures
   - sudo chown -R travis:travis test/fixtures
   - sudo chmod -R 777 test/fixtures
   - ls -la test/fixtures
