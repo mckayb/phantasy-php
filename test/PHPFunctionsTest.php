@@ -430,8 +430,6 @@ class PHPFunctionsTest extends TestCase
 {
     public function testJsonEncode3()
     {
-        echo \get_current_user();
-        echo exec('whoami');
         $a = ['a' => ['b' => '2'], 'd', 'e'];
         $this->assertFalse(json_encode3(1, JSON_NUMERIC_CHECK, $a));
 
