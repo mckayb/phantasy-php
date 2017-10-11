@@ -290,17 +290,710 @@ use function Phantasy\PHP\{
     timezone_transitions_get3,
     json_encode,
     json_encode2,
+    json_encode3,
     json_decode,
     json_decode2,
     basename,
     basename2,
     chgrp,
     filegroup,
-    chmod
+    chmod,
+    chown,
+    copy,
+    copy3,
+    dirname,
+    dirname2,
+    disk_free_space,
+    diskfreespace,
+    disk_total_space,
+    fclose,
+    feof,
+    fflush,
+    fgetc,
+    fgetcsv,
+    fgetcsv2,
+    fgetcsv3,
+    fgetcsv4,
+    fgetcsv5,
+    fgets,
+    fgets2,
+    fgetss,
+    fgetss2,
+    fgetss3,
+    file_exists,
+    file_get_contents,
+    file_get_contents2,
+    file_get_contents3,
+    file_get_contents4,
+    file_get_contents5,
+    file_put_contents,
+    file_put_contents3,
+    file_put_contents4,
+    file,
+    file2,
+    file3,
+    fileatime,
+    filectime,
+    fileinode,
+    filemtime,
+    fileowner,
+    fileperms,
+    filesize,
+    filetype,
+    flock,
+    fnmatch,
+    fnmatch3,
+    fopen,
+    fopen3,
+    fopen4,
+    fpassthru,
+    fputcsv,
+    fputcsv3,
+    fputcsv4,
+    fputcsv5,
+    fputs,
+    fputs2,
+    fread,
+    fseek,
+    fseek3,
+    fstat,
+    ftell,
+    ftruncate,
+    fwrite,
+    fwrite2,
+    glob,
+    glob2,
+    is_dir,
+    is_executable,
+    is_file,
+    is_link,
+    is_readable,
+    is_uploaded_file,
+    is_writable,
+    is_writeable,
+    lchgrp,
+    lchown,
+    link,
+    linkinfo,
+    lstat,
+    mkdir,
+    mkdir2,
+    mkdir3,
+    mkdir4,
+    move_uploaded_file,
+    parse_ini_file,
+    parse_ini_file2,
+    parse_ini_file3,
+    parse_ini_string,
+    parse_ini_string2,
+    parse_ini_string3,
+    path_info,
+    path_info2,
+    pclose,
+    popen,
+    readfile,
+    readfile2,
+    readfile3,
+    readlink,
+    realpath,
+    rename,
+    rename3,
+    rewind,
+    rmdir,
+    rmdir2,
+    set_file_buffer,
+    stat,
+    symlink,
+    tempnam,
+    touch,
+    touch2,
+    touch3,
+    umask1,
+    unlink,
+    unlink2
 };
 
 class PHPFunctionsTest extends TestCase
 {
+    public function testJsonDecode3()
+    {
+
+    }
+
+    public function testChmod()
+    {
+
+    }
+
+    public function testChown()
+    {
+
+    }
+
+    public function testCopy()
+    {
+
+    }
+
+    public function testCopy3()
+    {
+
+    }
+
+    public function testDirname()
+    {
+
+    }
+
+    public function testDirname2()
+    {
+
+    }
+
+    public function testDiskFreeSpace()
+    {
+
+    }
+
+    public function testDiskFreeSpace2()
+    {
+
+    }
+
+    public function testDiskTotalSpace()
+    {
+
+    }
+
+    public function testFclose()
+    {
+
+    }
+
+    public function testFeof()
+    {
+
+    }
+
+    public function testFflush()
+    {
+
+    }
+
+    public function testFgetc()
+    {
+
+    }
+
+    public function testFgetcsv()
+    {
+
+    }
+
+    public function testFgetcsv2()
+    {
+
+    }
+
+    public function testFgetcsv3()
+    {
+
+    }
+
+    public function testFgetcsv4()
+    {
+
+    }
+
+    public function testFgetcsv5()
+    {
+
+    }
+
+    public function testFgets()
+    {
+
+    }
+
+    public function testFgets2()
+    {
+
+    }
+
+    public function testFgetss()
+    {
+
+    }
+
+    public function testFgetss2()
+    {
+
+    }
+
+    public function testFgetss3()
+    {
+
+    }
+
+    public function testFileExists()
+    {
+
+    }
+
+    public function testFileGetContents()
+    {
+
+    }
+
+    public function testFileGetContents2()
+    {
+
+    }
+
+    public function testFileGetContents3()
+    {
+
+    }
+
+    public function testFileGetContents4()
+    {
+
+    }
+
+    public function testFileGetContents5()
+    {
+
+    }
+
+    public function testFilePutContents()
+    {
+    }
+
+    public function testFilePutContents3()
+    {
+
+    }
+
+    public function testFilePutContents4()
+    {
+
+    }
+
+    public function testFile()
+    {
+
+    }
+
+    public function testFile2()
+    {
+
+    }
+
+    public function testFile3()
+    {
+
+    }
+
+    public function testFileatime()
+    {
+
+    }
+
+    public function testFilectime()
+    {
+
+    }
+
+    public function testFilegroup()
+    {
+
+    }
+
+    public function testFileinode()
+    {
+
+    }
+
+    public function testFilemtime()
+    {
+
+    }
+
+    public function testFileowner()
+    {
+
+    }
+
+    public function testFileperms()
+    {
+
+    }
+
+    public function testFilesize()
+    {
+
+    }
+
+    public function testFiletype()
+    {
+
+    }
+
+    public function testFlock()
+    {
+
+    }
+
+    public function testFnmatch()
+    {
+
+    }
+
+    public function testFnmatch3()
+    {
+
+    }
+
+    public function testFopen()
+    {
+
+    }
+
+    public function testFopen3()
+    {
+
+    }
+
+    public function testFopen4()
+    {
+
+    }
+
+    public function testFpassthru()
+    {
+
+    }
+
+    public function testFputcsv()
+    {
+
+    }
+
+    public function testFputcsv3()
+    {
+
+    }
+
+    public function testFputcsv4()
+    {
+
+    }
+
+    public function testFputcsv5()
+    {
+
+    }
+
+    public function testFputs()
+    {
+
+    }
+
+    public function testFputs2()
+    {
+
+    }
+
+    public function testFread()
+    {
+
+    }
+
+    public function testFseek()
+    {
+
+    }
+
+    public function testFseek3()
+    {
+
+    }
+
+    public function testFstat()
+    {
+
+    }
+
+    public function testFtell()
+    {
+
+    }
+
+    public function testFtruncate()
+    {
+
+    }
+
+    public function testFwrite()
+    {
+
+    }
+
+    public function testFwrite2()
+    {
+
+    }
+
+    public function testGlob()
+    {
+
+    }
+
+    public function testGlob2()
+    {
+
+    }
+
+    public function testIsDir()
+    {
+
+    }
+
+    public function testIsExecutable()
+    {
+
+    }
+
+    public function testIsFile()
+    {
+
+    }
+
+    public function testIsLink()
+    {
+
+    }
+
+    public function testIsReadable()
+    {
+
+    }
+
+    public function testIsUploadedFile()
+    {
+
+    }
+
+    public function testIsWritable()
+    {
+
+    }
+
+    public function testIsWriteable()
+    {
+
+    }
+
+    public function testLchgrp()
+    {
+
+    }
+
+    public function testLchown()
+    {
+
+    }
+
+    public function testLink()
+    {
+
+    }
+
+    public function testLinkinfo()
+    {
+
+    }
+
+    public function testLstat()
+    {
+
+    }
+
+    public function testMkdir()
+    {
+
+    }
+
+    public function testMkdir2()
+    {
+
+    }
+
+    public function testMkdir3()
+    {
+
+    }
+
+    public function testMkdir4()
+    {
+
+    }
+
+    public function testMoveUploadedFile()
+    {
+
+    }
+
+    public function testParseIniFile()
+    {
+
+    }
+
+    public function testParseIniFile2()
+    {
+
+    }
+
+    public function testParseIniFile3()
+    {
+
+    }
+
+    public function testParseIniString()
+    {
+
+    }
+
+    public function testParseIniString2()
+    {
+
+    }
+
+    public function testParseIniString3()
+    {
+
+    }
+
+    public function testPathInfo()
+    {
+
+    }
+
+    public function testPathInfo2()
+    {
+
+    }
+
+    public function testPclose()
+    {
+
+    }
+
+    public function testPopen()
+    {
+
+    }
+
+    public function testReadfile()
+    {
+
+    }
+
+    public function testReadFile2()
+    {
+
+    }
+
+    public function testReadFile3()
+    {
+
+    }
+
+    public function testReadLink()
+    {
+
+    }
+
+    public function testRealPath()
+    {
+
+    }
+
+    public function testRename()
+    {
+
+    }
+
+    public function testRename3()
+    {
+
+    }
+
+    public function testRewind()
+    {
+
+    }
+
+    public function testRmdir()
+    {
+
+    }
+
+    public function testRmdir2()
+    {
+
+    }
+
+    public function testSetFileBuffer()
+    {
+
+    }
+
+    public function testStat()
+    {
+
+    }
+
+    public function testSymlink()
+    {
+
+    }
+
+    public function testTempnam()
+    {
+
+    }
+
+    public function testTouch()
+    {
+
+    }
+
+    public function testTouch2()
+    {
+
+    }
+
+    public function testTouch3()
+    {
+
+    }
+
+    public function testUmask1()
+    {
+
+    }
+
+    public function testUnlink()
+    {
+
+    }
+
+    public function testUnlink2()
+    {
+
+    }
+
     public function testCompose()
     {
         $a = function ($x) {
