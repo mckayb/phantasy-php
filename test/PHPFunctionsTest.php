@@ -1653,8 +1653,8 @@ class PHPFunctionsTest extends TestCase
     public function testSubstr3()
     {
         $this->assertEquals(substr3(1, -3, "abcdef"), \substr("abcdef", -3, 1));
-        // $takeThirdFromEnd = substr3(1, -3);
-        // $this->assertEquals($takeThirdFromEnd("abcdef"), \substr("abcdef", -3, 1));
+        $takeThirdFromEnd = substr3(1, -3);
+        $this->assertEquals($takeThirdFromEnd("abcdef"), \substr("abcdef", -3, 1));
     }
 
     public function testTrim()
