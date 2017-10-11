@@ -8,7 +8,7 @@ install:
   - composer install --prefer-source
 
 before_script:
-  - chmod -R 777 test/fixtures
+  - sudo chmod -R 777 test/fixtures
 
 script:
   - mkdir -p build/logs
