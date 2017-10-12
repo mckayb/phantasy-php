@@ -2120,15 +2120,15 @@ function fgetss(...$args)
 
 function fgetss2(...$args)
 {
-    return curry(function (int $length, $handle) : string {
+    return curry(function (int $length, $handle) {
         return \fgetss($handle, $length);
     })(...$args);
 }
 
 function fgetss3(...$args)
 {
-    return curry(function (string $allowableTags, int $length, $handle) : string {
-        return \fgetss($handle, $length, $allowable_tags);
+    return curry(function (string $allowableTags, int $length, $handle) {
+        return \fgetss($handle, $length, $allowableTags);
     })(...$args);
 }
 
@@ -2144,49 +2144,49 @@ function file_get_contents(...$args)
 
 function file_get_contents2(...$args)
 {
-    return curry(function (bool $use_include_path, string $filename) : string {
+    return curry(function (bool $use_include_path, string $filename) {
         return \file_get_contents($filename, $use_include_path);
     })(...$args);
 }
 
 function file_get_contents3(...$args)
 {
-    return curry(function ($context, bool $use_include_path, string $filename) : string {
+    return curry(function ($context, bool $use_include_path, string $filename) {
         return \file_get_contents($filename, $use_include_path, $context);
     })(...$args);
 }
 
 function file_get_contents4(...$args)
 {
-    return curry(function (int $offset, $context, bool $use_include_path, string $filename) : string {
+    return curry(function (int $offset, $context, bool $use_include_path, string $filename) {
         return \file_get_contents($filename, $use_include_path, $context, $offset);
     })(...$args);
 }
 
 function file_get_contents5(...$args)
 {
-    return curry(function (int $maxLen, int $offset, $context, bool $use_include_path, string $filename) : string {
+    return curry(function (int $maxLen, int $offset, $context, bool $use_include_path, string $filename) {
         return \file_get_contents($filename, $use_include_path, $context, $offset, $maxLen);
     })(...$args);
 }
 
 function file_put_contents(...$args)
 {
-    return curry(function ($data, string $filename) : int {
+    return curry(function ($data, string $filename) {
         return \file_put_contents($filename, $data);
     })(...$args);
 }
 
 function file_put_contents3(...$args)
 {
-    return curry(function (int $flags, $data, string $filename) : int {
+    return curry(function (int $flags, $data, string $filename) {
         return \file_put_contents($filename, $data, $flags);
     })(...$args);
 }
 
 function file_put_contents4(...$args)
 {
-    return curry(function ($context, int $flags, $data, string $filename) : int {
+    return curry(function ($context, int $flags, $data, string $filename) {
         return \file_put_contents($filename, $data, $flags, $context);
     })(...$args);
 }

@@ -653,7 +653,10 @@ class PHPFunctionsTest extends TestCase
 
         $fgetcsvLength10DashEnclose = fgetcsv4('-', ',', 50);
         $handle = \fopen($path, 'r');
-        $this->assertEquals($fgetcsvLength10DashEnclose($handle), ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']);
+        $this->assertEquals(
+            $fgetcsvLength10DashEnclose($handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
          \fclose($handle);
     }
 
@@ -661,72 +664,237 @@ class PHPFunctionsTest extends TestCase
     {
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
         $handle = \fopen($path, 'r');
-        var_dump(fgetcsv5('\\', '"', ',', 0, $handle));
-        // $this->assertEquals(fgetcsv5('-', '"', ',', 10, $handle), ['Foo', 'foo@ex']);
+        $this->assertEquals(
+            fgetcsv5('"', '-', ',', 50, $handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
         \fclose($handle);
 
-        // $fgetcsvLength10 = fgetcsv5('-', '"', ',', 10);
-        // $handle = \fopen($path, 'r');
-        // $this->assertEquals($fgetcsvLength10($handle), ['Foo', 'foo@ex']);
-        // \fclose($handle);
+        $fgetcsvLength10DashEnclose = fgetcsv5('"', '-', ',', 50);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            $fgetcsvLength10DashEnclose($handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
+         \fclose($handle);
     }
 
     public function testFgets()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgets($handle),
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n"
+        );
+        \fclose($handle);
+
+        $fgets = fgets();
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            $fgets($handle),
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n"
+        );
+        \fclose($handle);
     }
 
     public function testFgets2()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgets2(10, $handle),
+            "Foo,foo@e"
+        );
+        \fclose($handle);
 
+        $handle = \fopen($path, 'r');
+        $get10 = fgets2(10);
+        $this->assertEquals(
+            $get10($handle),
+            "Foo,foo@e"
+        );
+        \fclose($handle);
     }
 
     public function testFgetss()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fclose($fh);
 
+        $fh = \fopen($path, 'r');
+        $content = fgetss($fh);
+        \fclose($fh);
+
+        $fgetss = fgetss();
+        $fh = \fopen($path, 'r');
+        $content2 = $fgetss($fh);
+        \fclose($fh);
+
+        unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar,Test');
+        $this->assertEquals($content2, 'Test,foo,bar,Test');
     }
 
     public function testFgetss2()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fclose($fh);
 
+        $fh = \fopen($path, 'r');
+        $content = fgetss2(24, $fh);
+        \fclose($fh);
+
+        $get24 = fgetss2(24);
+        $fh = \fopen($path, 'r');
+        $content2 = $get24($fh);
+        \fclose($fh);
+
+        unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar');
+        $this->assertEquals($content2, 'Test,foo,bar');
     }
 
     public function testFgetss3()
     {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fclose($fh);
 
+        $fh = \fopen($path, 'r');
+        $content = fgetss3('<span>', 4096, $fh);
+        \fclose($fh);
+
+        $keepSpan = fgetss3('<span>', 4096);
+        $fh = \fopen($path, 'r');
+        $content = $keepSpan($fh);
+        \fclose($fh);
+        unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar,<span>Test</span>');
     }
 
     public function testFileExists()
     {
+        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $path2 = \dirname(__FILE__) . '/fixtures/config2.json';
 
+        $this->assertTrue(file_exists($path));
+        $this->assertFalse(!file_exists($path));
+
+        $fileExists = file_exists();
+        $this->assertTrue($fileExists($path));
+        $this->assertFalse(!$fileExists($path));
     }
 
     public function testFileGetContents()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents($path),
+            $expected
+        );
 
+        $fileGetContents = file_get_contents();
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
     }
 
     public function testFileGetContents2()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents2(true, $path),
+            $expected
+        );
 
+        $fileGetContents = file_get_contents2(true);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
     }
 
     public function testFileGetContents3()
     {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents3($context, false, $path),
+            $expected
+        );
 
+        $fileGetContents = file_get_contents3($context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
     }
 
     public function testFileGetContents4()
     {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "oo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents4(5, $context, false, $path),
+            $expected
+        );
 
+        $fileGetContents = file_get_contents4(5, $context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
     }
 
     public function testFileGetContents5()
     {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "oo@example.com";
+        $this->assertEquals(
+            file_get_contents5(14, 5, $context, false, $path),
+            $expected
+        );
 
+        $fileGetContents = file_get_contents5(14, 5, $context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
     }
 
     public function testFilePutContents()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents('FooBar', $path);
+
+        $this->assertEquals(
+            \file_get_contents($path),
+            'FooBar'
+        );
+
+        $putBarQuux = file_put_contents('BarQuux');
+        $putBarQuux($path);
+        $this->assertEquals(
+            \file_get_contents($path),
+            'BarQuux'
+        );
+
+        unlink($path);
     }
 
     public function testFilePutContents3()

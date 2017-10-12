@@ -6455,6 +6455,15 @@ $getNames = function ($fh) {
 };
 unfold($getNames, fopen('r', 'file.csv'));
 // ['Foo', 'Bar']
+
+// --------------------------
+
+$fgetcsv = fgetcsv();
+$getNames = function ($fh) use ($fgetcsv) {
+    return feof($fh) ? fclose($fh) : [$fgetcsv($fh)[0], $fh]
+};
+unfold($getNames, fopen('r', 'file.csv'));
+// ['Foo', 'Bar']
 ```
 
 ### fgetcsv2 (int $length, resource $handle) : array
@@ -6472,6 +6481,12 @@ Bar,bar@example.com,5678
 */
 $fh = fopen('r', 'file.csv');
 $lineTruncatedTo10 = fgetcsv2(10, $fh);
+// ['Foo', 'foo@ex']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$fgetcsvTruncatedTo10 = fgetcsv2(10);
+$lineTruncatedto10 = $fgetcsvTruncatedTo10($fh);
 // ['Foo', 'foo@ex']
 fclose($fh);
 ```
@@ -6493,6 +6508,12 @@ $fh = fopen('r', 'file.csv');
 $lineTruncatedTo10SplitByAt = fgetcsv3('@', 10, $fh);
 // ['Foo,foo', 'ex']
 fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$truncateTo10SplitByAt = fgetcsv3('@', 10);
+$truncateTo10SplitByAt($fh);
+// ['Foo,foo', 'ex']
+fclose($fh);
 ```
 
 ### fgetcsv4 (string $enclosure, string $delimiter, int $length, resource $handle) : array
@@ -6502,15 +6523,40 @@ use function Phantasy\PHP\fgetcsv4;
 ```
 #### Examples
 ```php
+/*
+file.csv
+
+Foo,foo@example.com,-a, b, c-
+*/
+$fh = fopen('r', 'file.csv');
+fgetcsv4('-', ',', 0, $fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$splitCommaEnclosedByDash = fgetcsv4('-', ',', 0);
+$splitCommaEnclosedByDash($fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
 ```
 
 ### fgetcsv5 (string $escape, string $enclosure, string $delimiter, int $length, resource $handle) : array
 #### Usage
 ```php
-use function Phantasy\PHP\fgetcsv4;
+use function Phantasy\PHP\fgetcsv5;
 ```
 #### Examples
 ```php
+$fh = fopen('r', 'file.csv');
+fgetcsv5('"', '-', ',', 0, $fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$splitCommaEnclosedByDash = fgetcsv5('"', '-', ',', 0);
+$splitCommaEnclosedByDash($fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
 ```
 
 ### fgets (resource $handle) : string
@@ -6520,6 +6566,26 @@ use function Phantasy\PHP\fgets;
 ```
 #### Examples
 ```php
+/*
+file.csv
+
+Foo,foo@example.com
+Bar,bar@example.com
+Baz,baz@example.com
+*/
+
+$fh = fopen('r', 'file.csv');
+$line = fgets($fh);
+// "Foo,foo@example.com"
+fclose($fh);
+
+// ---------------------------
+
+$fgets = fgets();
+$fh = fopen('r', 'file.csv');
+$line = $fgets($fh);
+// "Foo,foo@example.com"
+fclose($fh);
 ```
 
 ### fgets2 (int $length, resource $handle) : string
@@ -6529,6 +6595,26 @@ use function Phantasy\PHP\fgets2;
 ```
 #### Examples
 ```php
+/*
+file.csv
+
+Foo,foo@example.com
+Bar,bar@example.com
+Baz,baz@example.com
+*/
+
+$fh = fopen('r', 'file.csv');
+$line = fgets2(10, $fh);
+// "Foo,foo@e"
+fclose($fh);
+
+// ---------------------------
+
+$getFirst10Chars = fgets2(10);
+$fh = fopen('r', 'file.csv');
+$first10 = $getFirst10Chars($fh);
+// "Foo,foo@e"
+fclose($fh);
 ```
 
 ### fgetss (resource $handle) : string
@@ -6538,6 +6624,17 @@ use function Phantasy\PHP\fgetss;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss($fh);
+// Test,foo,bar,Test2
+fclose($fh);
 ```
 
 ### fgetss2 (int $length, resource $handle) : string
@@ -6547,6 +6644,24 @@ use function Phantasy\PHP\fgetss2;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss2(24, $fh);
+// Test,foo,bar
+fclose($fh);
+
+// Or curried...
+$get24CharsFromLine = fgetss2(24);
+$fh = fopen('r', $path);
+$content = $get24CharsFromLine($fh);
+// Test,foo,bar
+fclose($fh);
 ```
 
 ### fgetss3 (string $allowable_tags, int $length, resource $handle) : string
@@ -6556,6 +6671,24 @@ use function Phantasy\PHP\fgetss3;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss3('<span>', 4096, $fh);
+// Test,foo,bar,<span>Test2</span>
+fclose($fh);
+
+// Or curried...
+$keepSpanTags = fgetss3('<span>', 4096);
+$fh = fopen('r', $path);
+$content = $keepSpanTags($fh);
+// Test,foo,bar,<span>Test2</span>
+fclose($fh);
 ```
 
 ### file_exists (string $filename) : bool
@@ -6565,6 +6698,12 @@ use function Phantasy\PHP\file_exists;
 ```
 #### Examples
 ```php
+file_exists('/path/to/file');
+// Returns true if it exists, otherwise false
+
+$file_exists = file_exists();
+$file_exists('/path/to/file');
+// Returns true if it exists, otherwise false
 ```
 
 ### file_get_contents (string $filename) : string
@@ -6574,6 +6713,18 @@ use function Phantasy\PHP\file_get_contents;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+file_get_contents('file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$getContents = file_get_contents();
+$getContents('file.csv');
+// 'Foo,Bar,Baz,Quux'
 ```
 
 ### file_get_contents2 (bool $use_include_path, string $filename) : string
@@ -6583,6 +6734,18 @@ use function Phantasy\PHP\file_get_contents2;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+file_get_contents2(false, 'file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$getContentsNoIncludePath = file_get_contents2(false);
+$getContentsNoIncludePath('file.csv');
+// 'Foo,Bar,Baz,Quux'
 ```
 
 ### file_get_contents3 (resource $context, bool $use_include_path, string $filename) : string
@@ -6592,6 +6755,19 @@ use function Phantasy\PHP\file_get_contents3;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents3($context, false, 'file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$streamGetContentsNoIncludePath = file_get_contents3($context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'Foo,Bar,Baz,Quux'
 ```
 
 ### file_get_contents4 (int $offset, resource $context, bool $use_include_path, string $filename) : string
@@ -6601,6 +6777,19 @@ use function Phantasy\PHP\file_get_contents4;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents4(5, $context, false, 'file.csv');
+// 'ar,Baz,Quux'
+
+$streamGetContentsNoIncludePath = file_get_contents4(5, $context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'ar,Baz,Quux'
 ```
 
 ### file_get_contents5 (int $maxlen, int $offset, resource $context, bool $use_include_path, string $filename) : string
@@ -6610,6 +6799,19 @@ use function Phantasy\PHP\file_get_contents5;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents5(10, 5, $context, false, 'file.csv');
+// 'ar,Baz,Quu'
+
+$streamGetContentsNoIncludePath = file_get_contents5(10, 5, $context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'ar,Baz,Quu'
 ```
 
 ### file_put_contents ($data, string $filename) : int
@@ -6619,6 +6821,24 @@ use function Phantasy\PHP\file_put_contents;
 ```
 #### Examples
 ```php
+file_put_contents('FooBar', 'file.csv');
+// Creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$putBazQuux = file_put_contents('BazQuux');
+$putBazQuux('file.csv');
+// Overwrites file.csv with 'BazQuux'
+
+/**
+ * file.csv
+ * 
+ * BazQuux
+ */
 ```
 
 ### file_put_contents3 (int $flags, $data, string $filename) : int
