@@ -1176,22 +1176,67 @@ class PHPFunctionsTest extends TestCase
 
     public function testFopen3()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen3(false, 'r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen3(false, 'r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
     }
 
     public function testFopen4()
     {
-
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen4($ctx, false, 'r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen4($ctx, false, 'r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
     }
 
     public function testFpassthru()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        ob_start();
+        $a = fpassthru($fh);
+        $contents = ob_get_contents();
+        ob_end_clean();
+        \fclose($fh);
 
+        $fpassthru = fpassthru();
+        $fh = \fopen($path, 'r');
+        ob_start();
+        $a_ = $fpassthru($fh);
+        $contents_ = ob_get_contents();
+        ob_end_clean();
+        \fclose($fh);
+
+        $this->assertEquals($a, $a_);
+        $this->assertEquals($contents, $contents_);
     }
 
     public function testFputcsv()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
 
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv($fh);
+        fputcsv($fh, ['a','b','c']);
+        $putcsv(['foo','bar','baz']);
+        \fclose($fh);
+
+        $this->assertEquals(
+            \file_get_contents($path),
+            "a,b,c\nfoo,bar,baz\n"
+        );
+
+        unlink($path);
     }
 
     public function testFputcsv3()

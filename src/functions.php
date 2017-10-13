@@ -2302,42 +2302,38 @@ function fpassthru(...$args)
 
 function fputcsv(...$args)
 {
-    return curry(function (array $fields, $handle) {
-        return \fputcsv($handle, $fields);
-    })(...$args);
+    return curry('\fputcsv')(...$args);
 }
 
 function fputcsv3(...$args)
 {
-    return curry(function (string $delimiter, array $fields, $handle) {
+    return curry(function ($handle, string $delimiter, array $fields) {
         return \fputcsv($handle, $fields, $delimiter);
     })(...$args);
 }
 
 function fputcsv4(...$args)
 {
-    return curry(function (string $enclosure, string $delimiter, array $fields, $handle) {
+    return curry(function ($handle, string $enclosure, string $delimiter, array $fields) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure);
     })(...$args);
 }
 
 function fputcsv5(...$args)
 {
-    return curry(function (string $escape_char, string $enclosure, string $delimiter, array $fields, $handle) {
+    return curry(function ($handle, string $escape_char, string $enclosure, string $delimiter, array $fields) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure, $escape_char);
     })(...$args);
 }
 
 function fputs(...$args)
 {
-    return curry(function (string $string, $handle) {
-        return \fputs($handle, $string);
-    })(...$args);
+    return curry('\fputs')(...$args);
 }
 
 function fputs3(...$args)
 {
-    return curry(function (int $length, string $string, $handle) {
+    return curry(function ($handle, int $length, string $string) {
         return \fputs($handle, $string, $length);
     })(...$args);
 }

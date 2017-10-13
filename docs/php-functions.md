@@ -7208,6 +7208,12 @@ use function Phantasy\PHP\fopen3;
 ```
 #### Examples
 ```php
+fopen3(true, 'r', '/path/to/my/file');
+// resource(...)
+
+$readOpenIncludePath = fopen3(true, 'r');
+$readOpenIncludePath('/path/to/my/file');
+// resource(...)
 ```
 
 ### fopen4 (resource $context, bool $use_include_path, string $mode, string $filename)
@@ -7217,6 +7223,13 @@ use function Phantasy\PHP\fopen4;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+fopen4($ctx, true, 'r', '/path/to/my/file');
+// resource(...)
+
+$streamReadOpenIncludePath = fopen4($ctx, true, 'r');
+$streamReadreadOpenIncludePath('/path/to/my/file');
+// resource(...)
 ```
 
 ### fpassthru (resource $handle)
@@ -7226,6 +7239,31 @@ use function Phantasy\PHP\fpassthru;
 ```
 #### Examples
 ```php
+// open the file in a binary mode
+$name = './img/ok.png';
+$fp = fopen('rb', $name);
+
+// send the right headers
+header("Content-Type: image/png");
+header("Content-Length: " . filesize($name));
+
+// dump the picture and stop the script
+fpassthru($fp);
+exit;
+```
+```php
+// open the file in a binary mode
+$passthru = fpassthru();
+$name = './img/ok.png';
+$fp = fopen('rb', $name);
+
+// send the right headers
+header("Content-Type: image/png");
+header("Content-Length: " . filesize($name));
+
+// dump the picture and stop the script
+$passthru($fp);
+exit;
 ```
 
 ### fputcsv (array $fields, resource $handle)
