@@ -2198,14 +2198,14 @@ function file(...$args)
 
 function file2(...$args)
 {
-    return curry(function (int $flags, string $filename) : array {
+    return curry(function (int $flags, string $filename) {
         return \file($filename, $flags);
     })(...$args);
 }
 
 function file3(...$args)
 {
-    return curry(function ($context, int $flags, string $filename) : array {
+    return curry(function ($context, int $flags, string $filename) {
         return \file($filename, $flags, $context);
     })(...$args);
 }

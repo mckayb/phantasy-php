@@ -6183,22 +6183,6 @@ $basenameWithoutSuffix($path);
 // "sudoers"
 ```
 
-### filegroup
-#### Usage
-```php
-use function Phantasy\PHP\filegroup;
-```
-#### Examples
-```php
-$path = '/path/to/my/file';
-filegroup($path);
-// 'my-file-group'
-
-$filegroup = filegroup();
-$filegroup($path);
-// 'my-file-group'
-```
-
 ### chgrp ($group, string $filename) : bool
 #### Usage
 ```php
@@ -6848,6 +6832,24 @@ use function Phantasy\PHP\file_put_contents3;
 ```
 #### Examples
 ```php
+file_put_contents3(FILE_APPEND, 'FooBar', 'file.csv');
+// Creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$appendBazQuux = file_put_contents3(FILE_APPEND, 'BazQuux');
+$appendBazQuux('file.csv');
+// Appends file.csv with 'BazQuux'
+
+/**
+ * file.csv
+ * 
+ * FooBarBazQuux
+ */
 ```
 
 ### file_put_contents4 (resource $context, int $flags, $data, string $filename) : int
@@ -6857,6 +6859,25 @@ use function Phantasy\PHP\file_put_contents4;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+file_put_contents3($ctx, FILE_APPEND, 'FooBar', 'file.csv');
+// appends or creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$streamAppend = file_put_contents3($ctx, FILE_APPEND);
+$streamAppend('BazQuux', 'file.csv');
+// Appends file.csv with 'BazQuux' through stream context.
+
+/**
+ * file.csv
+ * 
+ * FooBarBazQuux
+ */
 ```
 
 ### file (string $filename) : array
@@ -6866,6 +6887,24 @@ use function Phantasy\PHP\file;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+file('file.csv');
+// [
+//   "Foo,foo@example.com,1234\n",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$file = file();
+$file('file.csv');
+// [
+//   "Foo,foo@example.com,1234\n",
+//   "Bar,bar@example.com,5678"
+// ]
 ```
 
 ### file2 (int $flags, string $filename) : array
@@ -6875,6 +6914,24 @@ use function Phantasy\PHP\file2;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+file2(FILE_IGNORE_NEW_LINES, 'file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$fileIgnoreNewLines = file(FILE_IGNORE_NEW_LINES);
+$fileIgnoreNewLines('file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
 ```
 
 ### file3 (resource $context, int $flags, string $filename) : array
@@ -6884,6 +6941,25 @@ use function Phantasy\PHP\file3;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+$ctx = stream_context_create();
+file3($ctx, FILE_IGNORE_NEW_LINES, 'file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$fileIgnoreNewLines = file3($ctx, FILE_IGNORE_NEW_LINES);
+$fileIgnoreNewLines('file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
 ```
 
 ### fileatime (string $filename) : int
@@ -6893,6 +6969,18 @@ use function Phantasy\PHP\fileatime;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+fileatime('file.csv');
+// int(1507900050)
+
+$fileatime = fileatime();
+$fileatime('file.csv')
+// int(1507900050)
 ```
 
 ### filectime (string $filename) : int
@@ -6902,6 +6990,18 @@ use function Phantasy\PHP\filectime;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+filectime('file.csv');
+// int(1507764105)
+
+$filectime = filectime();
+$filectime('file.csv')
+// int(1507764105)
 ```
 
 ### filemtime (string $filename) : int
@@ -6911,6 +7011,55 @@ use function Phantasy\PHP\filemtime;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+filemtime('file.csv');
+// int(1507764105)
+
+$filemtime = filemtime();
+$filemtime('file.csv')
+// int(1507764105)
+```
+
+### filegroup
+#### Usage
+```php
+use function Phantasy\PHP\filegroup;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+filegroup($path);
+// 'my-file-group'
+
+$filegroup = filegroup();
+$filegroup($path);
+// 'my-file-group'
+```
+
+### fileinode (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileinode;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+fileinode('file.csv');
+// int(165)
+
+$fileinode = fileinode();
+$fileinode('file.csv')
+// int(165)
 ```
 
 ### fileowner (string $filename) : int
@@ -6920,6 +7069,13 @@ use function Phantasy\PHP\fileowner;
 ```
 #### Examples
 ```php
+$path = '/path/to/my/file';
+fileowner($path);
+// 'my-file-owner'
+
+$fileowner = fileowner();
+$fileowner($path);
+// 'my-file-owner'
 ```
 
 ### fileperms (string $filename) : int
@@ -6929,6 +7085,13 @@ use function Phantasy\PHP\fileperms;
 ```
 #### Examples
 ```php
+$path = '/path/to/my/file';
+fileperms($path);
+// int(33188)
+
+$fileperms = fileperms();
+$fileperms($path);
+// int(33188)
 ```
 
 ### filesize (string $filename) : int
@@ -6938,6 +7101,13 @@ use function Phantasy\PHP\filesize;
 ```
 #### Examples
 ```php
+$path = '/path/to/my/file';
+filesize($path);
+// int(196)
+
+$filesize = filesize();
+$filesize($path);
+// int(196)
 ```
 
 ### filetype (string $filename) : string
@@ -6947,6 +7117,20 @@ use function Phantasy\PHP\filetype;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+$path = 'file.csv';
+filetype($path);
+// 'file'
+
+$filetype = filetype();
+$filetype($path);
+// 'file'
+
 ```
 
 ### flock (int $operation, resource $handle) : bool
@@ -6956,6 +7140,19 @@ use function Phantasy\PHP\flock;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+$a = fopen('r', 'file.csv');
+if (flock(LOCK_SH, $a)) {
+    // Do some work
+    // Unlock it
+    flock(LOCK_UN, $a);
+} else {
+    // Couldn't get the lock!
+}
 ```
 
 ### fnmatch (string $pattern, string $string) : bool
@@ -6965,6 +7162,12 @@ use function Phantasy\PHP\fnmatch;
 ```
 #### Examples
 ```php
+fnmatch("*gr[ae]y", $color)
+// true or false depending on $color
+
+$matchGray = fnmatch("*gr[ae]y");
+$matchGray($color);
+// true or false depending on $color
 ```
 
 ### fnmatch3 (int $flags, string $pattern, string $string) : bool
@@ -6974,6 +7177,13 @@ use function Phantasy\PHP\fnmatch3;
 ```
 #### Examples
 ```php
+$pattern = "/*/bar";
+$path = "/foo/bar";
+fnmatch3(FNM_PATHNAME, $pattern, $path);
+// true
+
+$matchSlashBar = fnmatch3(FNM_PATHNAME, $pattern);
+$this->assertTrue($matchSlashBar($path));
 ```
 
 ### fopen (string $mode, string $filename)
@@ -6983,6 +7193,12 @@ use function Phantasy\PHP\fopen;
 ```
 #### Examples
 ```php
+fopen('r', '/path/to/my/file');
+// resource(...)
+
+$readOpen = fopen('r');
+$readOpen('/path/to/my/file');
+// resource(...)
 ```
 
 ### fopen3 (bool $use_include_path, string $mode, string $filename)

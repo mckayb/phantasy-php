@@ -899,92 +899,279 @@ class PHPFunctionsTest extends TestCase
 
     public function testFilePutContents3()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents3(FILE_APPEND, 'FooBar', $path);
 
+        $this->assertEquals(
+            \file_get_contents($path),
+            'FooBar'
+        );
+
+        $putContentsAppend = file_put_contents3(FILE_APPEND, 'BarQuux');
+        $putContentsAppend($path);
+        $this->assertEquals(
+            \file_get_contents($path),
+            'FooBarBarQuux'
+        );
+
+        unlink($path);
     }
 
     public function testFilePutContents4()
     {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents4($context, FILE_APPEND, 'FooBar', $path);
 
+        $this->assertEquals(
+            \file_get_contents($path),
+            'FooBar'
+        );
+
+        $putContentsAppend = file_put_contents4($context, FILE_APPEND, 'BarQuux');
+        $putContentsAppend($path);
+        $this->assertEquals(
+            \file_get_contents($path),
+            'FooBarBarQuux'
+        );
+
+        unlink($path);
     }
 
     public function testFile()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file($path),
+            $expected
+        );
 
+        $file = file();
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
     }
 
     public function testFile2()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file2(FILE_IGNORE_NEW_LINES, $path),
+            $expected
+        );
 
+        $file = file2(FILE_IGNORE_NEW_LINES);
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
     }
 
     public function testFile3()
     {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file3($ctx, FILE_IGNORE_NEW_LINES, $path),
+            $expected
+        );
 
+        $file = file3($ctx, FILE_IGNORE_NEW_LINES);
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
     }
 
     public function testFileatime()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileatime($path),
+            \fileatime($path)
+        );
 
+        $fileatime = fileatime();
+        $this->assertEquals(
+            $fileatime($path),
+            \fileatime($path)
+        );
     }
 
     public function testFilectime()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filectime($path),
+            \filectime($path)
+        );
 
-    }
-
-    public function testFilegroup()
-    {
-
-    }
-
-    public function testFileinode()
-    {
-
+        $filectime = filectime();
+        $this->assertEquals(
+            $filectime($path),
+            \filectime($path)
+        );
     }
 
     public function testFilemtime()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filemtime($path),
+            \filemtime($path)
+        );
 
+        $filemtime = filemtime();
+        $this->assertEquals(
+            $filemtime($path),
+            \filemtime($path)
+        );
+    }
+
+    public function testFilegroup()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filegroup($path),
+            \filegroup($path)
+        );
+
+        $filegroup = filegroup();
+        $this->assertEquals(
+            $filegroup($path),
+            \filegroup($path)
+        );
+    }
+
+    public function testFileinode()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileinode($path),
+            \fileinode($path)
+        );
+
+        $fileinode = fileinode();
+        $this->assertEquals(
+            $fileinode($path),
+            \fileinode($path)
+        );
     }
 
     public function testFileowner()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileowner($path),
+            \fileowner($path)
+        );
 
+        $fileowner = fileowner();
+        $this->assertEquals(
+            $fileowner($path),
+            \fileowner($path)
+        );
     }
 
     public function testFileperms()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileperms($path),
+            \fileperms($path)
+        );
 
+        $fileperms = fileperms();
+        $this->assertEquals(
+            $fileperms($path),
+            \fileperms($path)
+        );
     }
 
     public function testFilesize()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filesize($path),
+            \filesize($path)
+        );
 
+        $filesize = filesize();
+        $this->assertEquals(
+            $filesize($path),
+            \filesize($path)
+        );
     }
 
     public function testFiletype()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filetype($path),
+            \filetype($path)
+        );
 
+        $filetype = filetype();
+        $this->assertEquals(
+            $filetype($path),
+            \filetype($path)
+        );
     }
 
     public function testFlock()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        $this->assertTrue(flock(LOCK_SH, $fh));
+        $this->assertTrue(flock(LOCK_UN, $fh));
 
+        $sharedLock = flock(LOCK_SH);
+        $unlock = flock(LOCK_UN);
+        $this->assertTrue($sharedLock($fh));
+        $this->assertTrue($unlock($fh));
     }
 
     public function testFnmatch()
     {
-
+        $color = 'lightgray';
+        $pattern = "*gr[ae]y";
+        $this->assertTrue(fnmatch($pattern, $color));
+        $matchGray = fnmatch($pattern);
+        $this->assertTrue($matchGray($color));
     }
 
     public function testFnmatch3()
     {
-
+        $pattern = "/*/bar";
+        $path = "/foo/bar";
+        $this->assertTrue(fnmatch3(FNM_PATHNAME, $pattern, $path));
+        $matchSlashBar = fnmatch3(FNM_PATHNAME, $pattern);
+        $this->assertTrue($matchSlashBar($path));
     }
 
     public function testFopen()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen('r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen('r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
     }
 
     public function testFopen3()
