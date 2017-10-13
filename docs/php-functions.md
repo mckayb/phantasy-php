@@ -7266,58 +7266,164 @@ $passthru($fp);
 exit;
 ```
 
-### fputcsv (array $fields, resource $handle)
+### fputcsv (resource $handle, array $fields)
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputcsv($fh, ['Foo', 'foo@example.com']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo,foo@example.com
+ */
+
+$putData = fputcsv($fh);
+$putData(['Bar', 'bar@example.com']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo,foo@example.com
+ * Bar,bar@example.com
+ */
+fclose($fh);
 ```
 
-### fputcsv3 (string $delimiter, array $fields, resource $handle)
+### fputcsv3 (resource $handle, string $delimiter, array $fields)
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv3;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputcsv3($fh, '-', ['Foo', 'foo@example.com']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-foo@example.com
+ */
+
+$putData = fputcsv3($fh, '-');
+$putData(['Bar', 'bar@example.com']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-foo@example.com
+ * Bar-bar@example.com
+ */
+fclose($fh);
 ```
 
-### fputcsv4 (string $enclosure, string $delimiter, array $fields, resource $handle)
+### fputcsv4 (resource $handle, string $enclosure, string $delimiter, array $fields)
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv4;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputcsv4($fh, '*', '-', ['Foo', 'foo-bar']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-*foo-bar*
+ */
+
+$putData = fputcsv4($fh, '*', '-');
+$putData(['Bar', 'foo-bar']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-*foo-bar*
+ * Bar-*foo-bar*
+ */
+fclose($fh);
 ```
 
-### fputcsv5 (string $escape_char, string $enclosure, string $delimiter, array $fields, resource $handle)
+### fputcsv5 (resource $handle, string $escape_char, string $enclosure, string $delimiter, array $fields)
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv5;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputcsv5('\\', '*', '-', $fh, ['Foo', 'foo-bar']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-*foo-bar*
+ */
+
+$putData = fputcsv5('\\', '*', '-', $fh);
+$putData(['Bar', 'foo-bar']);
+
+/**
+ * /path/to/file
+ * 
+ * Foo-*foo-bar*
+ * Bar-*foo-bar*
+ */
+fclose($fh);
 ```
 
-### fputs (string $string, resource $handle)
+### fputs (resource $handle, string $string)
 #### Usage
 ```php
 use function Phantasy\PHP\fputs;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputs($fh, 'Foo bar');
+/**
+ * /path/to/file
+ * 
+ * Foo bar
+ */
+
+$put = fputs($fh);
+$put('Baz quux');
+/**
+ * /path/to/file
+ * 
+ * Foo barBaz quux
+ */
 ```
 
-### fputs3 (int $length, string $string, resource $handle)
+### fputs3 (resource $handle, int $length, string $string)
 #### Usage
 ```php
 use function Phantasy\PHP\fputs3;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fputs3($fh, 5, 'Foo bar');
+/**
+ * /path/to/file
+ * 
+ * Foo b
+ */
+
+$put5 = fputs3($fh, 5);
+$put5('Baz quux');
+/**
+ * /path/to/file
+ * 
+ * Foo bBaz q
+ */
 ```
 
 ### fread (int $length, resource $handle)
@@ -7327,6 +7433,16 @@ use function Phantasy\PHP\fread;
 ```
 #### Examples
 ```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com
+ */
+
+$fh = fopen('r', 'file.csv');
+$contents = fread(3, $fh);
+// 'Foo'
+fclose($fh);
 ```
 
 ### fseek (int $offset, resource $handle) : int
@@ -7336,6 +7452,19 @@ use function Phantasy\PHP\fseek;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+fseek(0, $fh);
+fclose($fh);
+```
+```php
+$rewind = fseek(0);
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+$rewind($fh);
+fclose($fh);
 ```
 
 ### fseek3 (int $whence, int $offset, resource $handle) : int
@@ -7345,6 +7474,19 @@ use function Phantasy\PHP\fseek3;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+fseek3(SEEK_SET, 0, $fh);
+fclose($fh);
+```
+```php
+$rewind = fseek3(SEEK_SET, 0);
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+$rewind($fh);
+fclose($fh);
 ```
 
 ### fstat (resource $handle) : array
@@ -7354,6 +7496,46 @@ use function Phantasy\PHP\fstat;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file');
+$stats = fstat($fh);
+/* 
+array(26) {
+    [0]=>
+    int(43)
+    [1]=>
+    int(274)
+    [2]=>
+    int(33188)
+    [3]=>
+    int(1)
+    [4]=>
+    int(1000)
+    [5]=>
+    int(1000)
+    ...
+*/
+fclose($fh);
+
+$fstat = fstat();
+$fh = fopen('r', '/path/to/file');
+$stats = $fstat($fh);
+/* 
+array(26) {
+    [0]=>
+    int(43)
+    [1]=>
+    int(274)
+    [2]=>
+    int(33188)
+    [3]=>
+    int(1)
+    [4]=>
+    int(1000)
+    [5]=>
+    int(1000)
+    ...
+*/
+fclose($fh);
 ```
 
 ### ftell (resource $handle)
@@ -7363,6 +7545,16 @@ use function Phantasy\PHP\ftell;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file');
+$pos = ftell($fh);
+// int(0)
+fclose($fh);
+
+$ftell = ftell();
+$fh = fopen('r', '/path/to/file');
+$pos = $ftell($fh);
+// int(0)
+fclose($fh);
 ```
 
 ### ftruncate (int $size, resource $handle) : bool
@@ -7372,24 +7564,68 @@ use function Phantasy\PHP\ftruncate;
 ```
 #### Examples
 ```php
+$fh = fopen('r', '/path/to/file');
+ftruncate(0, $fh);
+fclose($fh);
+
+file_get_contents('/path/to/file');
+// ''
+
+$truncateFile = ftruncate(0);
+$fh = fopen('r', '/path/to/file');
+$truncateFile($fh);
+fclose($fh);
+
+file_get_contents('/path/to/file');
+// ''
 ```
 
-### fwrite (string $string, resource $handle)
+### fwrite (resource $handle, string $string)
 #### Usage
 ```php
 use function Phantasy\PHP\fwrite;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fwrite($fh, 'Foo bar');
+/**
+ * /path/to/file
+ * 
+ * Foo bar
+ */
+
+$put = fwrite($fh);
+$put('Baz quux');
+/**
+ * /path/to/file
+ * 
+ * Foo barBaz quux
+ */
 ```
 
-### fwrite3 (int $length, string $string, resource $handle)
+### fwrite3 (resource $handle, int $length, string $string)
 #### Usage
 ```php
 use function Phantasy\PHP\fwrite3;
 ```
 #### Examples
 ```php
+$fh = fopen('a+', '/path/to/file');
+fwrite3($fh, 5, 'Foo bar');
+/**
+ * /path/to/file
+ * 
+ * Foo b
+ */
+
+$put5 = fwrite3($fh, 5);
+$put5('Baz quux');
+/**
+ * /path/to/file
+ * 
+ * Foo bBaz q
+ */
 ```
 
 ### glob (string $pattern) : array
