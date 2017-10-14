@@ -2307,21 +2307,21 @@ function fputcsv(...$args)
 
 function fputcsv3(...$args)
 {
-    return curry(function ($handle, string $delimiter, array $fields) {
+    return curry(function (string $delimiter, $handle, array $fields) {
         return \fputcsv($handle, $fields, $delimiter);
     })(...$args);
 }
 
 function fputcsv4(...$args)
 {
-    return curry(function ($handle, string $enclosure, string $delimiter, array $fields) {
+    return curry(function (string $enclosure, string $delimiter, $handle, array $fields) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure);
     })(...$args);
 }
 
 function fputcsv5(...$args)
 {
-    return curry(function ($handle, string $escape_char, string $enclosure, string $delimiter, array $fields) {
+    return curry(function (string $escape_char, string $enclosure, string $delimiter, $handle, array $fields) {
         return \fputcsv($handle, $fields, $delimiter, $enclosure, $escape_char);
     })(...$args);
 }
@@ -2333,7 +2333,7 @@ function fputs(...$args)
 
 function fputs3(...$args)
 {
-    return curry(function ($handle, int $length, string $string) {
+    return curry(function (int $length, $handle, string $string) {
         return \fputs($handle, $string, $length);
     })(...$args);
 }
@@ -2378,14 +2378,12 @@ function ftruncate(...$args)
 
 function fwrite(...$args)
 {
-    return curry(function (string $string, $handle) {
-        return \fwrite($handle, $string);
-    })(...$args);
+    return curry('\fwrite')(...$args);
 }
 
 function fwrite3(...$args)
 {
-    return curry(function (int $length, string $string, $handle) {
+    return curry(function (int $length, $handle, string $string) {
         return \fwrite($handle, $string, $length);
     })(...$args);
 }

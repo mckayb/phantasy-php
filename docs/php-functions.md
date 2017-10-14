@@ -7273,6 +7273,7 @@ use function Phantasy\PHP\fputcsv;
 ```
 #### Examples
 ```php
+<<<<<<< Updated upstream
 $fh = fopen('a+', '/path/to/file');
 fputcsv($fh, ['Foo', 'foo@example.com']);
 
@@ -7295,12 +7296,34 @@ fclose($fh);
 ```
 
 ### fputcsv3 (resource $handle, string $delimiter, array $fields)
+=======
+$fh = fopen('a+', 'file.csv');
+fputcsv($fh, ['foo', 'foo@example.com']);
+
+$putcsv = fputcsv($fh);
+$putcsv(['bar', 'bar@example.com']);
+$putcsv(['baz', 'baz@example.com']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo,foo@example.com
+ * bar,bar@example.com
+ * baz,baz@example.com
+ */
+```
+
+### fputcsv3 (string $delimiter, resource $handle, array $fields)
+>>>>>>> Stashed changes
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv3;
 ```
 #### Examples
 ```php
+<<<<<<< Updated upstream
 $fh = fopen('a+', '/path/to/file');
 fputcsv3($fh, '-', ['Foo', 'foo@example.com']);
 
@@ -7323,12 +7346,34 @@ fclose($fh);
 ```
 
 ### fputcsv4 (resource $handle, string $enclosure, string $delimiter, array $fields)
+=======
+$fh = fopen('a+', 'file.csv');
+fputcsv3('-', $fh, ['foo', 'foo@example.com']);
+
+$putcsv = fputcsv3('-', $fh);
+$putcsv(['bar', 'bar@example.com']);
+$putcsv(['baz', 'baz@example.com']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-foo@example.com
+ * bar-bar@example.com
+ * baz-baz@example.com
+ */
+```
+
+### fputcsv4 (string $enclosure, string $delimiter, resource $handle, array $fields)
+>>>>>>> Stashed changes
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv4;
 ```
 #### Examples
 ```php
+<<<<<<< Updated upstream
 $fh = fopen('a+', '/path/to/file');
 fputcsv4($fh, '*', '-', ['Foo', 'foo-bar']);
 
@@ -7351,12 +7396,34 @@ fclose($fh);
 ```
 
 ### fputcsv5 (resource $handle, string $escape_char, string $enclosure, string $delimiter, array $fields)
+=======
+$fh = fopen('a+', 'file.csv');
+fputcsv4('*', '-', $fh, ['foo', 'foo-bar']);
+
+$putcsv = fputcsv4('*', '-', $fh);
+$putcsv(['bar', 'bar-baz']);
+$putcsv(['baz', 'baz-quux']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-*foo-bar*
+ * bar-*bar-baz*
+ * baz-*baz-quux*
+ */
+```
+
+### fputcsv5 (string $escape_char, string $enclosure, string $delimiter, resource $handle, array $fields)
+>>>>>>> Stashed changes
 #### Usage
 ```php
 use function Phantasy\PHP\fputcsv5;
 ```
 #### Examples
 ```php
+<<<<<<< Updated upstream
 $fh = fopen('a+', '/path/to/file');
 fputcsv5('\\', '*', '-', $fh, ['Foo', 'foo-bar']);
 
@@ -7376,6 +7443,24 @@ $putData(['Bar', 'foo-bar']);
  * Bar-*foo-bar*
  */
 fclose($fh);
+=======
+$fh = fopen('a+', 'file.csv');
+fputcsv5('\\', '*', '-', $fh, ['foo', 'foo-bar']);
+
+$putcsv = fputcsv5('\\', '*', '-', $fh);
+$putcsv(['bar', 'bar-baz']);
+$putcsv(['baz', 'baz-quux']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-*foo-bar*
+ * bar-*bar-baz*
+ * baz-*baz-quux*
+ */
+>>>>>>> Stashed changes
 ```
 
 ### fputs (resource $handle, string $string)
@@ -7386,6 +7471,7 @@ use function Phantasy\PHP\fputs;
 #### Examples
 ```php
 $fh = fopen('a+', '/path/to/file');
+<<<<<<< Updated upstream
 fputs($fh, 'Foo bar');
 /**
  * /path/to/file
@@ -7399,6 +7485,18 @@ $put('Baz quux');
  * /path/to/file
  * 
  * Foo barBaz quux
+=======
+fputs($fh, 'foo');
+
+$puts = fputs($fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foobar
+>>>>>>> Stashed changes
  */
 ```
 
@@ -7410,6 +7508,7 @@ use function Phantasy\PHP\fputs3;
 #### Examples
 ```php
 $fh = fopen('a+', '/path/to/file');
+<<<<<<< Updated upstream
 fputs3($fh, 5, 'Foo bar');
 /**
  * /path/to/file
@@ -7423,6 +7522,18 @@ $put5('Baz quux');
  * /path/to/file
  * 
  * Foo bBaz q
+=======
+fputs3(2, $fh, 'foo');
+
+$puts = fputs3(2, $fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foba
+>>>>>>> Stashed changes
  */
 ```
 
@@ -7588,6 +7699,7 @@ use function Phantasy\PHP\fwrite;
 #### Examples
 ```php
 $fh = fopen('a+', '/path/to/file');
+<<<<<<< Updated upstream
 fwrite($fh, 'Foo bar');
 /**
  * /path/to/file
@@ -7601,6 +7713,18 @@ $put('Baz quux');
  * /path/to/file
  * 
  * Foo barBaz quux
+=======
+fwrite($fh, 'foo');
+
+$puts = fwrite($fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foobar
+>>>>>>> Stashed changes
  */
 ```
 
@@ -7612,6 +7736,7 @@ use function Phantasy\PHP\fwrite3;
 #### Examples
 ```php
 $fh = fopen('a+', '/path/to/file');
+<<<<<<< Updated upstream
 fwrite3($fh, 5, 'Foo bar');
 /**
  * /path/to/file
@@ -7625,6 +7750,18 @@ $put5('Baz quux');
  * /path/to/file
  * 
  * Foo bBaz q
+=======
+fwrite3(2, $fh, 'foo');
+
+$puts = fwrite3(2, $fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foba
+>>>>>>> Stashed changes
  */
 ```
 

@@ -721,7 +721,7 @@ class PHPFunctionsTest extends TestCase
     {
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
         $fh = \fopen($path, 'a+');
-        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
         \fclose($fh);
 
         $fh = \fopen($path, 'r');
@@ -733,7 +733,7 @@ class PHPFunctionsTest extends TestCase
         $content2 = $fgetss($fh);
         \fclose($fh);
 
-        unlink($path);
+        \unlink($path);
 
         $this->assertEquals($content, 'Test,foo,bar,Test');
         $this->assertEquals($content2, 'Test,foo,bar,Test');
@@ -743,7 +743,7 @@ class PHPFunctionsTest extends TestCase
     {
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
         $fh = \fopen($path, 'a+');
-        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
         \fclose($fh);
 
         $fh = \fopen($path, 'r');
@@ -755,7 +755,7 @@ class PHPFunctionsTest extends TestCase
         $content2 = $get24($fh);
         \fclose($fh);
 
-        unlink($path);
+        \unlink($path);
 
         $this->assertEquals($content, 'Test,foo,bar');
         $this->assertEquals($content2, 'Test,foo,bar');
@@ -765,7 +765,7 @@ class PHPFunctionsTest extends TestCase
     {
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
         $fh = \fopen($path, 'a+');
-        fwrite('<div>Test</div>,foo,bar,<span>Test</span>', $fh);
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
         \fclose($fh);
 
         $fh = \fopen($path, 'r');
@@ -776,7 +776,7 @@ class PHPFunctionsTest extends TestCase
         $fh = \fopen($path, 'r');
         $content = $keepSpan($fh);
         \fclose($fh);
-        unlink($path);
+        \unlink($path);
 
         $this->assertEquals($content, 'Test,foo,bar,<span>Test</span>');
     }
@@ -896,7 +896,7 @@ class PHPFunctionsTest extends TestCase
             'BarQuux'
         );
 
-        unlink($path);
+        \unlink($path);
     }
 
     public function testFilePutContents3()
@@ -919,6 +919,11 @@ class PHPFunctionsTest extends TestCase
             $contents_,
             'FooBarBarQuux'
         );
+<<<<<<< Updated upstream
+=======
+
+        \unlink($path);
+>>>>>>> Stashed changes
     }
 
     public function testFilePutContents4()
@@ -941,6 +946,11 @@ class PHPFunctionsTest extends TestCase
             $contents_,
             'FooBarBarQuux'
         );
+<<<<<<< Updated upstream
+=======
+
+        \unlink($path);
+>>>>>>> Stashed changes
     }
 
     public function testFile()
@@ -1238,6 +1248,9 @@ class PHPFunctionsTest extends TestCase
         $contents = \file_get_contents($path);
         unlink($path);
 
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
         $this->assertEquals(
             $contents,
             "a,b,c\nfoo,bar,baz\n"
@@ -1247,6 +1260,7 @@ class PHPFunctionsTest extends TestCase
     public function testFputcsv3()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $putcsv = fputcsv3($fh, '-');
 
@@ -1255,6 +1269,17 @@ class PHPFunctionsTest extends TestCase
         \fclose($fh);
         $contents = \file_get_contents($path);
         unlink($path);
+=======
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv3('-', $fh);
+        fputcsv3('-', $fh, ['a','b','c']);
+        $putcsv(['foo','bar','baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+>>>>>>> Stashed changes
 
         $this->assertEquals(
             $contents,
@@ -1265,6 +1290,7 @@ class PHPFunctionsTest extends TestCase
     public function testFputcsv4()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $putcsv = fputcsv4($fh, '*', '-');
 
@@ -1277,12 +1303,28 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals(
             $contents,
             "a-b-c\nfoo-bar-*baz-quux*\n"
+=======
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv4('*', '-', $fh);
+        fputcsv4('*', '-', $fh, ['foo','foo-bar']);
+        $putcsv(['bar','bar-baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "foo-*foo-bar*\nbar-*bar-baz*\n"
+>>>>>>> Stashed changes
         );
     }
 
     public function testFputcsv5()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $putcsv = fputcsv5($fh, '\\', '*', '-');
 
@@ -1295,12 +1337,28 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals(
             $contents,
             "a-b-c\nfoo-bar-*baz-quux*\n"
+=======
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv5('\\', '*', '-', $fh);
+        fputcsv5('\\', '*', '-', $fh, ['foo','foo-bar']);
+        $putcsv(['bar','bar-baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "foo-*foo-bar*\nbar-*bar-baz*\n"
+>>>>>>> Stashed changes
         );
     }
 
     public function testFputs()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $puts = fputs($fh);
 
@@ -1313,12 +1371,28 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals(
             $contents,
             'Foo barBaz quux'
+=======
+
+        $fh = \fopen($path, 'a+');
+        $puts = fputs($fh);
+        fputs($fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foobar'
+>>>>>>> Stashed changes
         );
     }
 
     public function testFputs3()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $puts = fputs3($fh, 5);
 
@@ -1331,6 +1405,21 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals(
             $contents,
             'Foo bBaz q'
+=======
+
+        $fh = \fopen($path, 'a+');
+        $puts = fputs3(2, $fh);
+        fputs3(2, $fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foba'
+>>>>>>> Stashed changes
         );
     }
 
@@ -1429,6 +1518,7 @@ class PHPFunctionsTest extends TestCase
     public function testFwrite()
     {
         $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+<<<<<<< Updated upstream
         $fh = \fopen($path, 'a+');
         $puts = fputs($fh);
 
@@ -1441,12 +1531,41 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals(
             $contents,
             'Foo barBaz quux'
+=======
+
+        $fh = \fopen($path, 'a+');
+        $puts = fwrite($fh);
+        fwrite($fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foobar'
+>>>>>>> Stashed changes
         );
     }
 
     public function testFwrite3()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
 
+        $fh = \fopen($path, 'a+');
+        $puts = fwrite3(2, $fh);
+        fwrite3(2, $fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foba'
+        );
     }
 
     public function testGlob()
