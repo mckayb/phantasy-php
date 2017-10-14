@@ -39,6 +39,7 @@ use function Phantasy\PHP\{
     htmlspecialchars3,
     htmlspecialchars4,
     join,
+    join1,
     lcfirst,
     levenshtein,
     levenshtein5,
@@ -2163,77 +2164,222 @@ class PHPFunctionsTest extends TestCase
 
     public function testRename()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $existing = $path . 'test2.csv';
+        \touch($existing);
+        $res = rename($path . 'test3.csv', $existing);
+        \unlink($path . 'test3.csv');
 
+        \touch($existing);
+        $renameToTest3 = rename($path . 'test3.csv');
+        $res2 = $renameToTest3($existing);
+        \unlink($path . 'test3.csv');
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
     }
 
     public function testRename3()
     {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $existing = $path . 'test2.csv';
+        \touch($existing);
+        $res = rename3($ctx, $path . 'test3.csv', $existing);
+        \unlink($path . 'test3.csv');
 
+        \touch($existing);
+        $renameToTest3 = rename3($ctx, $path . 'test3.csv');
+        $res2 = $renameToTest3($existing);
+        \unlink($path . 'test3.csv');
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
     }
 
     public function testRewind()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $fh = fopen('w+', $path);
+        \fwrite($fh, 'Really long sentence.');
+        rewind($fh);
+        \fwrite($fh, 'Foo');
+        rewind($fh);
+        \fclose($fh);
+        $contents = \file_get_contents($path);
+        \unlink($path);
+ 
+        $this->assertEquals(
+            $contents,
+            'Foolly long sentence.'
+        );
     }
 
     public function testRmdir()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        \mkdir($path . '/foo/', 0777, true);
+        $res = rmdir($path . '/foo');
 
+        \mkdir($path . '/foo/', 0777, true);
+        $rmdir = rmdir();
+        $res2 = $rmdir($path . '/foo');
+        $this->assertTrue($res);
+        $this->assertTrue($res);
     }
 
     public function testRmdir2()
     {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        \mkdir($path . '/foo/', 0777, true);
+        $res = rmdir2($context, $path . '/foo');
 
+        \mkdir($path . '/foo/', 0777, true);
+        $rmdir = rmdir2($context);
+        $res2 = $rmdir($path . '/foo');
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
     }
 
     public function testSetFileBuffer()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
 
+        $fh = \fopen($path, 'w');
+        $res = set_file_buffer(0, $fh);
+        \fwrite($fh, 'Foo bar');
+        \fclose($fh);
+
+        $unbuffered = set_file_buffer(0);
+        $fh = \fopen($path, 'a+');
+        $res2 = $unbuffered($fh);
+        \fwrite($fh, 'Foo bar');
+        \fclose($fh);
+
+        \unlink($path);
+        $this->assertEquals($res, $res2);
     }
 
     public function testStat()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(stat($path), \stat($path));
+        $stat = stat();
+        $this->assertEquals($stat($path), \stat($path));
     }
 
     public function testSymlink()
     {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        $res = symlink($sym, $file);
+        $res2 = \is_link($sym);
+        \unlink($file);
+        \unlink($sym);
 
+        $symFrom = symlink($sym);
+        \touch($file);
+        $res3 = $symFrom($file);
+        $res4 = \is_link($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+        $this->assertTrue($res3);
+        $this->assertTrue($res4);
     }
 
     public function testTempnam()
     {
+        $tmpFilename = tempnam('/tmp', 'FOO');
+        $res = \file_exists($tmpFilename);
+        \unlink($tmpFilename);
 
+        $fileInTmp = tempnam('/tmp');
+        $tmpFilename = $fileInTmp('BAR');
+        $res2 = \file_exists($tmpFilename);
+        \unlink($tmpFilename);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
     }
 
     public function testTouch()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
 
+        $touch = touch();
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
     }
 
     public function testTouch2()
     {
+        $time = \time();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch2($time, $path);
+        \unlink($path);
+        $this->assertTrue($res);
 
+        $touch = touch2($time);
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
     }
 
     public function testTouch3()
     {
+        $time = \time();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch3($time, $time, $path);
+        \unlink($path);
+        $this->assertTrue($res);
 
+        $touch = touch3($time, $time);
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
     }
 
     public function testUmask1()
     {
+        $res = umask1(umask());
 
+        $umask1 = umask1();
+        $res2 = $umask1(umask());
+        $this->assertEquals($res, $res2);
     }
 
     public function testUnlink()
     {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
+        $this->assertTrue(unlink($path));
 
+        $unlink = unlink();
+        \touch($path);
+        $this->assertTrue($unlink($path));
     }
 
     public function testUnlink2()
     {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
+        $this->assertTrue(unlink2($ctx, $path));
 
+        \touch($path);
+        $unlink = unlink2($ctx);
+        $this->assertTrue($unlink($path));
     }
 
     public function testCompose()
@@ -2513,6 +2659,102 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals($hex2Bin('6578616d706c65206865782064617461'), 'example hex data');
     }
 
+    public function testHtmlEntityDecode()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode($a);
+
+        $hed = html_entity_decode();
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll \"walk\" the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntityDecode2()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode2(ENT_HTML5, $a);
+
+        $hed = html_entity_decode2(ENT_HTML5);
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll &quot;walk&quot; the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntityDecode3()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode3('UTF-8', ENT_HTML5, $a);
+
+        $hed = html_entity_decode3('UTF-8', ENT_HTML5);
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll &quot;walk&quot; the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntities()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities($orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities();
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities2()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities2(ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities2(ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities3()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities4()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
     public function testHtmlSpecialCharsDecode()
     {
         $this->assertEquals(
@@ -2539,6 +2781,54 @@ class PHPFunctionsTest extends TestCase
         );
     }
 
+    public function testHtmlSpecialChars()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars($html);
+        $expected = "&lt;a href='test'&gt;Test&lt;/a&gt;";
+
+        $hsc = htmlspecialchars();
+        $new2 = $hsc($html);
+        $this->assertEquals($new, $expected);
+    }
+
+    public function testHtmlSpecialChars2()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars2(ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc2 = htmlspecialchars2(ENT_QUOTES);
+        $new2 = $hsc2($html);
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
+    public function testHtmlSpecialChars3()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars3('UTF-8', ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc3 = htmlspecialchars3('UTF-8', ENT_QUOTES);
+        $new2 = $hsc3($html);
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
+    public function testHtmlSpecialChars4()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc4 = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES);
+        $new2 = $hsc4($html);
+
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
     public function testJoin()
     {
         $arr = ['one', 'two', 'three'];
@@ -2547,6 +2837,13 @@ class PHPFunctionsTest extends TestCase
 
         $joinByComma = join(',');
         $this->assertEquals($joinByComma($arr), 'one,two,three');
+    }
+
+    public function testJoin1()
+    {
+        $arr = ['one', 'two', 'three'];
+        $this->assertEquals(join1($arr), \join($arr));
+        $this->assertEquals(join1($arr), 'onetwothree');
     }
 
     public function testLcFirst()

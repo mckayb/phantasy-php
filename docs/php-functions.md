@@ -348,7 +348,7 @@ $countCharsMode1('Test');
 // ['84' => 1, '101' => 1, '115' => 1, '116' => 1]
 ```
 
-### crc32 (string) : int
+### crc32 (string $str) : int
 #### Usage
 ```php
 use function Phantasy\PHP\crc32;
@@ -400,6 +400,17 @@ use function Phantasy\PHP\html_entity_decode;
 ```
 #### Examples
 ```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode($a);
+// I'll "walk" the <b>dog</b> now
+
+$hed = html_entity_decode();
+$hed($a);
+// I'll "walk" the <b>dog</b> now
 ```
 
 ### html_entity_decode2 (int $flags, string $string) : string
@@ -409,6 +420,17 @@ use function Phantasy\PHP\html_entity_decode2;
 ```
 #### Examples
 ```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode2(ENT_HTML5, $a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+
+$hed = html_entity_decode2(ENT_HTML5);
+$hed($a);
+// I'll &quot;walk&quot; the <b>dog</b> now
 ```
 
 ### html_entity_decode3 (string $encoding, int $flags, string $string) : string
@@ -418,9 +440,85 @@ use function Phantasy\PHP\html_entity_decode3;
 ```
 #### Examples
 ```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode3('UTF-8', ENT_HTML5, $a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+
+$hed = html_entity_decode3('UTF-8', ENT_HTML5);
+$hed($a);
+// I'll &quot;walk&quot; the <b>dog</b> now
 ```
 
-### htmlspecialchars_decode
+### htmlentities (string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$htmlEntities = htmlentities();
+$htmlEntities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+```
+
+### htmlentities2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities2;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities2(ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities2(ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlentities3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities3;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlentities4 (bool $double_encode, string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities4;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlspecialchars_decode (string $string) : string
 #### Usage
 ```php
 use function Phantasy\PHP\htmlspecialchars_decode;
@@ -436,13 +534,11 @@ $decode($str);
 // '<p>this -> "</p>\n'
 ```
 
-### htmlspecialchars_decode2
+### htmlspecialchars_decode2 (int $flags, string $string) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\htmlspecialchars_decode2;
 ```
-
 #### Examples
 ```php
 $str = '<p>this -&gt; &quot;</p>\n';
@@ -452,16 +548,76 @@ htmlspecialchars_decode2(ENT_NOQUOTES, $str);
 $remoteWithoutQuotes = htmlspecialchars_decode2(ENT_NOQUOTES);
 $removeWithoutQuotes($str);
 // '<p>this -> &quot;</p>\n'
+```
 
+### htmlspecialchars (string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars;
+```
+#### Examples
+```php
+htmlspecialchars("<a href='test'>Test</a>");
+// "&lt;a href='test'&gt;Test&lt;/a&gt;";
+
+$htmlSpecialChars = htmlspecialchars();
+$htmlSpecialChars("<a href='test'>Test</a>");
+// "&lt;a href='test'&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars2;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars2(ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars2(ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars3;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars3('UTF-8', ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars3('UTF-8', ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars4 (bool $double_encode, string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars4;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars4(false, 'UTF-8', ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
 ```
 
 ### join
 #### Usage
-
 ```php
 use function Phantasy\PHP\join;
 ```
-
 #### Examples
 ```php
 join(',', ['one', 'two', 'three']);
@@ -470,6 +626,21 @@ join(',', ['one', 'two', 'three']);
 $joinByComma = join(',');
 $joinByComma(['one', 'two', 'three']);
 // 'one,two,three'
+```
+
+### join1
+#### Usage
+```php
+use function Phantasy\PHP\join1;
+```
+#### Examples
+```php
+join1(['one', 'two']);
+// 'onetwo'
+
+$join1 = join1();
+$join1(['one', 'two']);
+// 'onetwo'
 ```
 
 ### lcfirst
@@ -6399,7 +6570,7 @@ use function Phantasy\PHP\fflush;
 $filename = 'bar.txt';
 $file = fopen('r+', $filename);
 rewind($file);
-fwrite('Foo', $file);
+fwrite($file, 'Foo');
 fflush($file);
 ftruncate(ftell($file), $file);
 fclose($handle);
@@ -8747,125 +8918,327 @@ use function Phantasy\PHP\realpath;
 ```
 #### Examples
 ```php
+chdir('/var/www/');
+realpath('./../../etc/passwd');
+// /etc/passwd
+
+$realpath = realpath();
+$realpath('./../../etc/passwd');
+// /etc/passwd
 ```
 
-### pclose (resource $handle) : int
+### rename (string $newName, string $oldName) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\rename;
 ```
 #### Examples
 ```php
+$from = "/tmp/tmp_file.txt";
+$to = "/home/user/login/docs/my_file.txt";
+rename($to, $from);
+// true
+
+$renameTo = rename($to);
+$renameTo($from);
+// true
 ```
-### pclose (resource $handle) : int
+
+### rename3 (resource $context, string $newName, string $oldName) : int
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\rename3;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+$from = "/tmp/tmp_file.txt";
+$to = "/home/user/login/docs/my_file.txt";
+rename3($ctx, $to, $from);
+// true
+
+$renameTo = rename3($ctx, $to);
+$renameTo($from);
+// true
 ```
-### pclose (resource $handle) : int
+
+### rewind (resource $handle) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\rewind;
 ```
 #### Examples
 ```php
+$fh = fopen('w+', '/path/to/my/file');
+$write = fwrite($fh);
+$write('Really long sentence.');
+rewind($fh);
+$write('Foo');
+rewind($fh);
+
+/**
+ * /path/to/my/file
+ * 
+ * Foolly long sentence.
+ */
 ```
-### pclose (resource $handle) : int
+
+### rmdir (string $dirname) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\rmdir;
 ```
 #### Examples
 ```php
+rmdir('/path/to/a/dir');
+// True or false
+
+$rmdir = rmdir();
+$rmdir('/path/to/a/dir');
+// True or false
 ```
-### pclose (resource $handle) : int
+
+### rmdir2 (resource $context, string $dirname) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\rmdir2;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+rmdir2($ctx, '/path/to/a/dir');
+// True or false
+
+$rmdir = rmdir2($ctx);
+$rmdir('/path/to/a/dir');
+// True or false
 ```
-### pclose (resource $handle) : int
+
+### set_file_buffer (int $buffer, resource $stream)
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\set_file_buffer;
 ```
 #### Examples
 ```php
+$fh = fopen('w', '/path/to/file');
+
+// Unbuffered Stream
+set_file_buffer(0, $fh);
+fwrite($fh, 'Foo bar');
+fclose($fh);
 ```
-### pclose (resource $handle) : int
+```php
+$fh = fopen('w', '/path/to/file');
+$unbufferedStream = set_file_buffer(0);
+
+// Unbuffered Stream
+$unbufferedStream($fh);
+fwrite($fh, 'Foo bar');
+fclose($fh);
+```
+
+### stat (string $filename)
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\stat;
 ```
 #### Examples
 ```php
+stat('/path/to/my/file');
+/*
+array(26) {
+  [0] =>
+  int(42)
+  [1] =>
+  int(166)
+  [2] =>
+  int(33188)
+  [3] =>
+  int(1)
+  [4] =>
+  int(1000)
+  [5] =>
+  int(1000)
+  ...
+*/
+
+$stat = stat();
+$stat('/path/to/my/file');
+/*
+array(26) {
+  [0] =>
+  int(42)
+  [1] =>
+  int(166)
+  [2] =>
+  int(33188)
+  [3] =>
+  int(1)
+  [4] =>
+  int(1000)
+  [5] =>
+  int(1000)
+  ...
+*/
 ```
-### pclose (resource $handle) : int
+
+### symlink (string $link, string $target) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\symlink;
 ```
 #### Examples
 ```php
+$link = 'link';
+$file = 'test.csv';
+symlink($link, $file);
+// true or false
+
+$symlink = symlink('link2');
+$symlink('test.csv');
+// true or false
 ```
-### pclose (resource $handle) : int
+
+### tempnam (string $prefix, string $dir) : int
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\tempnam;
 ```
 #### Examples
 ```php
+$tmpfname = tempnam("/tmp", "FOO");
+
+$handle = fopen($tmpfname, "w");
+fwrite($handle, "writing to tempfile");
+fclose($handle);
+
+// do here something
+
+unlink($tmpfname);
 ```
-### pclose (resource $handle) : int
+```php
+$tempFileInTmp = tempnam("/tmp");
+
+$tempFileInTmp("FOO");
+$handle = fopen($tmpfname, "w");
+fwrite($handle, "writing to tempfile");
+fclose($handle);
+
+// do here something
+
+unlink($tmpfname);
+```
+
+### touch (string $filename) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\touch;
 ```
 #### Examples
 ```php
+touch('/path/to/file');
+// true to false
+
+$touch = touch();
+$touch('/path/to/file');
+// true to false
 ```
-### pclose (resource $handle) : int
+
+### touch2 (int $time, string $filename) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\touch2;
 ```
 #### Examples
 ```php
+// Set time to 1 hour in the past.
+$time = time() - 3600;
+touch2($time, '/path/to/file');
+// true to false
+
+$touch = touch2($time);
+$touch('/path/to/file');
+// true to false
 ```
-### pclose (resource $handle) : int
+
+### touch3 (int $atime, int $time, string $filename) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\touch3;
 ```
 #### Examples
 ```php
+// Set time to 1 hour in the past.
+$time = time() - 3600;
+$atime = time() - 1800;
+touch3($atime, $time, '/path/to/file');
+// true to false
+
+$touch = touch3($atime, $time);
+$touch('/path/to/file');
+// true to false
 ```
-### pclose (resource $handle) : int
+
+### umask1 (int $mask) : int
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\umask1;
 ```
 #### Examples
 ```php
+$old = umask1(0);
+chmod(0775, "/path/some_dir/some_file.txt");
+umask1($old);
+
+// Checking
+if ($old != umask()) {
+    die('An error occurred while changing back the umask');
+}
 ```
-### pclose (resource $handle) : int
+
+### unlink (string $filename) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\unlink;
 ```
 #### Examples
 ```php
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+unlink('test.html');
 ```
-### pclose (resource $handle) : int
+```php
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+$unlink = unlink();
+$unlink('test.html');
+```
+
+### unlink2 (resource $context, string $filename) : bool
 #### Usage
 ```php
-use function Phantasy\PHP\pclose;
+use function Phantasy\PHP\unlink2;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+unlink2($ctx, 'test.html');
+```
+```php
+$ctx = stream_context_create();
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+$streamUnlink = unlink2($ctx);
+$streamUnlink('test.html');
 ```

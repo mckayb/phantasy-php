@@ -243,6 +243,13 @@ function join(...$args)
     return curry('\join')(...$args);
 }
 
+function join1(...$args)
+{
+    return curry(function (array $pieces) : string {
+        return \join($pieces);
+    })(...$args);
+}
+
 function lcfirst(...$args)
 {
     return curry('\lcfirst')(...$args);
@@ -2628,7 +2635,7 @@ function rmdir2(...$args)
 
 function set_file_buffer(...$args)
 {
-    return curry(function (int $buffer, $stream) : int {
+    return curry(function (int $buffer, $stream) {
         return \set_file_buffer($stream, $buffer);
     })(...$args);
 }
@@ -2647,9 +2654,7 @@ function symlink(...$args)
 
 function tempnam(...$args)
 {
-    return curry(function (string $prefix, string $dir) : string {
-        return \tempnam($dir, $prefix);
-    })(...$args);
+    return curry('\tempnam')(...$args);
 }
 
 function touch(...$args)
