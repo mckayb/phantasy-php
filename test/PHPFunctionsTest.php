@@ -400,8 +400,8 @@ use function Phantasy\PHP\{
     parse_ini_string,
     parse_ini_string2,
     parse_ini_string3,
-    path_info,
-    path_info2,
+    pathinfo,
+    pathinfo2,
     pclose,
     popen,
     readfile,
@@ -1672,109 +1672,493 @@ class PHPFunctionsTest extends TestCase
 
     public function testLstat()
     {
-        $path = dirname(__FILE__) . '/fixtures/test.csv';
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
         $lstat = lstat();
         $this->assertEquals(lstat($path), $lstat($path));
     }
 
     public function testMkdir()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/';
 
+        $mkdir = mkdir();
+        mkdir($dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+
+        $mkdir($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
     }
 
     public function testMkdir2()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/';
+        $dir2 = $path . 'bar/';
+        mkdir2(0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
 
+        $mkdir700 = mkdir2(0700);
+        $mkdir700($dir2);
+        $exists2 = \is_dir($dir2);
+        \rmdir($dir2);
+        $this->assertTrue($exists);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir2));
     }
 
     public function testMkdir3()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/bar/baz/';
+        mkdir3(true, 0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
 
+        $mkdirRecursive700 = mkdir3(true, 0700);
+        $mkdirRecursive700($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertFalse(\is_dir('foo/bar/'));
+        $this->assertFalse(\is_dir('foo/'));
     }
 
     public function testMkdir4()
     {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/bar/baz/';
+        mkdir4($ctx, true, 0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
 
+        $mkdirRecursive700 = mkdir4($ctx, true, 0700);
+        $mkdirRecursive700($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertFalse(\is_dir('foo/bar/'));
+        $this->assertFalse(\is_dir('foo/'));
     }
 
     public function testMoveUploadedFile()
     {
+        $path = \dirname(__FILE__) . '/fixtures/';
 
+        $this->assertFalse(move_uploaded_file($path . '../', $path . 'test.csv'));
+        $moveUp = move_uploaded_file($path . '../');
+        $this->assertFalse($moveUp('test.csv'));
     }
 
     public function testParseIniFile()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'one' => '1',
+            'five' => '5',
+            'animal' => 'BIRD',
+            'path' => '/usr/local/bin',
+            'URL' => 'http://www.example.com/~username',
+            'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+            'urls' => [
+                'svn' => 'http://svn.php.net',
+                'git' => 'http://git.php.net'
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file($path),
+            $expected
+        );
+        $parseIni = parse_ini_file();
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
     }
 
     public function testParseIniFile2()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => '1',
+                'five' => '5',
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file2(true, $path),
+            $expected
+        );
+        $parseIni = parse_ini_file2(true);
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
     }
 
     public function testParseIniFile3()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => 1,
+                'five' => 5,
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file3(INI_SCANNER_TYPED, true, $path),
+            $expected
+        );
+        $parseIni = parse_ini_file3(INI_SCANNER_TYPED, true);
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
     }
 
     public function testParseIniString()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'one' => '1',
+            'five' => '5',
+            'animal' => 'BIRD',
+            'path' => '/usr/local/bin',
+            'URL' => 'http://www.example.com/~username',
+            'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+            'urls' => [
+                'svn' => 'http://svn.php.net',
+                'git' => 'http://git.php.net'
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string(\file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string();
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
     }
 
     public function testParseIniString2()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => '1',
+                'five' => '5',
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string2(true, \file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string2(true);
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
     }
 
     public function testParseIniString3()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => 1,
+                'five' => 5,
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string3(INI_SCANNER_TYPED, true, \file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string3(INI_SCANNER_TYPED, true);
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
     }
 
     public function testPathInfo()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $this->assertEquals(pathinfo($path), \pathinfo($path));
+        $pathInfo = pathinfo();
+        $this->assertEquals($pathInfo($path), \pathinfo($path));
     }
 
     public function testPathInfo2()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $this->assertEquals(pathinfo2(PATHINFO_DIRNAME, $path), \pathinfo($path, PATHINFO_DIRNAME));
+        $pathInfo = pathinfo2(PATHINFO_DIRNAME);
+        $this->assertEquals($pathInfo($path), \pathinfo($path, PATHINFO_DIRNAME));
     }
 
     public function testPclose()
     {
-
+        $ph = \popen('/bin/ls', 'r');
+        $read = \fread($ph, 2096);
+        $res = pclose($ph);
+        $this->assertGreaterThan(-1, $res);
     }
 
     public function testPopen()
     {
-
+        $ph = popen('r', '/bin/ls');
+        $read = \fread($ph, 2096);
+        $res = \pclose($ph);
+        $this->assertGreaterThan(-1, $res);
     }
 
     public function testReadfile()
     {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
 
+        \ob_start();
+        readfile($path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile();
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
     }
 
     public function testReadFile2()
     {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
 
+        \ob_start();
+        readfile2(true, $path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile2(true);
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
     }
 
     public function testReadFile3()
     {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
 
+        \ob_start();
+        readfile3($ctx, true, $path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile3($ctx, true);
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
     }
 
     public function testReadLink()
     {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        $readlink = readlink();
+        \touch($file);
+        \symlink($file, $sym);
 
+        $res = readlink($sym);
+        $res_ = $readlink($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertEquals($res, $file);
+        $this->assertEquals($res_, $file);
     }
 
     public function testRealPath()
     {
+        $path = \dirname(__FILE__);
+        $this->assertEquals(
+            $path,
+            realpath('.') . '/test'
+        );
 
+        $realpath = realpath();
+        $this->assertEquals(
+            $path,
+            $realpath('.') . '/test'
+        );
     }
 
     public function testRename()

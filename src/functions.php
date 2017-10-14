@@ -2573,7 +2573,7 @@ function readfile(...$args)
 
 function readfile2(...$args)
 {
-    return curry(function (bool $use_include_path, string $filename) : int {
+    return curry(function (bool $use_include_path, string $filename) {
         return \readfile($filename, $use_include_path);
     })(...$args);
 }

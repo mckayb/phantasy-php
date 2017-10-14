@@ -7875,6 +7875,12 @@ use function Phantasy\PHP\mkdir;
 ```
 #### Examples
 ```php
+mkdir('/path/to/mydir');
+// true or false, depending on permissions
+
+$mkdir = mkdir();
+$mkdir('/path/to/mydir');
+// true or false, depending on permissions
 ```
 
 ### mkdir2 (int $mode, string $pathname) : bool
@@ -7884,6 +7890,12 @@ use function Phantasy\PHP\mkdir2;
 ```
 #### Examples
 ```php
+mkdir2(0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkdir700 = mkdir2(700);
+$mkdir700('/path/to/mydir');
+// true or false, depending on permissions
 ```
 
 ### mkdir3 (bool $recursive, int $mode, string $pathname) : bool
@@ -7893,6 +7905,12 @@ use function Phantasy\PHP\mkdir3;
 ```
 #### Examples
 ```php
+mkdir3(true, 0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkNested700 = mkdir3(true, 700);
+$mkNested700('/path/to/mydir');
+// true or false, depending on permissions
 ```
 
 ### mkdir4 (resource $context, bool $recursive, int $mode, string $pathname) : bool
@@ -7902,6 +7920,13 @@ use function Phantasy\PHP\mkdir4;
 ```
 #### Examples
 ```php
+$ctx = stream_context_create();
+mkdir4($ctx, true, 0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkNested700 = mkdir4($ctx, true, 700);
+$mkNested700('/path/to/mydir');
+// true or false, depending on permissions
 ```
 
 ### move_uploaded_file (string $destination, string $filename) : bool
@@ -7911,6 +7936,16 @@ use function Phantasy\PHP\move_uploaded_file;
 ```
 #### Examples
 ```php
+$uploads_dir = '/uploads';
+foreach ($_FILES["pictures"]["error"] as $key => $error) {
+    if ($error == UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES["pictures"]["tmp_name"][$key];
+        // basename() may prevent filesystem traversal attacks;
+        // further validation/sanitation of the filename may be appropriate
+        $name = basename($_FILES["pictures"]["name"][$key]);
+        move_uploaded_file("$uploads_dir/$name", $tmp_name);
+    }
+}
 ```
 
 ### parse_ini_file (string $filename)
@@ -7920,6 +7955,85 @@ use function Phantasy\PHP\parse_ini_file;
 ```
 #### Examples
 ```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse without sections
+$ini_array = parse_ini_file("sample.ini");
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+$parseIni = parse_ini_file();
+$parseIni("sample.ini");
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
 ```
 
 ### parse_ini_file2 (bool $process_sections, string $filename)
@@ -7929,6 +8043,106 @@ use function Phantasy\PHP\parse_ini_file2;
 ```
 #### Examples
 ```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse with sections
+$ini_array = parse_ini_file2(true, 'sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniWithSections = parse_ini_file2(true);
+$parseIniWithSections('sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
 ```
 
 ### parse_ini_file3 (int $scanner_mode, bool $process_sections, string $filename)
@@ -7938,6 +8152,106 @@ use function Phantasy\PHP\parse_ini_file3;
 ```
 #### Examples
 ```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse with sections
+$ini_array = parse_ini_file3(INI_SCANNER_TYPED, true, 'sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniWithSections = parse_ini_file3(INI_SCANNER_TYPED, true);
+$parseIniWithSections('sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
 ```
 
 ### parse_ini_string (string $ini)
@@ -7947,6 +8261,79 @@ use function Phantasy\PHP\parse_ini_string;
 ```
 #### Examples
 ```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string($ini);
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+
+$parseIniString = parse_ini_string();
+$parseIniString($ini);
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
 ```
 
 ### parse_ini_string2 (bool $process_sections, string $ini)
@@ -7956,6 +8343,99 @@ use function Phantasy\PHP\parse_ini_string2;
 ```
 #### Examples
 ```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string2(true, $ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniString = parse_ini_string2(true);
+$parseIniString($ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
 ```
 
 ### parse_ini_string3 (int $scanner_mode, bool $process_sections, string $ini)
@@ -7965,6 +8445,99 @@ use function Phantasy\PHP\parse_ini_string3;
 ```
 #### Examples
 ```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string3(INI_SCANNER_TYPED, true, $ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniString = parse_ini_string3(INI_SCANNER_TYPED, true);
+$parseIniString($ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
 ```
 
 ### pathinfo (string $path)
@@ -7974,12 +8547,324 @@ use function Phantasy\PHP\pathinfo;
 ```
 #### Examples
 ```php
+$path = '/www/htdocs/inc/lib.inc.php';
+pathinfo($path);
+/*
+[
+    'dirname' => '/www/htdocs/inc',
+    'basename' => 'lib.inc.php',
+    'extension' => 'php',
+    'filename' => 'lib.inc'
+]
+*/
+
+$pathInfo = pathinfo();
+$pathInfo($path);
+/*
+[
+    'dirname' => '/www/htdocs/inc',
+    'basename' => 'lib.inc.php',
+    'extension' => 'php',
+    'filename' => 'lib.inc'
+]
+*/
 ```
 
 ### pathinfo2 (int $options, string $path)
 #### Usage
 ```php
 use function Phantasy\PHP\pathinfo2;
+```
+#### Examples
+```php
+$path = '/www/htdocs/inc/lib.inc.php';
+pathinfo2(PATHINFO_DIRNAME, $path);
+// '/www/htdocs/inc',
+
+$pathInfoDirname = pathinfo2(PATHINFO_DIRNAME);
+$pathInfoDirname($path);
+// '/www/htdocs/inc',
+```
+
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+$ph = popen('r', '/bin/ls');
+$res = fread(2096, $ph);
+pclose($ph);
+```
+
+### popen (string $mode, string $command) : resource
+#### Usage
+```php
+use function Phantasy\PHP\popen;
+```
+#### Examples
+```php
+$ph = popen('r', '/bin/ls');
+$res = fread(2096, $ph);
+pclose($ph);
+```
+
+### readfile (string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\readfile;
+```
+#### Examples
+```php
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile($file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfile = readfile();
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfile($file);
+    exit;
+}
+```
+
+### readfile2 (bool $use_include_path, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\readfile2;
+```
+#### Examples
+```php
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile2(true, $file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfileWithIncludePath = readfile2(true);
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfileWithIncludePath($file);
+    exit;
+}
+```
+
+### readfile3 (resource $context, bool $use_include_path, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\readfile3;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile3($ctx, true, $file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfileStreamWithIncludePath = readfile3($ctx, true);
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfileStreamWithIncludePath($file);
+    exit;
+}
+```
+
+### readlink (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\readlink;
+```
+#### Examples
+```php
+readlink('/vmlinuz');
+// e.g. /boot/vmlinux-2.4.20-xfs
+
+$readlink = readlink();
+$readlink('/vmlinuz');
+// e.g. /boot/vmlinux-2.4.20-xfs
+```
+
+### realpath (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\realpath;
+```
+#### Examples
+```php
+```
+
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+```
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
 ```
 #### Examples
 ```php
