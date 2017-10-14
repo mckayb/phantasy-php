@@ -7693,6 +7693,17 @@ use function Phantasy\PHP\is_link;
 ```
 #### Examples
 ```php
+is_link('/path/to/valid/symlink');
+// true
+
+is_link('/path/to/not/a/symlink');
+// false
+
+$is_link = is_link();
+$is_link('/path/to/not/a/symlink');
+// false
+$is_link('/path/to/valid/symlink');
+// true
 ```
 
 ### is_readable (string $filename) : bool
@@ -7702,6 +7713,22 @@ use function Phantasy\PHP\is_readable;
 ```
 #### Examples
 ```php
+is_readable('a_file.txt');
+// true, if you have permission to read it
+
+is_readable('php://stdin');
+// false
+```
+
+### is_uploaded_file (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_uploaded_file;
+```
+#### Examples
+```php
+is_uploaded_file($_FILES['userfile']['tmpname']);
+// true or false, depending.
 ```
 
 ### is_writable (string $filename) : bool
@@ -7711,6 +7738,12 @@ use function Phantasy\PHP\is_writable;
 ```
 #### Examples
 ```php
+is_writable('valid_file.txt');
+// true
+
+$is_writable = is_writable();
+$is_writable('invalid_file.txt');
+// false
 ```
 
 ### is_writeable (string $filename) : bool
@@ -7720,6 +7753,12 @@ use function Phantasy\PHP\is_writeable;
 ```
 #### Examples
 ```php
+is_writeable('valid_file.txt');
+// true
+
+$is_writeable = is_writeable();
+$is_writeable('invalid_file.txt');
+// false
 ```
 
 ### lchgrp ($group, string $filename) : bool
@@ -7729,6 +7768,11 @@ use function Phantasy\PHP\lchgrp;
 ```
 #### Examples
 ```php
+$target = 'output.php';
+$link = 'output.html';
+symlink($link, $target);
+
+lchgrp(8, $link);
 ```
 
 ### lchown ($user, string $filename) : bool
@@ -7738,6 +7782,11 @@ use function Phantasy\PHP\lchown;
 ```
 #### Examples
 ```php
+$target = 'output.php';
+$link = 'output.html';
+symlink($link, $target);
+
+lchown(8, $link);
 ```
 
 ### link (string $link, string $target) : bool
@@ -7747,6 +7796,16 @@ use function Phantasy\PHP\link;
 ```
 #### Examples
 ```php
+$src = 'source.ext';
+$link = 'my-new-link.ext';
+
+link($link, $src);
+```
+```php
+$src = 'source.ext';
+$linkTo = link('my-new-link.ext');
+
+$linkTo($src);
 ```
 
 ### linkinfo (string $path)
@@ -7756,6 +7815,16 @@ use function Phantasy\PHP\linkinfo;
 ```
 #### Examples
 ```php
+$src = 'source.ext';
+$link = 'my-new-link.ext';
+
+link($link, $src);
+linkinfo($link);
+// int(64512)
+
+$linkinfo = linkinfo();
+$linkinfo($link);
+// int(64512)
 ```
 
 ### lstat (string $filename) : array
@@ -7765,6 +7834,38 @@ use function Phantasy\PHP\lstat;
 ```
 #### Examples
 ```php
+lstat('a_file.txt');
+/*
+array(26) {
+    [0] =>
+    int(43)
+    [1] =>
+    int(158)
+    [2] =>
+    int(33188)
+    [3] =>
+    int(1)
+    [4] =>
+    int(1000)
+    ...
+*/
+
+$lstat = lstat();
+$lstat('a_link');
+/*
+array(26) {
+    [0] =>
+    int(43)
+    [1] =>
+    int(158)
+    [2] =>
+    int(33188)
+    [3] =>
+    int(1)
+    [4] =>
+    int(1000)
+    ...
+*/
 ```
 
 ### mkdir (string $pathname) : bool

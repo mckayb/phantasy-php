@@ -1536,52 +1536,145 @@ class PHPFunctionsTest extends TestCase
 
     public function testIsLink()
     {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_link = is_link();
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
 
+        $a = is_link($sym);
+        $a_ = $is_link($file);
+        \unlink($sym);
+        \unlink($file);
+
+        $this->assertTrue($a);
+        $this->assertFalse($a_);
     }
 
     public function testIsReadable()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_readable = is_readable();
+        $this->assertTrue($is_readable($path . '/test.csv'));
+        $this->assertFalse(is_readable('php://stdin'));
     }
 
     public function testIsUploadedFile()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_uploaded_file = is_uploaded_file();
+        $this->assertFalse(is_uploaded_file($path . '/test.csv'));
+        $this->assertFalse($is_uploaded_file($path . '/test.csv'));
     }
 
     public function testIsWritable()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_writable = is_writable();
+        $this->assertTrue(is_writable($path . '/test.csv'));
+        $this->assertTrue($is_writable($path . '/test.csv'));
     }
 
     public function testIsWriteable()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_writeable = is_writeable();
+        $this->assertTrue(is_writeable($path . '/test.csv'));
+        $this->assertTrue($is_writeable($path . '/test.csv'));
     }
 
     public function testLchgrp()
     {
+        $path = dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
+        $lchgrp = lchgrp(\filegroup($sym));
 
+        $res = lchgrp(\filegroup($sym), $sym);
+        $res_ = $lchgrp($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res_);
     }
 
     public function testLchown()
     {
+        $path = dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
+        $lchown = lchown(\fileowner($sym));
 
+        $res = lchown(\fileowner($sym), $sym);
+        $res_ = $lchown($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res_);
     }
 
     public function testLink()
     {
+        $src = '/tmp/foo';
+        $link = '/tmp/bar';
 
+        $src2 = '/tmp/baz';
+        $link2 = '/tmp/quux';
+
+        \touch($src);
+        \touch($src2);
+        $linkToBar = link($link);
+        $linkToBar($src);
+
+        link($link2, $src2);
+
+        $res = \file_exists($link);
+        $res2 = \file_exists($src);
+        $res3 = \file_exists($link2);
+        $res4 = \file_exists($src2);
+
+        \unlink($src);
+        \unlink($link);
+        \unlink($link2);
+        \unlink($src2);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+        $this->assertTrue($res3);
+        $this->assertTrue($res4);
     }
 
     public function testLinkinfo()
     {
+        $src = '/tmp/foo';
+        $link = '/tmp/bar';
 
+        \touch($src);
+        \link($src, $link);
+        $linkinfo = linkinfo();
+        $info = linkinfo($link);
+        $info2 = $linkinfo($link);
+
+        \unlink($src);
+        \unlink($link);
+
+        $this->assertEquals($info, $info2);
+        $this->assertNotEquals($info, 0);
+        $this->assertNotEquals($info, false);
     }
 
     public function testLstat()
     {
-
+        $path = dirname(__FILE__) . '/fixtures/test.csv';
+        $lstat = lstat();
+        $this->assertEquals(lstat($path), $lstat($path));
     }
 
     public function testMkdir()
