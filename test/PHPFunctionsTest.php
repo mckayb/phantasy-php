@@ -887,6 +887,8 @@ class PHPFunctionsTest extends TestCase
         $putBarQuux($path);
         $contents_ = \file_get_contents($path);
 
+        \unlink($path);
+
         $this->assertEquals(
             $contents,
             'FooBar'
@@ -895,8 +897,6 @@ class PHPFunctionsTest extends TestCase
             $contents_,
             'BarQuux'
         );
-
-        \unlink($path);
     }
 
     public function testFilePutContents3()
@@ -909,7 +909,7 @@ class PHPFunctionsTest extends TestCase
         $putContentsAppend($path);
         $contents_ = \file_get_contents($path);
 
-        unlink($path);
+        \unlink($path);
         $this->assertEquals(
             $contents,
             'FooBar'
@@ -919,8 +919,6 @@ class PHPFunctionsTest extends TestCase
             $contents_,
             'FooBarBarQuux'
         );
-
-        \unlink($path);
     }
 
     public function testFilePutContents4()
@@ -933,7 +931,7 @@ class PHPFunctionsTest extends TestCase
         $putContentsAppend = file_put_contents4($context, FILE_APPEND, 'BarQuux');
         $putContentsAppend($path);
         $contents_ = \file_get_contents($path);
-        unlink($path);
+        \unlink($path);
 
         $this->assertEquals(
             $contents,
@@ -943,8 +941,6 @@ class PHPFunctionsTest extends TestCase
             $contents_,
             'FooBarBarQuux'
         );
-
-        \unlink($path);
     }
 
     public function testFile()
@@ -1240,9 +1236,6 @@ class PHPFunctionsTest extends TestCase
         $putcsv(['foo','bar','baz']);
         \fclose($fh);
         $contents = \file_get_contents($path);
-        unlink($path);
-
-        $contents = \file_get_contents($path);
         \unlink($path);
 
         $this->assertEquals(
@@ -1478,27 +1471,67 @@ class PHPFunctionsTest extends TestCase
 
     public function testGlob()
     {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $csvs = glob($path . '/*.csv');
 
+        $glob = glob();
+        $json = $glob($path . '/*.json');
+        $this->assertEquals(
+            $csvs,
+            [$path . '/test.csv']
+        );
+        $this->assertEquals(
+            $json,
+            [$path . '/config.json']
+        );
     }
 
     public function testGlob2()
     {
+        $dir = \dirname(__FILE__);
+        $dirs = glob2(GLOB_ONLYDIR, $dir . '/*');
 
+        $glob = glob2(GLOB_ONLYDIR);
+        $dirs_ = $glob($dir . '/*');
+        $this->assertEquals(
+            $dirs,
+            [$dir . '/fixtures']
+        );
+        $this->assertEquals(
+            $dirs_,
+            [$dir . '/fixtures']
+        );
     }
 
     public function testIsDir()
     {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_dir = is_dir();
+        $this->assertTrue(is_dir($path));
+        $this->assertTrue($is_dir($path));
 
+        $this->assertFalse(is_dir($path . '/config.json'));
+        $this->assertFalse($is_dir($path . '/config.json'));
     }
 
     public function testIsExecutable()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_executable = is_executable();
+        $this->assertTrue(is_executable($path . '/test.sh'));
+        $this->assertTrue($is_executable($path . '/test.sh'));
+        $this->assertFalse(is_executable($path . '/test.csv'));
+        $this->assertFalse($is_executable($path . '/test.csv'));
     }
 
     public function testIsFile()
     {
-
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_file = is_file();
+        $this->assertTrue(is_file($path . '/test.csv'));
+        $this->assertTrue($is_file($path . '/test.csv'));
+        $this->assertFalse(is_file($path));
+        $this->assertFalse($is_file($path));
     }
 
     public function testIsLink()

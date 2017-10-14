@@ -7611,6 +7611,12 @@ use function Phantasy\PHP\glob;
 ```
 #### Examples
 ```php
+glob('*.txt');
+// [ '/path/to/foo.txt', '/path/to/bar.txt', ... ]
+
+$glob = glob();
+$glob('*.txt');
+// [ '/path/to/foo.txt', '/path/to/bar.txt', ... ]
 ```
 
 ### glob2 (int $flags, string $pattern) : array
@@ -7620,6 +7626,12 @@ use function Phantasy\PHP\glob2;
 ```
 #### Examples
 ```php
+glob2(GLOB_ONLYDIR, '*');
+// [ '/path/to/foo_directory', '/path/to/bar_directory', ... ]
+
+$glob = glob2(GLOB_ONLYDIR);
+$glob('*');
+// [ '/path/to/foo_directory', '/path/to/bar_directory', ... ]
 ```
 
 ### is_dir (string $filename) : bool
@@ -7629,6 +7641,18 @@ use function Phantasy\PHP\is_dir;
 ```
 #### Examples
 ```php
+is_dir('a_file.txt');
+// false
+
+is_dir('bogus_dir/abc');
+// false
+
+is_dir('..');
+// true
+
+$is_dir = is_dir();
+$is_dir('..');
+// true
 ```
 
 ### is_executable (string $filename) : bool
@@ -7638,6 +7662,13 @@ use function Phantasy\PHP\is_executable;
 ```
 #### Examples
 ```php
+$file = '/home/vincent/somefile.sh';
+is_executable($file);
+// true or false depending on permissions
+
+$is_executable = is_executable();
+$is_executable($file);
+// true or false depending on permissions
 ```
 
 ### is_file (string $filename) : bool
@@ -7647,6 +7678,12 @@ use function Phantasy\PHP\is_file;
 ```
 #### Examples
 ```php
+is_file('a_file.txt');
+// true, if it exists
+
+$is_file = is_file();
+$is_file('/usr/bin');
+// false
 ```
 
 ### is_link (string $filename) : bool
