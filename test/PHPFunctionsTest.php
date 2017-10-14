@@ -649,7 +649,10 @@ class PHPFunctionsTest extends TestCase
     {
         $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
         $handle = \fopen($path, 'r');
-        $this->assertEquals(fgetcsv4('-', ',', 50, $handle), ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']);
+        $this->assertEquals(
+            fgetcsv4('-', ',', 50, $handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
         \fclose($handle);
 
         $fgetcsvLength10DashEnclose = fgetcsv4('-', ',', 50);
@@ -798,7 +801,8 @@ class PHPFunctionsTest extends TestCase
     public function testFileGetContents()
     {
         $path = \dirname(__FILE__) . '/fixtures/test.csv';
-        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
         $this->assertEquals(
             file_get_contents($path),
             $expected
@@ -814,7 +818,8 @@ class PHPFunctionsTest extends TestCase
     public function testFileGetContents2()
     {
         $path = \dirname(__FILE__) . '/fixtures/test.csv';
-        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
         $this->assertEquals(
             file_get_contents2(true, $path),
             $expected
@@ -831,7 +836,8 @@ class PHPFunctionsTest extends TestCase
     {
         $context = \stream_context_create();
         $path = \dirname(__FILE__) . '/fixtures/test.csv';
-        $expected = "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
         $this->assertEquals(
             file_get_contents3($context, false, $path),
             $expected
