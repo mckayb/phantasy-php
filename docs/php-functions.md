@@ -4,7 +4,7 @@ Along with the standard php functions, I've also included
 
 ## Helper Functions
 
-### curry
+### curry (callable $f)
 #### Usage
 ```php
 use function Phantasy\PHP\curry;
@@ -39,7 +39,7 @@ $subFrom1 = $f(1);
 $subFrom1(2);
 // -1
 ```
-### compose
+### compose (callable ...$fns)
 #### Usage
 ```php
 use function Phantasy\PHP\compose;
@@ -58,12 +58,11 @@ $snakeCase('Foo Bar');
 
 ## String Functions
 
-### explode
+### explode (string $delimiter, string $str)
 #### Usage
 ```php
 use function Phantasy\PHP\explode;
 ```
-
 #### Examples
 ```php
 // Uncurried
@@ -76,17 +75,32 @@ $splitOnSpace('foo bar');
 // ['foo', 'bar']
 ```
 
-### implode
+### explode3 (int $limit, string $delimiter, string $str) : array
 #### Usage
+```php
+use function Phantasy\PHP\explode3;
+```
+#### Examples
+```php
+$str = 'one|two|three|four';
 
+explode3(2, '|', $str);
+// ['one', 'two|three|four']
+
+$explodeLimit2ByPipe = explode3(2, '|');
+$explodeLimit2ByPipe($str);
+// ['one', 'two|three|four']
+```
+
+### implode (string $glue, array $pieces) : string
+#### Usage
 ```php
 use function Phantasy\PHP\implode;
 ```
-
 #### Examples
 ```php
 // Uncurried
-implode(',', ['one', two']);
+implode(',', ['one', 'two']);
 // 'one,two'
 
 // Curried
@@ -95,14 +109,26 @@ $joinByComma(['one', 'two']);
 // 'one,two'
 ```
 
-### addcslashes
-
+### implode1 (array $pieces) : string
 #### Usage
+```php
+use function Phantasy\PHP\implode1;
+```
+#### Examples
+```php
+implode1(['one', 'two']);
+// 'onetwo'
 
+$implode1 = implode1();
+$implode1(['one', 'two']);
+// 'onetwo'
+```
+
+### addcslashes (string $charList, string $str) : string
+#### Usage
 ```php
 use function Phantasy\PHP\addcslashes;
 ```
-
 #### Examples
 ```php
 // Uncurried
@@ -113,16 +139,13 @@ addcslashes('A..z', 'foo[ ]');
 $addSlashesAToZ = addcslashes('A..z');
 $addSlashesAToZ('foo[ ]');
 // "\f\o\o\[ \]"
-
 ```
 
-### addslashes
+### addslashes (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\addslashes;
 ```
-
 #### Examples
 ```php
 $str = "Is your name O'Reilly?";
@@ -138,13 +161,11 @@ $addslashes($str);
 // "Is your name O\'Reilly?"
 ```
 
-### bin2hex
+### bin2hex (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\bin2hex;
 ```
-
 #### Examples
 ```php
 bin2hex('test');
@@ -155,13 +176,11 @@ $bin2Hex('test');
 // '74657374'
 ```
 
-### chop
+### chop (string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chop;
 ```
-
 #### Examples
 ```php
 chop("foo\n");
@@ -172,13 +191,11 @@ $chop("foo\n");
 // "test"
 ```
 
-### chop2
+### chop2 (string $charMask, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chop2;
 ```
-
 #### Examples
 ```php
 chop2("World!", "Hello World!");
@@ -189,13 +206,11 @@ $chopWorld("Hello World!");
 // "Hello "
 ```
 
-### chr
+### chr (int $ascii) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chr;
 ```
-
 #### Examples
 ```php
 chr(046)
@@ -206,13 +221,11 @@ $chr(046)
 // "&"
 ```
 
-### chunk_split
+### chunk_split (string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split;
 ```
-
 #### Examples
 ```php
 chunk_split("test");
@@ -221,16 +234,13 @@ chunk_split("test");
 $chunkSplit = chunk_split();
 $chunkSplit("test");
 // "test\r\n"
-
 ```
 
-### chunk_split2
+### chunk_split2 (int $chunklen, string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split2;
 ```
-
 #### Examples
 ```php
 chunk_split2(2, "test");
@@ -241,13 +251,11 @@ $chunkSplitLen2("test");
 // "te\r\nst\r\n"
 ```
 
-### chunk_split3
+### chunk_split3 (string $end, int $chunklen, string $body) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\chunk_split3;
 ```
-
 #### Examples
 ```php
 chunk_split3(2, '.', 'test');
@@ -255,22 +263,20 @@ chunk_split3(2, '.', 'test');
 
 // Don't have to pass all of the arguments
 // at the same time.
-$chunkSplitLen2 = chunk_split3(2);
-$chunkSplitLen2('.', "test");
+$chunkSplitEndWithDot = chunk_split3('.');
+$chunkSplitEndWithDot(2, "test");
 // "te.st."
 
-$chunkSplitLen2Dot = $chunkSplitLen2('.');
-$chunkSplitLen2Dot("test");
+$chunkSplitEndWithDot = $chunkSplitLen2('.');
+$chunkSplitEndWithDot("test");
 // "te.st."
 ```
 
-### convert_cyr_string
+### convert_cyr_string (string $from, string $to, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_cyr_string;
 ```
-
 #### Examples
 ```php
 convert_cyr_string('w', 'k', "Good Morning..");
@@ -281,13 +287,11 @@ $convertWinToKoi8("Good Morning..");
 // "Good Morning.."
 ```
 
-### convert_uudecode
+### convert_uudecode (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_uudecode;
 ```
-
 #### Examples
 ```php
 $str = "+22!L;W9E(%!(4\"$`\n`";
@@ -297,16 +301,13 @@ convert_uudecode($str);
 $convertUUDecode = convert_uudecode();
 $convertUUDecode($str);
 // "I love PHP!"
-
 ```
 
-### convert_uuencode
+### convert_uuencode (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\convert_uuencode;
 ```
-
 #### Examples
 ```php
 convert_uuencode('I love PHP!');
@@ -317,13 +318,11 @@ $convertUUEncode('I love PHP!');
 // "+22!L;W9E(%!(4\"$`\n`\n"
 ```
 
-### count_chars
+### count_chars (string $string)
 #### Usage
-
 ```php
 use function Phantasy\PHP\count_chars;
 ```
-
 #### Examples
 ```php
 count_chars('Test');
@@ -334,13 +333,11 @@ $countChar('Test');
 // [ ..., '84' => 1, '101' => 1, '115' => 1, '116 => 1, ...]
 ```
 
-### count_chars2
+### count_chars2 (int $mode, string $string)
 #### Usage
-
 ```php
 use function Phantasy\PHP\count_chars2;
 ```
-
 #### Examples
 ```php
 count_chars2(1, 'Test');
@@ -351,13 +348,11 @@ $countCharsMode1('Test');
 // ['84' => 1, '101' => 1, '115' => 1, '116' => 1]
 ```
 
-### crc32
+### crc32 (string $str) : int
 #### Usage
-
 ```php
 use function Phantasy\PHP\crc32;
 ```
-
 #### Examples
 ```php
 crc32('test');
@@ -366,16 +361,13 @@ crc32('test');
 $crc32 = crc32();
 $crc32('test');
 // 3632233996
-
 ```
 
-### crypt
+### crypt (string $salt, string $str) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\crypt;
 ```
-
 #### Examples
 ```php
 crypt('salt', 'str');
@@ -386,13 +378,11 @@ $salted('str');
 // "saEr9QCiBv2PE"
 ```
 
-### hex2bin
+### hex2bin (string $data) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\hex2bin;
 ```
-
 #### Examples
 ```php
 hex2bin('6578616d706c65206865782064617461');
@@ -403,13 +393,136 @@ $hex2bin('6578616d706c65206865782064617461');
 // "example hex data"
 ```
 
-### htmlspecialchars_decode
+### html_entity_decode (string $string) : string
 #### Usage
+```php
+use function Phantasy\PHP\html_entity_decode;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
 
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode($a);
+// I'll "walk" the <b>dog</b> now
+
+$hed = html_entity_decode();
+$hed($a);
+// I'll "walk" the <b>dog</b> now
+```
+
+### html_entity_decode2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\html_entity_decode2;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode2(ENT_HTML5, $a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+
+$hed = html_entity_decode2(ENT_HTML5);
+$hed($a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+```
+
+### html_entity_decode3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\html_entity_decode3;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+$a = htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$b = html_entity_decode3('UTF-8', ENT_HTML5, $a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+
+$hed = html_entity_decode3('UTF-8', ENT_HTML5);
+$hed($a);
+// I'll &quot;walk&quot; the <b>dog</b> now
+```
+
+### htmlentities (string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+
+htmlentities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+
+$htmlEntities = htmlentities();
+$htmlEntities($orig);
+// I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now
+```
+
+### htmlentities2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities2;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities2(ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities2(ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlentities3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities3;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlentities4 (bool $double_encode, string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlentities4;
+```
+#### Examples
+```php
+$orig = "I'll \"walk\" the <b>dog</b> now";
+htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+
+$htmlEntities = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401);
+$htmlEntities($orig);
+// "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+```
+
+### htmlspecialchars_decode (string $string) : string
+#### Usage
 ```php
 use function Phantasy\PHP\htmlspecialchars_decode;
 ```
-
 #### Examples
 ```php
 $str = '<p>this -&gt; &quot;</p>\n';
@@ -421,13 +534,11 @@ $decode($str);
 // '<p>this -> "</p>\n'
 ```
 
-### htmlspecialchars_decode2
+### htmlspecialchars_decode2 (int $flags, string $string) : string
 #### Usage
-
 ```php
 use function Phantasy\PHP\htmlspecialchars_decode2;
 ```
-
 #### Examples
 ```php
 $str = '<p>this -&gt; &quot;</p>\n';
@@ -437,16 +548,76 @@ htmlspecialchars_decode2(ENT_NOQUOTES, $str);
 $remoteWithoutQuotes = htmlspecialchars_decode2(ENT_NOQUOTES);
 $removeWithoutQuotes($str);
 // '<p>this -> &quot;</p>\n'
+```
 
+### htmlspecialchars (string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars;
+```
+#### Examples
+```php
+htmlspecialchars("<a href='test'>Test</a>");
+// "&lt;a href='test'&gt;Test&lt;/a&gt;";
+
+$htmlSpecialChars = htmlspecialchars();
+$htmlSpecialChars("<a href='test'>Test</a>");
+// "&lt;a href='test'&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars2 (int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars2;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars2(ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars2(ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars3 (string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars3;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars3('UTF-8', ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars3('UTF-8', ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+```
+
+### htmlspecialchars4 (bool $double_encode, string $encoding, int $flags, string $string) : string
+#### Usage
+```php
+use function Phantasy\PHP\htmlspecialchars4;
+```
+#### Examples
+```php
+$html = "<a href='test'>Test</a>";
+htmlspecialchars4(false, 'UTF-8', ENT_QUOTES, $html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+$hscIncQuotes = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES);
+$hscIncQuotes($html);
+// "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
 ```
 
 ### join
 #### Usage
-
 ```php
 use function Phantasy\PHP\join;
 ```
-
 #### Examples
 ```php
 join(',', ['one', 'two', 'three']);
@@ -455,6 +626,21 @@ join(',', ['one', 'two', 'three']);
 $joinByComma = join(',');
 $joinByComma(['one', 'two', 'three']);
 // 'one,two,three'
+```
+
+### join1
+#### Usage
+```php
+use function Phantasy\PHP\join1;
+```
+#### Examples
+```php
+join1(['one', 'two']);
+// 'onetwo'
+
+$join1 = join1();
+$join1(['one', 'two']);
+// 'onetwo'
 ```
 
 ### lcfirst
@@ -5997,7 +6183,7 @@ array(42) {
 ```
 
 ## JSON Functions
-### json_encode
+### json_encode ($value) : string
 #### Usage
 ```php
 use function Phantasy\PHP\json_encode;
@@ -6013,7 +6199,7 @@ $jsonEncode($val);
 // '{"a":1,"b":2,"c":3}';
 ```
 
-### json_encode2
+### json_encode2 (int $options, $value) : string
 #### Usage
 ```php
 use function Phantasy\PHP\json_encode2;
@@ -6029,7 +6215,23 @@ $jsonEncodeNumCheck($val);
 // '{"a":1,"b":2,"c":3}';
 ```
 
-### json_decode
+### json_encode3 (int $depth, int $options, $value) : string
+#### Usage
+```php
+use function Phantasy\PHP\json_encode3;
+```
+#### Examples
+```php
+$a = ['a' => ['b' => 'c'], 'd', 'e'];
+json_encode3(1, 0, $a);
+// false
+
+$jsonEncodeDepth10NumericCheck = json_encode3(10, JSON_NUMERIC_CHECK);
+$jsonEncodeDepth10NumericCheck($a);
+// "{"a":{"b":2},"0":"d","1":"e"}"
+```
+
+### json_decode (string $json)
 #### Usage
 ```php
 use function Phantasy\PHP\json_decode;
@@ -6057,7 +6259,7 @@ object(stdClass)#1 (3) {
 */
 ```
 
-### json_decode2
+### json_decode2 (bool $assoc, string $json)
 #### Usage
 ```php
 use function Phantasy\PHP\json_decode2;
@@ -6071,4 +6273,2972 @@ json_decode2(true, $json);
 $jsonDecodeAssoc = json_decode2(true);
 $jsonDecodeAssoc($json);
 // ['a' => 3, 'b' => 2, 'c' => 3];
+```
+
+### json_decode3 (int $depth, bool $assoc, string $json)
+#### Usage
+```php
+use function Phantasy\PHP\json_decode3;
+```
+#### Examples
+```php
+$a = '{"a":{"b":2},"0":"d","1":"e"}';
+json_decode3(1, true, $a);
+// null
+
+json_decode3(10, true, $a);
+// ['a' => ['b' => '2'], 'd', 'e'];
+
+$jsonDecodeDepth10AsArr = json_decode3(10, true);
+$jsonDecodeDepth10AsArr($a);
+// ['a' => ['b' => '2'], 'd', 'e'];
+```
+
+### json_decode4 (int $options, int $depth, bool $assoc, string $json)
+#### Usage
+```php
+use function Phantasy\PHP\json_decode4;
+```
+#### Examples
+```php
+$a = '{"a":{"b":2192381230129381029381023},"0":"d","1":"e"}';
+
+json_decode4(0, 10, true, $a);
+// ['a' => ['b' => float(2192381230129381029381023)], 'd', 'e']
+
+json_decode4(JSON_BIGINT_AS_STRING, 10, true, $a);
+// ['a' => ['b' => "2192381230129381029381023"], 'd', 'e']
+
+$decodeAsFloatLength10Assoc = json_decode4(0, 10, true);
+$decodeAsFloatLength10Assoc($a);
+// ['a' => ['b' => float(2192381230129381029381023)], 'd', 'e']
+
+$decodeAsStringLength10Assoc = json_decode4(JSON_BIGINT_AS_STRING, 10, true);
+$decodeAsStringLength10Assoc($a);
+// ['a' => ['b' => "2192381230129381029381023"], 'd', 'e']
+```
+
+## File Functions
+
+### basename (string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\basename;
+```
+#### Examples
+```php
+$path = "/etc/passwd";
+basename($path);
+// "passwd"
+
+$basename = basename();
+$basename($path);
+// "passwd"
+```
+
+### basename2 (string $suffix, string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\basename2;
+```
+#### Examples
+```php
+$path = "/etc/sudoers.d";
+$suffix = ".d";
+
+basename2($suffix, $path);
+// "sudoers"
+
+$basenameWithoutSuffix = basename2($suffix);
+$basenameWithoutSuffix($path);
+// "sudoers"
+```
+
+### chgrp ($group, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\chgrp;
+```
+#### Examples
+```php
+$filename = './shared_file.txt';
+chgrp(8, $filename); // Change file group to group 8
+// True or False
+
+$chToGrp7 = chgrp(7);
+$chToGrp7($filename); // Change group to 7
+```
+
+### chmod (int $mode, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\chmod;
+```
+#### Examples
+```php
+$perm = 755;
+$filename = '/somedir/somefile';
+
+chmod($perm, $filename);
+
+$chmod755 = chmod($perm);
+$chmod755($filename);
+```
+
+### chown ($user, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\chown;
+```
+#### Examples
+```php
+$file = '/somedir/somefile';
+$user = 'my_user';
+
+chown($user, $file);
+// true or false, depending on if $user have the right permissions
+
+$chownToUser = chown($user);
+$chownToUser($file);
+// true or false, depending on if $user has the right permissions.
+```
+
+### copy (string $source, string $dest) : bool
+#### Usage
+```php
+use function Phantasy\PHP\copy;
+```
+#### Examples
+```php
+$src = '/path/to/source';
+$dest = '/path/to/dest';
+
+copy($src, $dest);
+// True or false depending on permissions
+
+$copySrcTo = copy($src);
+$copySrcTo($dest);
+// True or false depending on permissions
+```
+
+### copy3 (resource $context, string $source, string $dest) : bool
+#### Usage
+```php
+use function Phantasy\PHP\copy3;
+```
+#### Examples
+```php
+$streamContext = \stream_context_create();
+$src = '/path/to/source';
+$dest = '/path/to/dest';
+
+copy3($streamContext, $src, $dest);
+// True or false depending on permissions
+
+$copyInStream = copy3($streamContext);
+$copyInStream($src, $dest);
+// True or false depending on permissions
+```
+
+### dirname (string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\dirname;
+```
+#### Examples
+```php
+dirname(__FILE__);
+// "/path/to/current_dir"
+
+$dirname = dirname();
+$dirname(__FILE__);
+// "/path/to/current_dir"
+```
+
+### dirname2 (int $levels, string $path) : string
+#### Usage
+```php
+use function Phantasy\PHP\dirname2;
+```
+#### Examples
+```php
+dirname2(2, __FILE__);
+// "/path/to/current/directory/parent"
+
+$parentDirname = dirname2(2);
+$parentDirname(__FILE__);
+// "/path/to/current/directory/parent"
+```
+
+### disk_free_space (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\disk_free_space;
+```
+#### Examples
+```php
+$dir = __DIR__;
+disk_free_space($dir);
+// float(348770705408)
+
+$disk_free_space = disk_free_space();
+$disk_free_space($dir);
+// float(348770705408)
+```
+
+### diskfreespace (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\diskfreespace;
+```
+#### Examples
+```php
+$dir = __DIR__;
+diskfreespace($dir);
+// float(348770705408)
+
+$diskfreespace = diskfreespace();
+$diskfreespace($dir);
+// float(348770705408)
+```
+
+### disk_total_space (string $directory) : float
+#### Usage
+```php
+use function Phantasy\PHP\disk_total_space;
+```
+#### Examples
+```php
+$dir = __DIR__;
+disk_total_space($dir);
+// float(498954403840)
+
+$disk_total_space = disk_total_space();
+$disk_total_space($dir);
+// float(498954403840)
+```
+
+### fclose (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fclose;
+```
+#### Examples
+```php
+$handle = fopen('/path/to/file', 'r');
+// Do some work...
+fclose($handle);
+```
+```php
+$handle = fopen('/path/to/file', 'r');
+// Do some work...
+$fclose = fclose();
+$fclose($handle);
+```
+
+### feof (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\feof;
+```
+#### Examples
+```php
+// Unfold from https://github.com/mckayb/phantasy
+use function Phantasy\Core\unfold;
+
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+
+$getNames = function ($fh) {
+    return feof($fh) ? fclose($fh) : [fgetcsv($fh)[0], $fh]
+};
+unfold($getNames, fopen('r', 'file.csv'));
+// ['Foo', 'Bar']
+```
+
+### fflush (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fflush;
+```
+#### Examples
+```php
+$filename = 'bar.txt';
+$file = fopen('r+', $filename);
+rewind($file);
+fwrite($file, 'Foo');
+fflush($file);
+ftruncate(ftell($file), $file);
+fclose($handle);
+```
+
+### fgetc (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetc;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file.txt');
+$firstChar = fgetc($fh);
+fclose($fh);
+```
+
+### fgetcsv (resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv;
+```
+#### Examples
+```php
+// Unfold from https://github.com/mckayb/phantasy
+use function Phantasy\Core\unfold;
+
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+
+$getNames = function ($fh) {
+    return feof($fh) ? fclose($fh) : [fgetcsv($fh)[0], $fh]
+};
+unfold($getNames, fopen('r', 'file.csv'));
+// ['Foo', 'Bar']
+
+// --------------------------
+
+$fgetcsv = fgetcsv();
+$getNames = function ($fh) use ($fgetcsv) {
+    return feof($fh) ? fclose($fh) : [$fgetcsv($fh)[0], $fh]
+};
+unfold($getNames, fopen('r', 'file.csv'));
+// ['Foo', 'Bar']
+```
+
+### fgetcsv2 (int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv2;
+```
+#### Examples
+```php
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+$fh = fopen('r', 'file.csv');
+$lineTruncatedTo10 = fgetcsv2(10, $fh);
+// ['Foo', 'foo@ex']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$fgetcsvTruncatedTo10 = fgetcsv2(10);
+$lineTruncatedto10 = $fgetcsvTruncatedTo10($fh);
+// ['Foo', 'foo@ex']
+fclose($fh);
+```
+
+### fgetcsv3 (string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv3;
+```
+#### Examples
+```php
+/*
+file.csv
+
+Foo,foo@example.com,1234
+Bar,bar@example.com,5678
+*/
+$fh = fopen('r', 'file.csv');
+$lineTruncatedTo10SplitByAt = fgetcsv3('@', 10, $fh);
+// ['Foo,foo', 'ex']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$truncateTo10SplitByAt = fgetcsv3('@', 10);
+$truncateTo10SplitByAt($fh);
+// ['Foo,foo', 'ex']
+fclose($fh);
+```
+
+### fgetcsv4 (string $enclosure, string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv4;
+```
+#### Examples
+```php
+/*
+file.csv
+
+Foo,foo@example.com,-a, b, c-
+*/
+$fh = fopen('r', 'file.csv');
+fgetcsv4('-', ',', 0, $fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$splitCommaEnclosedByDash = fgetcsv4('-', ',', 0);
+$splitCommaEnclosedByDash($fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+```
+
+### fgetcsv5 (string $escape, string $enclosure, string $delimiter, int $length, resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fgetcsv5;
+```
+#### Examples
+```php
+$fh = fopen('r', 'file.csv');
+fgetcsv5('"', '-', ',', 0, $fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+
+$fh = fopen('r', 'file.csv');
+$splitCommaEnclosedByDash = fgetcsv5('"', '-', ',', 0);
+$splitCommaEnclosedByDash($fh);
+// ['Foo', 'foo@example.com', 'a, b, c']
+fclose($fh);
+```
+
+### fgets (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgets;
+```
+#### Examples
+```php
+/*
+file.csv
+
+Foo,foo@example.com
+Bar,bar@example.com
+Baz,baz@example.com
+*/
+
+$fh = fopen('r', 'file.csv');
+$line = fgets($fh);
+// "Foo,foo@example.com"
+fclose($fh);
+
+// ---------------------------
+
+$fgets = fgets();
+$fh = fopen('r', 'file.csv');
+$line = $fgets($fh);
+// "Foo,foo@example.com"
+fclose($fh);
+```
+
+### fgets2 (int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgets2;
+```
+#### Examples
+```php
+/*
+file.csv
+
+Foo,foo@example.com
+Bar,bar@example.com
+Baz,baz@example.com
+*/
+
+$fh = fopen('r', 'file.csv');
+$line = fgets2(10, $fh);
+// "Foo,foo@e"
+fclose($fh);
+
+// ---------------------------
+
+$getFirst10Chars = fgets2(10);
+$fh = fopen('r', 'file.csv');
+$first10 = $getFirst10Chars($fh);
+// "Foo,foo@e"
+fclose($fh);
+```
+
+### fgetss (resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss($fh);
+// Test,foo,bar,Test2
+fclose($fh);
+```
+
+### fgetss2 (int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss2;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss2(24, $fh);
+// Test,foo,bar
+fclose($fh);
+
+// Or curried...
+$get24CharsFromLine = fgetss2(24);
+$fh = fopen('r', $path);
+$content = $get24CharsFromLine($fh);
+// Test,foo,bar
+fclose($fh);
+```
+
+### fgetss3 (string $allowable_tags, int $length, resource $handle) : string
+#### Usage
+```php
+use function Phantasy\PHP\fgetss3;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * <div>Test</div>,foo,bar,<span>Test2</span>
+ */
+$path = 'file.csv';
+
+$fh = fopen('r', $path);
+$content = fgetss3('<span>', 4096, $fh);
+// Test,foo,bar,<span>Test2</span>
+fclose($fh);
+
+// Or curried...
+$keepSpanTags = fgetss3('<span>', 4096);
+$fh = fopen('r', $path);
+$content = $keepSpanTags($fh);
+// Test,foo,bar,<span>Test2</span>
+fclose($fh);
+```
+
+### file_exists (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\file_exists;
+```
+#### Examples
+```php
+file_exists('/path/to/file');
+// Returns true if it exists, otherwise false
+
+$file_exists = file_exists();
+$file_exists('/path/to/file');
+// Returns true if it exists, otherwise false
+```
+
+### file_get_contents (string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+file_get_contents('file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$getContents = file_get_contents();
+$getContents('file.csv');
+// 'Foo,Bar,Baz,Quux'
+```
+
+### file_get_contents2 (bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents2;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+file_get_contents2(false, 'file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$getContentsNoIncludePath = file_get_contents2(false);
+$getContentsNoIncludePath('file.csv');
+// 'Foo,Bar,Baz,Quux'
+```
+
+### file_get_contents3 (resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents3;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents3($context, false, 'file.csv');
+// 'Foo,Bar,Baz,Quux'
+
+$streamGetContentsNoIncludePath = file_get_contents3($context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'Foo,Bar,Baz,Quux'
+```
+
+### file_get_contents4 (int $offset, resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents4;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents4(5, $context, false, 'file.csv');
+// 'ar,Baz,Quux'
+
+$streamGetContentsNoIncludePath = file_get_contents4(5, $context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'ar,Baz,Quux'
+```
+
+### file_get_contents5 (int $maxlen, int $offset, resource $context, bool $use_include_path, string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\file_get_contents5;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,Bar,Baz,Quux
+ */
+
+$context = stream_context_create();
+file_get_contents5(10, 5, $context, false, 'file.csv');
+// 'ar,Baz,Quu'
+
+$streamGetContentsNoIncludePath = file_get_contents5(10, 5, $context, false);
+$streamGetContentsNoIncludePath('file.csv');
+// 'ar,Baz,Quu'
+```
+
+### file_put_contents ($data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents;
+```
+#### Examples
+```php
+file_put_contents('FooBar', 'file.csv');
+// Creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$putBazQuux = file_put_contents('BazQuux');
+$putBazQuux('file.csv');
+// Overwrites file.csv with 'BazQuux'
+
+/**
+ * file.csv
+ * 
+ * BazQuux
+ */
+```
+
+### file_put_contents3 (int $flags, $data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents3;
+```
+#### Examples
+```php
+file_put_contents3(FILE_APPEND, 'FooBar', 'file.csv');
+// Creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$appendBazQuux = file_put_contents3(FILE_APPEND, 'BazQuux');
+$appendBazQuux('file.csv');
+// Appends file.csv with 'BazQuux'
+
+/**
+ * file.csv
+ * 
+ * FooBarBazQuux
+ */
+```
+
+### file_put_contents4 (resource $context, int $flags, $data, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\file_put_contents4;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+file_put_contents3($ctx, FILE_APPEND, 'FooBar', 'file.csv');
+// appends or creates file.csv with 'FooBar'
+
+/**
+ * file.csv
+ * 
+ * FooBar
+ */
+
+$streamAppend = file_put_contents3($ctx, FILE_APPEND);
+$streamAppend('BazQuux', 'file.csv');
+// Appends file.csv with 'BazQuux' through stream context.
+
+/**
+ * file.csv
+ * 
+ * FooBarBazQuux
+ */
+```
+
+### file (string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+file('file.csv');
+// [
+//   "Foo,foo@example.com,1234\n",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$file = file();
+$file('file.csv');
+// [
+//   "Foo,foo@example.com,1234\n",
+//   "Bar,bar@example.com,5678"
+// ]
+```
+
+### file2 (int $flags, string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file2;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+file2(FILE_IGNORE_NEW_LINES, 'file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$fileIgnoreNewLines = file(FILE_IGNORE_NEW_LINES);
+$fileIgnoreNewLines('file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+```
+
+### file3 (resource $context, int $flags, string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\file3;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com,1234
+ * Bar,bar@example.com,5678
+ */
+$ctx = stream_context_create();
+file3($ctx, FILE_IGNORE_NEW_LINES, 'file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+
+$fileIgnoreNewLines = file3($ctx, FILE_IGNORE_NEW_LINES);
+$fileIgnoreNewLines('file.csv');
+// [
+//   "Foo,foo@example.com,1234",
+//   "Bar,bar@example.com,5678"
+// ]
+```
+
+### fileatime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileatime;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+fileatime('file.csv');
+// int(1507900050)
+
+$fileatime = fileatime();
+$fileatime('file.csv')
+// int(1507900050)
+```
+
+### filectime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filectime;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+filectime('file.csv');
+// int(1507764105)
+
+$filectime = filectime();
+$filectime('file.csv')
+// int(1507764105)
+```
+
+### filemtime (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filemtime;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+filemtime('file.csv');
+// int(1507764105)
+
+$filemtime = filemtime();
+$filemtime('file.csv')
+// int(1507764105)
+```
+
+### filegroup
+#### Usage
+```php
+use function Phantasy\PHP\filegroup;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+filegroup($path);
+// 'my-file-group'
+
+$filegroup = filegroup();
+$filegroup($path);
+// 'my-file-group'
+```
+
+### fileinode (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileinode;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+fileinode('file.csv');
+// int(165)
+
+$fileinode = fileinode();
+$fileinode('file.csv')
+// int(165)
+```
+
+### fileowner (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileowner;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+fileowner($path);
+// 'my-file-owner'
+
+$fileowner = fileowner();
+$fileowner($path);
+// 'my-file-owner'
+```
+
+### fileperms (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\fileperms;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+fileperms($path);
+// int(33188)
+
+$fileperms = fileperms();
+$fileperms($path);
+// int(33188)
+```
+
+### filesize (string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\filesize;
+```
+#### Examples
+```php
+$path = '/path/to/my/file';
+filesize($path);
+// int(196)
+
+$filesize = filesize();
+$filesize($path);
+// int(196)
+```
+
+### filetype (string $filename) : string
+#### Usage
+```php
+use function Phantasy\PHP\filetype;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+
+$path = 'file.csv';
+filetype($path);
+// 'file'
+
+$filetype = filetype();
+$filetype($path);
+// 'file'
+
+```
+
+### flock (int $operation, resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\flock;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * ...
+ */
+$a = fopen('r', 'file.csv');
+if (flock(LOCK_SH, $a)) {
+    // Do some work
+    // Unlock it
+    flock(LOCK_UN, $a);
+} else {
+    // Couldn't get the lock!
+}
+```
+
+### fnmatch (string $pattern, string $string) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fnmatch;
+```
+#### Examples
+```php
+fnmatch("*gr[ae]y", $color)
+// true or false depending on $color
+
+$matchGray = fnmatch("*gr[ae]y");
+$matchGray($color);
+// true or false depending on $color
+```
+
+### fnmatch3 (int $flags, string $pattern, string $string) : bool
+#### Usage
+```php
+use function Phantasy\PHP\fnmatch3;
+```
+#### Examples
+```php
+$pattern = "/*/bar";
+$path = "/foo/bar";
+fnmatch3(FNM_PATHNAME, $pattern, $path);
+// true
+
+$matchSlashBar = fnmatch3(FNM_PATHNAME, $pattern);
+$this->assertTrue($matchSlashBar($path));
+```
+
+### fopen (string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen;
+```
+#### Examples
+```php
+fopen('r', '/path/to/my/file');
+// resource(...)
+
+$readOpen = fopen('r');
+$readOpen('/path/to/my/file');
+// resource(...)
+```
+
+### fopen3 (bool $use_include_path, string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen3;
+```
+#### Examples
+```php
+fopen3(true, 'r', '/path/to/my/file');
+// resource(...)
+
+$readOpenIncludePath = fopen3(true, 'r');
+$readOpenIncludePath('/path/to/my/file');
+// resource(...)
+```
+
+### fopen4 (resource $context, bool $use_include_path, string $mode, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\fopen4;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+fopen4($ctx, true, 'r', '/path/to/my/file');
+// resource(...)
+
+$streamReadOpenIncludePath = fopen4($ctx, true, 'r');
+$streamReadreadOpenIncludePath('/path/to/my/file');
+// resource(...)
+```
+
+### fpassthru (resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fpassthru;
+```
+#### Examples
+```php
+// open the file in a binary mode
+$name = './img/ok.png';
+$fp = fopen('rb', $name);
+
+// send the right headers
+header("Content-Type: image/png");
+header("Content-Length: " . filesize($name));
+
+// dump the picture and stop the script
+fpassthru($fp);
+exit;
+```
+```php
+// open the file in a binary mode
+$passthru = fpassthru();
+$name = './img/ok.png';
+$fp = fopen('rb', $name);
+
+// send the right headers
+header("Content-Type: image/png");
+header("Content-Length: " . filesize($name));
+
+// dump the picture and stop the script
+$passthru($fp);
+exit;
+```
+
+### fputcsv (resource $handle, array $fields)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv;
+```
+#### Examples
+```php
+$fh = fopen('a+', 'file.csv');
+fputcsv($fh, ['foo', 'foo@example.com']);
+
+$putcsv = fputcsv($fh);
+$putcsv(['bar', 'bar@example.com']);
+$putcsv(['baz', 'baz@example.com']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo,foo@example.com
+ * bar,bar@example.com
+ * baz,baz@example.com
+ */
+```
+
+### fputcsv3 (string $delimiter, resource $handle, array $fields)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv3;
+```
+#### Examples
+```php
+$fh = fopen('a+', 'file.csv');
+fputcsv3('-', $fh, ['foo', 'foo@example.com']);
+
+$putcsv = fputcsv3('-', $fh);
+$putcsv(['bar', 'bar@example.com']);
+$putcsv(['baz', 'baz@example.com']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-foo@example.com
+ * bar-bar@example.com
+ * baz-baz@example.com
+ */
+```
+
+### fputcsv4 (string $enclosure, string $delimiter, resource $handle, array $fields)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv4;
+```
+#### Examples
+```php
+$fh = fopen('a+', 'file.csv');
+fputcsv4('*', '-', $fh, ['foo', 'foo-bar']);
+
+$putcsv = fputcsv4('*', '-', $fh);
+$putcsv(['bar', 'bar-baz']);
+$putcsv(['baz', 'baz-quux']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-*foo-bar*
+ * bar-*bar-baz*
+ * baz-*baz-quux*
+ */
+```
+
+### fputcsv5 (string $escape_char, string $enclosure, string $delimiter, resource $handle, array $fields)
+#### Usage
+```php
+use function Phantasy\PHP\fputcsv5;
+```
+#### Examples
+```php
+$fh = fopen('a+', 'file.csv');
+fputcsv5('\\', '*', '-', $fh, ['foo', 'foo-bar']);
+
+$putcsv = fputcsv5('\\', '*', '-', $fh);
+$putcsv(['bar', 'bar-baz']);
+$putcsv(['baz', 'baz-quux']);
+
+fclose($fh);
+
+/**
+ * file.csv
+ * 
+ * foo-*foo-bar*
+ * bar-*bar-baz*
+ * baz-*baz-quux*
+ */
+```
+
+### fputs (resource $handle, string $string)
+#### Usage
+```php
+use function Phantasy\PHP\fputs;
+```
+#### Examples
+```php
+$fh = fopen('a+', '/path/to/file');
+fputs($fh, 'foo');
+
+$puts = fputs($fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foobar
+ */
+```
+
+### fputs3 (resource $handle, int $length, string $string)
+#### Usage
+```php
+use function Phantasy\PHP\fputs3;
+```
+#### Examples
+```php
+$fh = fopen('a+', '/path/to/file');
+fputs3(2, $fh, 'foo');
+
+$puts = fputs3(2, $fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foba
+ */
+```
+
+### fread (int $length, resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\fread;
+```
+#### Examples
+```php
+/**
+ * file.csv
+ * 
+ * Foo,foo@example.com
+ */
+
+$fh = fopen('r', 'file.csv');
+$contents = fread(3, $fh);
+// 'Foo'
+fclose($fh);
+```
+
+### fseek (int $offset, resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\fseek;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+fseek(0, $fh);
+fclose($fh);
+```
+```php
+$rewind = fseek(0);
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+$rewind($fh);
+fclose($fh);
+```
+
+### fseek3 (int $whence, int $offset, resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\fseek3;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+fseek3(SEEK_SET, 0, $fh);
+fclose($fh);
+```
+```php
+$rewind = fseek3(SEEK_SET, 0);
+$fh = fopen('r', '/path/to/file');
+$data = fgets2(4096, $fh);
+// Move back to beginning of file
+$rewind($fh);
+fclose($fh);
+```
+
+### fstat (resource $handle) : array
+#### Usage
+```php
+use function Phantasy\PHP\fstat;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file');
+$stats = fstat($fh);
+/* 
+array(26) {
+    [0]=>
+    int(43)
+    [1]=>
+    int(274)
+    [2]=>
+    int(33188)
+    [3]=>
+    int(1)
+    [4]=>
+    int(1000)
+    [5]=>
+    int(1000)
+    ...
+*/
+fclose($fh);
+
+$fstat = fstat();
+$fh = fopen('r', '/path/to/file');
+$stats = $fstat($fh);
+/* 
+array(26) {
+    [0]=>
+    int(43)
+    [1]=>
+    int(274)
+    [2]=>
+    int(33188)
+    [3]=>
+    int(1)
+    [4]=>
+    int(1000)
+    [5]=>
+    int(1000)
+    ...
+*/
+fclose($fh);
+```
+
+### ftell (resource $handle)
+#### Usage
+```php
+use function Phantasy\PHP\ftell;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file');
+$pos = ftell($fh);
+// int(0)
+fclose($fh);
+
+$ftell = ftell();
+$fh = fopen('r', '/path/to/file');
+$pos = $ftell($fh);
+// int(0)
+fclose($fh);
+```
+
+### ftruncate (int $size, resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\ftruncate;
+```
+#### Examples
+```php
+$fh = fopen('r', '/path/to/file');
+ftruncate(0, $fh);
+fclose($fh);
+
+file_get_contents('/path/to/file');
+// ''
+
+$truncateFile = ftruncate(0);
+$fh = fopen('r', '/path/to/file');
+$truncateFile($fh);
+fclose($fh);
+
+file_get_contents('/path/to/file');
+// ''
+```
+
+### fwrite (resource $handle, string $string)
+#### Usage
+```php
+use function Phantasy\PHP\fwrite;
+```
+#### Examples
+```php
+$fh = fopen('a+', '/path/to/file');
+fwrite($fh, 'foo');
+
+$puts = fwrite($fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foobar
+ */
+```
+
+### fwrite3 (resource $handle, int $length, string $string)
+#### Usage
+```php
+use function Phantasy\PHP\fwrite3;
+```
+#### Examples
+```php
+$fh = fopen('a+', '/path/to/file');
+fwrite3(2, $fh, 'foo');
+
+$puts = fwrite3(2, $fh);
+$puts('bar');
+fclose($fh);
+
+/**
+ * /path/to/file
+ * 
+ * foba
+ */
+```
+
+### glob (string $pattern) : array
+#### Usage
+```php
+use function Phantasy\PHP\glob;
+```
+#### Examples
+```php
+glob('*.txt');
+// [ '/path/to/foo.txt', '/path/to/bar.txt', ... ]
+
+$glob = glob();
+$glob('*.txt');
+// [ '/path/to/foo.txt', '/path/to/bar.txt', ... ]
+```
+
+### glob2 (int $flags, string $pattern) : array
+#### Usage
+```php
+use function Phantasy\PHP\glob2;
+```
+#### Examples
+```php
+glob2(GLOB_ONLYDIR, '*');
+// [ '/path/to/foo_directory', '/path/to/bar_directory', ... ]
+
+$glob = glob2(GLOB_ONLYDIR);
+$glob('*');
+// [ '/path/to/foo_directory', '/path/to/bar_directory', ... ]
+```
+
+### is_dir (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_dir;
+```
+#### Examples
+```php
+is_dir('a_file.txt');
+// false
+
+is_dir('bogus_dir/abc');
+// false
+
+is_dir('..');
+// true
+
+$is_dir = is_dir();
+$is_dir('..');
+// true
+```
+
+### is_executable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_executable;
+```
+#### Examples
+```php
+$file = '/home/vincent/somefile.sh';
+is_executable($file);
+// true or false depending on permissions
+
+$is_executable = is_executable();
+$is_executable($file);
+// true or false depending on permissions
+```
+
+### is_file (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_file;
+```
+#### Examples
+```php
+is_file('a_file.txt');
+// true, if it exists
+
+$is_file = is_file();
+$is_file('/usr/bin');
+// false
+```
+
+### is_link (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_link;
+```
+#### Examples
+```php
+is_link('/path/to/valid/symlink');
+// true
+
+is_link('/path/to/not/a/symlink');
+// false
+
+$is_link = is_link();
+$is_link('/path/to/not/a/symlink');
+// false
+$is_link('/path/to/valid/symlink');
+// true
+```
+
+### is_readable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_readable;
+```
+#### Examples
+```php
+is_readable('a_file.txt');
+// true, if you have permission to read it
+
+is_readable('php://stdin');
+// false
+```
+
+### is_uploaded_file (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_uploaded_file;
+```
+#### Examples
+```php
+is_uploaded_file($_FILES['userfile']['tmpname']);
+// true or false, depending.
+```
+
+### is_writable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_writable;
+```
+#### Examples
+```php
+is_writable('valid_file.txt');
+// true
+
+$is_writable = is_writable();
+$is_writable('invalid_file.txt');
+// false
+```
+
+### is_writeable (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\is_writeable;
+```
+#### Examples
+```php
+is_writeable('valid_file.txt');
+// true
+
+$is_writeable = is_writeable();
+$is_writeable('invalid_file.txt');
+// false
+```
+
+### lchgrp ($group, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\lchgrp;
+```
+#### Examples
+```php
+$target = 'output.php';
+$link = 'output.html';
+symlink($link, $target);
+
+lchgrp(8, $link);
+```
+
+### lchown ($user, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\lchown;
+```
+#### Examples
+```php
+$target = 'output.php';
+$link = 'output.html';
+symlink($link, $target);
+
+lchown(8, $link);
+```
+
+### link (string $link, string $target) : bool
+#### Usage
+```php
+use function Phantasy\PHP\link;
+```
+#### Examples
+```php
+$src = 'source.ext';
+$link = 'my-new-link.ext';
+
+link($link, $src);
+```
+```php
+$src = 'source.ext';
+$linkTo = link('my-new-link.ext');
+
+$linkTo($src);
+```
+
+### linkinfo (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\linkinfo;
+```
+#### Examples
+```php
+$src = 'source.ext';
+$link = 'my-new-link.ext';
+
+link($link, $src);
+linkinfo($link);
+// int(64512)
+
+$linkinfo = linkinfo();
+$linkinfo($link);
+// int(64512)
+```
+
+### lstat (string $filename) : array
+#### Usage
+```php
+use function Phantasy\PHP\lstat;
+```
+#### Examples
+```php
+lstat('a_file.txt');
+/*
+array(26) {
+    [0] =>
+    int(43)
+    [1] =>
+    int(158)
+    [2] =>
+    int(33188)
+    [3] =>
+    int(1)
+    [4] =>
+    int(1000)
+    ...
+*/
+
+$lstat = lstat();
+$lstat('a_link');
+/*
+array(26) {
+    [0] =>
+    int(43)
+    [1] =>
+    int(158)
+    [2] =>
+    int(33188)
+    [3] =>
+    int(1)
+    [4] =>
+    int(1000)
+    ...
+*/
+```
+
+### mkdir (string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir;
+```
+#### Examples
+```php
+mkdir('/path/to/mydir');
+// true or false, depending on permissions
+
+$mkdir = mkdir();
+$mkdir('/path/to/mydir');
+// true or false, depending on permissions
+```
+
+### mkdir2 (int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir2;
+```
+#### Examples
+```php
+mkdir2(0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkdir700 = mkdir2(700);
+$mkdir700('/path/to/mydir');
+// true or false, depending on permissions
+```
+
+### mkdir3 (bool $recursive, int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir3;
+```
+#### Examples
+```php
+mkdir3(true, 0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkNested700 = mkdir3(true, 700);
+$mkNested700('/path/to/mydir');
+// true or false, depending on permissions
+```
+
+### mkdir4 (resource $context, bool $recursive, int $mode, string $pathname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\mkdir4;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+mkdir4($ctx, true, 0700, '/path/to/mydir');
+// true or false, depending on permissions
+
+$mkNested700 = mkdir4($ctx, true, 700);
+$mkNested700('/path/to/mydir');
+// true or false, depending on permissions
+```
+
+### move_uploaded_file (string $destination, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\move_uploaded_file;
+```
+#### Examples
+```php
+$uploads_dir = '/uploads';
+foreach ($_FILES["pictures"]["error"] as $key => $error) {
+    if ($error == UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES["pictures"]["tmp_name"][$key];
+        // basename() may prevent filesystem traversal attacks;
+        // further validation/sanitation of the filename may be appropriate
+        $name = basename($_FILES["pictures"]["name"][$key]);
+        move_uploaded_file("$uploads_dir/$name", $tmp_name);
+    }
+}
+```
+
+### parse_ini_file (string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file;
+```
+#### Examples
+```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse without sections
+$ini_array = parse_ini_file("sample.ini");
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+$parseIni = parse_ini_file();
+$parseIni("sample.ini");
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+```
+
+### parse_ini_file2 (bool $process_sections, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file2;
+```
+#### Examples
+```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse with sections
+$ini_array = parse_ini_file2(true, 'sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniWithSections = parse_ini_file2(true);
+$parseIniWithSections('sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+```
+
+### parse_ini_file3 (int $scanner_mode, bool $process_sections, string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_file3;
+```
+#### Examples
+```php
+/**
+ * sample.ini
+ * 
+ * ; This is a sample configuration file
+ * ; Comments start with ';', as in php.ini
+ * 
+ * [first_section]
+ * one = 1
+ * five = 5
+ * animal = BIRD
+ * 
+ * [second_section]
+ * path = "/usr/local/bin"
+ * URL = "http://www.example.com/~username"
+ * 
+ * [third_section]
+ * phpversion[] = "5.0"
+ * phpversion[] = "5.1"
+ * phpversion[] = "5.2"
+ * phpversion[] = "5.3"
+ * 
+ * urls[svn] = "http://svn.php.net"
+ * urls[git] = "http://git.php.net"
+ */
+
+define('BIRD', 'Dodo bird');
+
+// Parse with sections
+$ini_array = parse_ini_file3(INI_SCANNER_TYPED, true, 'sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniWithSections = parse_ini_file3(INI_SCANNER_TYPED, true);
+$parseIniWithSections('sample.ini');
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+```
+
+### parse_ini_string (string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string;
+```
+#### Examples
+```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string($ini);
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+
+$parseIniString = parse_ini_string();
+$parseIniString($ini);
+/*
+Array
+(
+    [one] => "1"
+    [five] => "5"
+    [animal] => "Dodo bird"
+    [path] => "/usr/local/bin"
+    [URL] => "http://www.example.com/~username"
+    [phpversion] => Array
+        (
+            [0] => "5.0"
+            [1] => "5.1"
+            [2] => "5.2"
+            [3] => "5.3"
+        )
+
+    [urls] => Array
+        (
+            [svn] => "http://svn.php.net"
+            [git] => "http://git.php.net"
+        )
+
+)
+*/
+```
+
+### parse_ini_string2 (bool $process_sections, string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string2;
+```
+#### Examples
+```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string2(true, $ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniString = parse_ini_string2(true);
+$parseIniString($ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => "1"
+            [five] => "5"
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+```
+
+### parse_ini_string3 (int $scanner_mode, bool $process_sections, string $ini)
+#### Usage
+```php
+use function Phantasy\PHP\parse_ini_string3;
+```
+#### Examples
+```php
+$ini = '
+
+    [first_section]
+    one = 1
+    five = 5
+    animal = BIRD
+
+    [second_section]
+    path = "/usr/local/bin"
+    URL = "http://www.example.com/~username"
+
+    [third_section]
+    phpversion[] = "5.0"
+    phpversion[] = "5.1"
+    phpversion[] = "5.2"
+    phpversion[] = "5.3"
+
+    urls[svn] = "http://svn.php.net"
+    urls[git] = "http://git.php.net"
+
+';
+parse_ini_string3(INI_SCANNER_TYPED, true, $ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+
+$parseIniString = parse_ini_string3(INI_SCANNER_TYPED, true);
+$parseIniString($ini);
+/*
+Array
+(
+    [first_section] => Array
+        (
+            [one] => 1
+            [five] => 5
+            [animal] => "Dodo bird"
+        )
+
+    [second_section] => Array
+        (
+            [path] => "/usr/local/bin"
+            [URL] => "http://www.example.com/~username"
+        )
+
+    [third_section] => Array
+        (
+            [phpversion] => Array
+                (
+                    [0] => "5.0"
+                    [1] => "5.1"
+                    [2] => "5.2"
+                    [3] => "5.3"
+                )
+
+            [urls] => Array
+                (
+                    [svn] => "http://svn.php.net"
+                    [git] => "http://git.php.net"
+                )
+        )
+)
+*/
+```
+
+### pathinfo (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\pathinfo;
+```
+#### Examples
+```php
+$path = '/www/htdocs/inc/lib.inc.php';
+pathinfo($path);
+/*
+[
+    'dirname' => '/www/htdocs/inc',
+    'basename' => 'lib.inc.php',
+    'extension' => 'php',
+    'filename' => 'lib.inc'
+]
+*/
+
+$pathInfo = pathinfo();
+$pathInfo($path);
+/*
+[
+    'dirname' => '/www/htdocs/inc',
+    'basename' => 'lib.inc.php',
+    'extension' => 'php',
+    'filename' => 'lib.inc'
+]
+*/
+```
+
+### pathinfo2 (int $options, string $path)
+#### Usage
+```php
+use function Phantasy\PHP\pathinfo2;
+```
+#### Examples
+```php
+$path = '/www/htdocs/inc/lib.inc.php';
+pathinfo2(PATHINFO_DIRNAME, $path);
+// '/www/htdocs/inc',
+
+$pathInfoDirname = pathinfo2(PATHINFO_DIRNAME);
+$pathInfoDirname($path);
+// '/www/htdocs/inc',
+```
+
+### pclose (resource $handle) : int
+#### Usage
+```php
+use function Phantasy\PHP\pclose;
+```
+#### Examples
+```php
+$ph = popen('r', '/bin/ls');
+$res = fread(2096, $ph);
+pclose($ph);
+```
+
+### popen (string $mode, string $command) : resource
+#### Usage
+```php
+use function Phantasy\PHP\popen;
+```
+#### Examples
+```php
+$ph = popen('r', '/bin/ls');
+$res = fread(2096, $ph);
+pclose($ph);
+```
+
+### readfile (string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\readfile;
+```
+#### Examples
+```php
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile($file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfile = readfile();
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfile($file);
+    exit;
+}
+```
+
+### readfile2 (bool $use_include_path, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\readfile2;
+```
+#### Examples
+```php
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile2(true, $file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfileWithIncludePath = readfile2(true);
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfileWithIncludePath($file);
+    exit;
+}
+```
+
+### readfile3 (resource $context, bool $use_include_path, string $filename) : int
+#### Usage
+```php
+use function Phantasy\PHP\readfile3;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+$file = 'monkey.gif';
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile3($ctx, true, $file);
+    exit;
+}
+```
+```php
+$file = 'monkey.gif';
+$readfileStreamWithIncludePath = readfile3($ctx, true);
+
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    $readfileStreamWithIncludePath($file);
+    exit;
+}
+```
+
+### readlink (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\readlink;
+```
+#### Examples
+```php
+readlink('/vmlinuz');
+// e.g. /boot/vmlinux-2.4.20-xfs
+
+$readlink = readlink();
+$readlink('/vmlinuz');
+// e.g. /boot/vmlinux-2.4.20-xfs
+```
+
+### realpath (string $path)
+#### Usage
+```php
+use function Phantasy\PHP\realpath;
+```
+#### Examples
+```php
+chdir('/var/www/');
+realpath('./../../etc/passwd');
+// /etc/passwd
+
+$realpath = realpath();
+$realpath('./../../etc/passwd');
+// /etc/passwd
+```
+
+### rename (string $newName, string $oldName) : bool
+#### Usage
+```php
+use function Phantasy\PHP\rename;
+```
+#### Examples
+```php
+$from = "/tmp/tmp_file.txt";
+$to = "/home/user/login/docs/my_file.txt";
+rename($to, $from);
+// true
+
+$renameTo = rename($to);
+$renameTo($from);
+// true
+```
+
+### rename3 (resource $context, string $newName, string $oldName) : int
+#### Usage
+```php
+use function Phantasy\PHP\rename3;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+$from = "/tmp/tmp_file.txt";
+$to = "/home/user/login/docs/my_file.txt";
+rename3($ctx, $to, $from);
+// true
+
+$renameTo = rename3($ctx, $to);
+$renameTo($from);
+// true
+```
+
+### rewind (resource $handle) : bool
+#### Usage
+```php
+use function Phantasy\PHP\rewind;
+```
+#### Examples
+```php
+$fh = fopen('w+', '/path/to/my/file');
+$write = fwrite($fh);
+$write('Really long sentence.');
+rewind($fh);
+$write('Foo');
+rewind($fh);
+
+/**
+ * /path/to/my/file
+ * 
+ * Foolly long sentence.
+ */
+```
+
+### rmdir (string $dirname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\rmdir;
+```
+#### Examples
+```php
+rmdir('/path/to/a/dir');
+// True or false
+
+$rmdir = rmdir();
+$rmdir('/path/to/a/dir');
+// True or false
+```
+
+### rmdir2 (resource $context, string $dirname) : bool
+#### Usage
+```php
+use function Phantasy\PHP\rmdir2;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+rmdir2($ctx, '/path/to/a/dir');
+// True or false
+
+$rmdir = rmdir2($ctx);
+$rmdir('/path/to/a/dir');
+// True or false
+```
+
+### set_file_buffer (int $buffer, resource $stream)
+#### Usage
+```php
+use function Phantasy\PHP\set_file_buffer;
+```
+#### Examples
+```php
+$fh = fopen('w', '/path/to/file');
+
+// Unbuffered Stream
+set_file_buffer(0, $fh);
+fwrite($fh, 'Foo bar');
+fclose($fh);
+```
+```php
+$fh = fopen('w', '/path/to/file');
+$unbufferedStream = set_file_buffer(0);
+
+// Unbuffered Stream
+$unbufferedStream($fh);
+fwrite($fh, 'Foo bar');
+fclose($fh);
+```
+
+### stat (string $filename)
+#### Usage
+```php
+use function Phantasy\PHP\stat;
+```
+#### Examples
+```php
+stat('/path/to/my/file');
+/*
+array(26) {
+  [0] =>
+  int(42)
+  [1] =>
+  int(166)
+  [2] =>
+  int(33188)
+  [3] =>
+  int(1)
+  [4] =>
+  int(1000)
+  [5] =>
+  int(1000)
+  ...
+*/
+
+$stat = stat();
+$stat('/path/to/my/file');
+/*
+array(26) {
+  [0] =>
+  int(42)
+  [1] =>
+  int(166)
+  [2] =>
+  int(33188)
+  [3] =>
+  int(1)
+  [4] =>
+  int(1000)
+  [5] =>
+  int(1000)
+  ...
+*/
+```
+
+### symlink (string $link, string $target) : bool
+#### Usage
+```php
+use function Phantasy\PHP\symlink;
+```
+#### Examples
+```php
+$link = 'link';
+$file = 'test.csv';
+symlink($link, $file);
+// true or false
+
+$symlink = symlink('link2');
+$symlink('test.csv');
+// true or false
+```
+
+### tempnam (string $prefix, string $dir) : int
+#### Usage
+```php
+use function Phantasy\PHP\tempnam;
+```
+#### Examples
+```php
+$tmpfname = tempnam("/tmp", "FOO");
+
+$handle = fopen($tmpfname, "w");
+fwrite($handle, "writing to tempfile");
+fclose($handle);
+
+// do here something
+
+unlink($tmpfname);
+```
+```php
+$tempFileInTmp = tempnam("/tmp");
+
+$tempFileInTmp("FOO");
+$handle = fopen($tmpfname, "w");
+fwrite($handle, "writing to tempfile");
+fclose($handle);
+
+// do here something
+
+unlink($tmpfname);
+```
+
+### touch (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\touch;
+```
+#### Examples
+```php
+touch('/path/to/file');
+// true to false
+
+$touch = touch();
+$touch('/path/to/file');
+// true to false
+```
+
+### touch2 (int $time, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\touch2;
+```
+#### Examples
+```php
+// Set time to 1 hour in the past.
+$time = time() - 3600;
+touch2($time, '/path/to/file');
+// true to false
+
+$touch = touch2($time);
+$touch('/path/to/file');
+// true to false
+```
+
+### touch3 (int $atime, int $time, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\touch3;
+```
+#### Examples
+```php
+// Set time to 1 hour in the past.
+$time = time() - 3600;
+$atime = time() - 1800;
+touch3($atime, $time, '/path/to/file');
+// true to false
+
+$touch = touch3($atime, $time);
+$touch('/path/to/file');
+// true to false
+```
+
+### umask1 (int $mask) : int
+#### Usage
+```php
+use function Phantasy\PHP\umask1;
+```
+#### Examples
+```php
+$old = umask1(0);
+chmod(0775, "/path/some_dir/some_file.txt");
+umask1($old);
+
+// Checking
+if ($old != umask()) {
+    die('An error occurred while changing back the umask');
+}
+```
+
+### unlink (string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\unlink;
+```
+#### Examples
+```php
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+unlink('test.html');
+```
+```php
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+$unlink = unlink();
+$unlink('test.html');
+```
+
+### unlink2 (resource $context, string $filename) : bool
+#### Usage
+```php
+use function Phantasy\PHP\unlink2;
+```
+#### Examples
+```php
+$ctx = stream_context_create();
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+unlink2($ctx, 'test.html');
+```
+```php
+$ctx = stream_context_create();
+$fh = fopen('a', 'test.html');
+fwrite($fh, '<h1>Hello world!</h1>');
+fclose($fh);
+
+$streamUnlink = unlink2($ctx);
+$streamUnlink('test.html');
 ```

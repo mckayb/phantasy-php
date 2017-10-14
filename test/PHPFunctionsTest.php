@@ -1,11 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use function Phantasy\PHP\{
     curry,
     compose,
     explode,
+    explode3,
     implode,
+    implode1,
     addcslashes,
     addslashes,
     bin2hex,
@@ -23,9 +25,21 @@ use function Phantasy\PHP\{
     crc32,
     crypt,
     hex2bin,
+    html_entity_decode,
+    html_entity_decode2,
+    html_entity_decode3,
+    htmlentities,
+    htmlentities2,
+    htmlentities3,
+    htmlentities4,
     htmlspecialchars_decode,
     htmlspecialchars_decode2,
+    htmlspecialchars,
+    htmlspecialchars2,
+    htmlspecialchars3,
+    htmlspecialchars4,
     join,
+    join1,
     lcfirst,
     levenshtein,
     levenshtein5,
@@ -288,12 +302,2092 @@ use function Phantasy\PHP\{
     timezone_transitions_get3,
     json_encode,
     json_encode2,
+    json_encode3,
     json_decode,
-    json_decode2
+    json_decode2,
+    json_decode3,
+    json_decode4,
+    basename,
+    basename2,
+    chgrp,
+    filegroup,
+    chmod,
+    chown,
+    copy,
+    copy3,
+    dirname,
+    dirname2,
+    disk_free_space,
+    diskfreespace,
+    disk_total_space,
+    fclose,
+    feof,
+    fflush,
+    fgetc,
+    fgetcsv,
+    fgetcsv2,
+    fgetcsv3,
+    fgetcsv4,
+    fgetcsv5,
+    fgets,
+    fgets2,
+    fgetss,
+    fgetss2,
+    fgetss3,
+    file_exists,
+    file_get_contents,
+    file_get_contents2,
+    file_get_contents3,
+    file_get_contents4,
+    file_get_contents5,
+    file_put_contents,
+    file_put_contents3,
+    file_put_contents4,
+    file,
+    file2,
+    file3,
+    fileatime,
+    filectime,
+    fileinode,
+    filemtime,
+    fileowner,
+    fileperms,
+    filesize,
+    filetype,
+    flock,
+    fnmatch,
+    fnmatch3,
+    fopen,
+    fopen3,
+    fopen4,
+    fpassthru,
+    fputcsv,
+    fputcsv3,
+    fputcsv4,
+    fputcsv5,
+    fputs,
+    fputs3,
+    fread,
+    fseek,
+    fseek3,
+    fstat,
+    ftell,
+    ftruncate,
+    fwrite,
+    fwrite3,
+    glob,
+    glob2,
+    is_dir,
+    is_executable,
+    is_file,
+    is_link,
+    is_readable,
+    is_uploaded_file,
+    is_writable,
+    is_writeable,
+    lchgrp,
+    lchown,
+    link,
+    linkinfo,
+    lstat,
+    mkdir,
+    mkdir2,
+    mkdir3,
+    mkdir4,
+    move_uploaded_file,
+    parse_ini_file,
+    parse_ini_file2,
+    parse_ini_file3,
+    parse_ini_string,
+    parse_ini_string2,
+    parse_ini_string3,
+    pathinfo,
+    pathinfo2,
+    pclose,
+    popen,
+    readfile,
+    readfile2,
+    readfile3,
+    readlink,
+    realpath,
+    rename,
+    rename3,
+    rewind,
+    rmdir,
+    rmdir2,
+    set_file_buffer,
+    stat,
+    symlink,
+    tempnam,
+    touch,
+    touch2,
+    touch3,
+    umask1,
+    unlink,
+    unlink2
 };
 
 class PHPFunctionsTest extends TestCase
 {
+    public function testJsonEncode3()
+    {
+        $a = ['a' => ['b' => '2'], 'd', 'e'];
+        $this->assertFalse(json_encode3(1, JSON_NUMERIC_CHECK, $a));
+
+        $jsonEncodeDepth10 = json_encode3(10);
+        $jsonEncodeDepth10NumericCheck = $jsonEncodeDepth10(JSON_NUMERIC_CHECK);
+        $this->assertEquals(
+            $jsonEncodeDepth10NumericCheck($a),
+            \json_encode($a, JSON_NUMERIC_CHECK, 10)
+        );
+    }
+
+    public function testJsonDecode3()
+    {
+        $a = '{"a":{"b":2},"0":"d","1":"e"}';
+        $this->assertNull(json_decode3(1, true, $a));
+
+        $expected = ['a' => ['b' => '2'], 'd', 'e'];
+        $this->assertEquals(json_decode3(10, true, $a), $expected);
+    }
+
+    public function testJsonDecode4()
+    {
+        $a = '{"a":{"b":2192381230129381029381023},"0":"d","1":"e"}';
+        $expected = ['a' => ['b' => '2192381230129381029381023'], 'd', 'e'];
+        $resFloat = json_decode4(0, 10, true, $a);
+        $resString = json_decode4(JSON_BIGINT_AS_STRING, 10, true, $a);
+
+        $this->assertEquals($resFloat, $expected);
+        $this->assertEquals($resString, $expected);
+        $this->assertTrue(is_float($resFloat['a']['b']));
+        $this->assertFalse(is_float($resString['a']['b']));
+
+        $decodeAsFloatLength10Assoc = json_decode4(0, 10, true);
+        $decodeAsStringLength10Assoc = json_decode4(JSON_BIGINT_AS_STRING, 10, true);
+        $resFloat2 = $decodeAsFloatLength10Assoc($a);
+        $resString2 = $decodeAsStringLength10Assoc($a);
+
+        $this->assertEquals($resFloat2, $expected);
+        $this->assertEquals($resString2, $expected);
+        $this->assertTrue(is_float($resFloat2['a']['b']));
+        $this->assertFalse(is_float($resString2['a']['b']));
+    }
+
+    public function testChmod()
+    {
+        $file = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $this->assertTrue(chmod(777, $file));
+        $this->assertEquals(chmod(777, $file), \chmod($file, 777));
+
+        $chmod777 = chmod(777);
+        $this->assertTrue($chmod777($file));
+        $this->assertEquals($chmod777($file), \chmod($file, 777));
+    }
+
+    public function testChown()
+    {
+        $file = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $this->assertTrue(chown(\get_current_user(), $file));
+        $this->assertEquals(chown(\get_current_user(), $file), \chown($file, \get_current_user()));
+
+        $chownCurrentUser = chown(\get_current_user());
+        $this->assertTrue($chownCurrentUser($file));
+        $this->assertTrue($chownCurrentUser($file), \chown($file, get_current_user()));
+    }
+
+    public function testCopy()
+    {
+        $src = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $dest = \realpath(\dirname(__FILE__)) . '/fixtures/config_copy.json';
+
+        $this->assertTrue(copy($src, $dest));
+        $this->assertFileExists($dest);
+        \unlink($dest);
+    }
+
+    public function testCopy3()
+    {
+        $streamContext = \stream_context_create();
+        $src = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $dest = \realpath(\dirname(__FILE__)) . '/fixtures/config_copy.json';
+
+        $this->assertTrue(copy3($streamContext, $src, $dest));
+        $this->assertFileExists($dest);
+        \unlink($dest);
+    }
+
+    public function testDirname()
+    {
+        $this->assertEquals(dirname(__FILE__), \dirname(__FILE__));
+
+        $dirname = dirname();
+        $this->assertEquals($dirname(__FILE__), \dirname(__FILE__));
+    }
+
+    public function testDirname2()
+    {
+        $this->assertEquals(dirname2(2, __FILE__), \dirname(__FILE__, 2));
+        $dirname2LevelsUp = dirname2(2);
+        $this->assertEquals($dirname2LevelsUp(__FILE__), \dirname(__FILE__, 2));
+    }
+
+    public function testDiskFreeSpace()
+    {
+        $dir = __DIR__;
+        $this->assertEquals(disk_free_space($dir), \disk_free_space($dir));
+        $disk_free_space = disk_free_space();
+        $this->assertEquals($disk_free_space($dir), \disk_free_space($dir));
+    }
+
+    public function testDiskFreeSpaceNoUnderscores()
+    {
+        $dir = __DIR__;
+        $this->assertEquals(diskfreespace($dir), \diskfreespace($dir));
+        $diskfreespace = diskfreespace();
+        $this->assertEquals($diskfreespace($dir), \diskfreespace($dir));
+    }
+
+    public function testDiskTotalSpace()
+    {
+        $dir = __DIR__;
+        $this->assertEquals(disk_total_space($dir), \disk_total_space($dir));
+        $disk_total_space = disk_total_space();
+        $this->assertEquals($disk_total_space($dir), \disk_total_space($dir));
+    }
+
+    public function testFclose()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertTrue(fclose($handle));
+
+        $handle2 = \fopen($path, 'r');
+        $fclose = fclose();
+        $this->assertTrue($fclose($handle2));
+    }
+
+    public function testFeof()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertFalse(feof($handle));
+        $this->assertEquals(feof($handle), \feof($handle));
+
+        $feof = feof();
+        $this->assertFalse($feof($handle));
+        $this->assertEquals($feof($handle), \feof($handle));
+        \fclose($handle);
+    }
+
+    public function testFflush()
+    {
+        $fflush = fflush();
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertTrue(fflush($handle));
+        \fclose($handle);
+
+        $handle = \fopen($path, 'r');
+        $this->assertTrue($fflush($handle));
+        \fclose($handle);
+    }
+
+    public function testFgetc()
+    {
+        $fgetc = fgetc();
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/config.json';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetc($handle), "{");
+        \fclose($handle);
+
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetc($handle), "{");
+        \fclose($handle);
+    }
+
+    public function testFgetcsv()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv($handle), ['Foo', 'foo@example.com', '1234', 'foo,bar', 'baz"', '-a', 'b-']);
+        \fclose($handle);
+
+        $fgetcsv = fgetcsv();
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv($handle), ['Foo', 'foo@example.com', '1234', 'foo,bar', 'baz"', '-a', 'b-']);
+        \fclose($handle);
+    }
+
+    public function testFgetcsv2()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv2(10, $handle), ['Foo', 'foo@ex']);
+        \fclose($handle);
+
+        $fgetcsvLength10 = fgetcsv2(10);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetcsvLength10($handle), ['Foo', 'foo@ex']);
+        \fclose($handle);
+    }
+
+    public function testFgetcsv3()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(fgetcsv3('@', 10, $handle), ['Foo,foo', 'ex']);
+        \fclose($handle);
+
+        $fgetcsvLength10AtSep = fgetcsv3('@', 10);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals($fgetcsvLength10AtSep($handle), ['Foo,foo', 'ex']);
+        \fclose($handle);
+    }
+
+    public function testFgetcsv4()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgetcsv4('-', ',', 50, $handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
+        \fclose($handle);
+
+        $fgetcsvLength10DashEnclose = fgetcsv4('-', ',', 50);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            $fgetcsvLength10DashEnclose($handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
+         \fclose($handle);
+    }
+
+    public function testFgetcsv5()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgetcsv5('"', '-', ',', 50, $handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
+        \fclose($handle);
+
+        $fgetcsvLength10DashEnclose = fgetcsv5('"', '-', ',', 50);
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            $fgetcsvLength10DashEnclose($handle),
+            ['Foo', 'foo@example.com', '1234', '"foo', '"bar', 'baz"', 'a,b']
+        );
+         \fclose($handle);
+    }
+
+    public function testFgets()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgets($handle),
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n"
+        );
+        \fclose($handle);
+
+        $fgets = fgets();
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            $fgets($handle),
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n"
+        );
+        \fclose($handle);
+    }
+
+    public function testFgets2()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test.csv';
+        $handle = \fopen($path, 'r');
+        $this->assertEquals(
+            fgets2(10, $handle),
+            "Foo,foo@e"
+        );
+        \fclose($handle);
+
+        $handle = \fopen($path, 'r');
+        $get10 = fgets2(10);
+        $this->assertEquals(
+            $get10($handle),
+            "Foo,foo@e"
+        );
+        \fclose($handle);
+    }
+
+    public function testFgetss()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
+        \fclose($fh);
+
+        $fh = \fopen($path, 'r');
+        $content = fgetss($fh);
+        \fclose($fh);
+
+        $fgetss = fgetss();
+        $fh = \fopen($path, 'r');
+        $content2 = $fgetss($fh);
+        \fclose($fh);
+
+        \unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar,Test');
+        $this->assertEquals($content2, 'Test,foo,bar,Test');
+    }
+
+    public function testFgetss2()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
+        \fclose($fh);
+
+        $fh = \fopen($path, 'r');
+        $content = fgetss2(24, $fh);
+        \fclose($fh);
+
+        $get24 = fgetss2(24);
+        $fh = \fopen($path, 'r');
+        $content2 = $get24($fh);
+        \fclose($fh);
+
+        \unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar');
+        $this->assertEquals($content2, 'Test,foo,bar');
+    }
+
+    public function testFgetss3()
+    {
+        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
+        \fclose($fh);
+
+        $fh = \fopen($path, 'r');
+        $content = fgetss3('<span>', 4096, $fh);
+        \fclose($fh);
+
+        $keepSpan = fgetss3('<span>', 4096);
+        $fh = \fopen($path, 'r');
+        $content = $keepSpan($fh);
+        \fclose($fh);
+        \unlink($path);
+
+        $this->assertEquals($content, 'Test,foo,bar,<span>Test</span>');
+    }
+
+    public function testFileExists()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/config.json';
+        $path2 = \dirname(__FILE__) . '/fixtures/config2.json';
+
+        $this->assertTrue(file_exists($path));
+        $this->assertFalse(!file_exists($path));
+
+        $fileExists = file_exists();
+        $this->assertTrue($fileExists($path));
+        $this->assertFalse(!$fileExists($path));
+    }
+
+    public function testFileGetContents()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents($path),
+            $expected
+        );
+
+        $fileGetContents = file_get_contents();
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
+    }
+
+    public function testFileGetContents2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents2(true, $path),
+            $expected
+        );
+
+        $fileGetContents = file_get_contents2(true);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
+    }
+
+    public function testFileGetContents3()
+    {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected =
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents3($context, false, $path),
+            $expected
+        );
+
+        $fileGetContents = file_get_contents3($context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
+    }
+
+    public function testFileGetContents4()
+    {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "oo@example.com,1234,\"foo,\"bar,baz\",-a,b-\nBar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-";
+        $this->assertEquals(
+            file_get_contents4(5, $context, false, $path),
+            $expected
+        );
+
+        $fileGetContents = file_get_contents4(5, $context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
+    }
+
+    public function testFileGetContents5()
+    {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = "oo@example.com";
+        $this->assertEquals(
+            file_get_contents5(14, 5, $context, false, $path),
+            $expected
+        );
+
+        $fileGetContents = file_get_contents5(14, 5, $context, false);
+        $this->assertEquals(
+            $fileGetContents($path),
+            $expected
+        );
+    }
+
+    public function testFilePutContents()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents('FooBar', $path);
+        $contents = \file_get_contents($path);
+
+        $putBarQuux = file_put_contents('BarQuux');
+        $putBarQuux($path);
+        $contents_ = \file_get_contents($path);
+
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'FooBar'
+        );
+        $this->assertEquals(
+            $contents_,
+            'BarQuux'
+        );
+    }
+
+    public function testFilePutContents3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents3(FILE_APPEND, 'FooBar', $path);
+        $contents = \file_get_contents($path);
+
+        $putContentsAppend = file_put_contents3(FILE_APPEND, 'BarQuux');
+        $putContentsAppend($path);
+        $contents_ = \file_get_contents($path);
+
+        \unlink($path);
+        $this->assertEquals(
+            $contents,
+            'FooBar'
+        );
+
+        $this->assertEquals(
+            $contents_,
+            'FooBarBarQuux'
+        );
+    }
+
+    public function testFilePutContents4()
+    {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        file_put_contents4($context, FILE_APPEND, 'FooBar', $path);
+        $contents = \file_get_contents($path);
+
+        $putContentsAppend = file_put_contents4($context, FILE_APPEND, 'BarQuux');
+        $putContentsAppend($path);
+        $contents_ = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'FooBar'
+        );
+        $this->assertEquals(
+            $contents_,
+            'FooBarBarQuux'
+        );
+    }
+
+    public function testFile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-\n",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file($path),
+            $expected
+        );
+
+        $file = file();
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
+    }
+
+    public function testFile2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file2(FILE_IGNORE_NEW_LINES, $path),
+            $expected
+        );
+
+        $file = file2(FILE_IGNORE_NEW_LINES);
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
+    }
+
+    public function testFile3()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $expected = [
+            "Foo,foo@example.com,1234,\"foo,\"bar,baz\",-a,b-",
+            "Bar,bar@example.com,5678,\"foo,\"bar,baz\",-b,c-",
+        ];
+        $this->assertEquals(
+            file3($ctx, FILE_IGNORE_NEW_LINES, $path),
+            $expected
+        );
+
+        $file = file3($ctx, FILE_IGNORE_NEW_LINES);
+        $this->assertEquals(
+            $file($path),
+            $expected
+        );
+    }
+
+    public function testFileatime()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileatime($path),
+            \fileatime($path)
+        );
+
+        $fileatime = fileatime();
+        $this->assertEquals(
+            $fileatime($path),
+            \fileatime($path)
+        );
+    }
+
+    public function testFilectime()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filectime($path),
+            \filectime($path)
+        );
+
+        $filectime = filectime();
+        $this->assertEquals(
+            $filectime($path),
+            \filectime($path)
+        );
+    }
+
+    public function testFilemtime()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filemtime($path),
+            \filemtime($path)
+        );
+
+        $filemtime = filemtime();
+        $this->assertEquals(
+            $filemtime($path),
+            \filemtime($path)
+        );
+    }
+
+    public function testFilegroup()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filegroup($path),
+            \filegroup($path)
+        );
+
+        $filegroup = filegroup();
+        $this->assertEquals(
+            $filegroup($path),
+            \filegroup($path)
+        );
+    }
+
+    public function testFileinode()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileinode($path),
+            \fileinode($path)
+        );
+
+        $fileinode = fileinode();
+        $this->assertEquals(
+            $fileinode($path),
+            \fileinode($path)
+        );
+    }
+
+    public function testFileowner()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileowner($path),
+            \fileowner($path)
+        );
+
+        $fileowner = fileowner();
+        $this->assertEquals(
+            $fileowner($path),
+            \fileowner($path)
+        );
+    }
+
+    public function testFileperms()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            fileperms($path),
+            \fileperms($path)
+        );
+
+        $fileperms = fileperms();
+        $this->assertEquals(
+            $fileperms($path),
+            \fileperms($path)
+        );
+    }
+
+    public function testFilesize()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filesize($path),
+            \filesize($path)
+        );
+
+        $filesize = filesize();
+        $this->assertEquals(
+            $filesize($path),
+            \filesize($path)
+        );
+    }
+
+    public function testFiletype()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(
+            filetype($path),
+            \filetype($path)
+        );
+
+        $filetype = filetype();
+        $this->assertEquals(
+            $filetype($path),
+            \filetype($path)
+        );
+    }
+
+    public function testFlock()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        $this->assertTrue(flock(LOCK_SH, $fh));
+        $this->assertTrue(flock(LOCK_UN, $fh));
+
+        $sharedLock = flock(LOCK_SH);
+        $unlock = flock(LOCK_UN);
+        $this->assertTrue($sharedLock($fh));
+        $this->assertTrue($unlock($fh));
+    }
+
+    public function testFnmatch()
+    {
+        $color = 'lightgray';
+        $pattern = "*gr[ae]y";
+        $this->assertTrue(fnmatch($pattern, $color));
+        $matchGray = fnmatch($pattern);
+        $this->assertTrue($matchGray($color));
+    }
+
+    public function testFnmatch3()
+    {
+        $pattern = "/*/bar";
+        $path = "/foo/bar";
+        $this->assertTrue(fnmatch3(FNM_PATHNAME, $pattern, $path));
+        $matchSlashBar = fnmatch3(FNM_PATHNAME, $pattern);
+        $this->assertTrue($matchSlashBar($path));
+    }
+
+    public function testFopen()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen('r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen('r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+    }
+
+    public function testFopen3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen3(false, 'r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen3(false, 'r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+    }
+
+    public function testFopen4()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = fopen4($ctx, false, 'r', $path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+        $readOpen = fopen4($ctx, false, 'r');
+        $fh = $readOpen($path);
+        $this->assertTrue(\is_resource($fh));
+        \fclose($fh);
+    }
+
+    public function testFpassthru()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        ob_start();
+        $a = fpassthru($fh);
+        $contents = ob_get_contents();
+        ob_end_clean();
+        \fclose($fh);
+
+        $fpassthru = fpassthru();
+        $fh = \fopen($path, 'r');
+        ob_start();
+        $a_ = $fpassthru($fh);
+        $contents_ = ob_get_contents();
+        ob_end_clean();
+        \fclose($fh);
+
+        $this->assertEquals($a, $a_);
+        $this->assertEquals($contents, $contents_);
+    }
+
+    public function testFputcsv()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv($fh);
+        fputcsv($fh, ['a','b','c']);
+        $putcsv(['foo','bar','baz']);
+        \fclose($fh);
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "a,b,c\nfoo,bar,baz\n"
+        );
+    }
+
+    public function testFputcsv3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv3('-', $fh);
+        fputcsv3('-', $fh, ['a','b','c']);
+        $putcsv(['foo','bar','baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "a-b-c\nfoo-bar-baz\n"
+        );
+    }
+
+    public function testFputcsv4()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv4('*', '-', $fh);
+        fputcsv4('*', '-', $fh, ['foo','foo-bar']);
+        $putcsv(['bar','bar-baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "foo-*foo-bar*\nbar-*bar-baz*\n"
+        );
+    }
+
+    public function testFputcsv5()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $putcsv = fputcsv5('\\', '*', '-', $fh);
+        fputcsv5('\\', '*', '-', $fh, ['foo','foo-bar']);
+        $putcsv(['bar','bar-baz']);
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            "foo-*foo-bar*\nbar-*bar-baz*\n"
+        );
+    }
+
+    public function testFputs()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $puts = fputs($fh);
+        fputs($fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foobar'
+        );
+    }
+
+    public function testFputs3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $puts = fputs3(2, $fh);
+        fputs3(2, $fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foba'
+        );
+    }
+
+    public function testFread()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        $contents = fread(3, $fh);
+        \fclose($fh);
+
+        $this->assertEquals(
+            $contents,
+            'Foo'
+        );
+    }
+
+    public function testFseek()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        $contents = \fgets($fh);
+        fseek(0, $fh);
+        $contents2 = \fgets($fh);
+        \fclose($fh);
+
+        $rewind = fseek(0);
+        $fh = \fopen($path, 'r');
+        $contents = \fgets($fh);
+        $rewind($fh);
+        $contents2 = \fgets($fh);
+        \fclose($fh);
+        $this->assertEquals($contents, $contents2);
+    }
+
+    public function testFseek3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $fh = \fopen($path, 'r');
+        $contents = \fgets($fh);
+        fseek3(SEEK_SET, 0, $fh);
+        $contents2 = \fgets($fh);
+        \fclose($fh);
+        $this->assertEquals($contents, $contents2);
+
+        $rewind = fseek3(SEEK_SET, 0);
+        $fh = \fopen($path, 'r');
+        $contents = \fgets($fh);
+        $rewind($fh);
+        $contents2 = \fgets($fh);
+        \fclose($fh);
+        $this->assertEquals($contents, $contents2);
+    }
+
+    public function testFstat()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+
+        $fstat = fstat();
+        $fh = \fopen($path, 'r');
+        $stats = fstat($fh);
+        $stats2 = $fstat($fh);
+        \fclose($fh);
+
+        $this->assertEquals($stats, $stats2);
+    }
+
+    public function testFtell()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+
+        $ftell = ftell();
+        $fh = \fopen($path, 'r');
+        $tell = ftell($fh);
+        $tell2 = $ftell($fh);
+        \fclose($fh);
+
+        $this->assertEquals($tell, $tell2);
+    }
+
+    public function testFtruncate()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $fh = \fopen($path, 'a+');
+        \fwrite($fh, 'Foo bar');
+        $contentsBefore = \file_get_contents($path);
+        ftruncate(0, $fh);
+        $contentsAfter = \file_get_contents($path);
+        \fclose($fh);
+
+        $this->assertEquals($contentsBefore, 'Foo bar');
+        $this->assertEquals($contentsAfter, '');
+        $this->assertEquals(\file_get_contents($path), '');
+        \unlink($path);
+    }
+
+    public function testFwrite()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $puts = fwrite($fh);
+        fwrite($fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foobar'
+        );
+    }
+
+    public function testFwrite3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+
+        $fh = \fopen($path, 'a+');
+        $puts = fwrite3(2, $fh);
+        fwrite3(2, $fh, 'foo');
+        $puts('bar');
+        \fclose($fh);
+
+        $contents = \file_get_contents($path);
+        \unlink($path);
+
+        $this->assertEquals(
+            $contents,
+            'foba'
+        );
+    }
+
+    public function testGlob()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $csvs = glob($path . '/*.csv');
+
+        $glob = glob();
+        $json = $glob($path . '/*.json');
+        $this->assertEquals(
+            $csvs,
+            [$path . '/test.csv']
+        );
+        $this->assertEquals(
+            $json,
+            [$path . '/config.json']
+        );
+    }
+
+    public function testGlob2()
+    {
+        $dir = \dirname(__FILE__);
+        $dirs = glob2(GLOB_ONLYDIR, $dir . '/*');
+
+        $glob = glob2(GLOB_ONLYDIR);
+        $dirs_ = $glob($dir . '/*');
+        $this->assertEquals(
+            $dirs,
+            [$dir . '/fixtures']
+        );
+        $this->assertEquals(
+            $dirs_,
+            [$dir . '/fixtures']
+        );
+    }
+
+    public function testIsDir()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_dir = is_dir();
+        $this->assertTrue(is_dir($path));
+        $this->assertTrue($is_dir($path));
+
+        $this->assertFalse(is_dir($path . '/config.json'));
+        $this->assertFalse($is_dir($path . '/config.json'));
+    }
+
+    public function testIsExecutable()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_executable = is_executable();
+        $this->assertTrue(is_executable($path . '/test.sh'));
+        $this->assertTrue($is_executable($path . '/test.sh'));
+        $this->assertFalse(is_executable($path . '/test.csv'));
+        $this->assertFalse($is_executable($path . '/test.csv'));
+    }
+
+    public function testIsFile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_file = is_file();
+        $this->assertTrue(is_file($path . '/test.csv'));
+        $this->assertTrue($is_file($path . '/test.csv'));
+        $this->assertFalse(is_file($path));
+        $this->assertFalse($is_file($path));
+    }
+
+    public function testIsLink()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_link = is_link();
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
+
+        $a = is_link($sym);
+        $a_ = $is_link($file);
+        \unlink($sym);
+        \unlink($file);
+
+        $this->assertTrue($a);
+        $this->assertFalse($a_);
+    }
+
+    public function testIsReadable()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_readable = is_readable();
+        $this->assertTrue($is_readable($path . '/test.csv'));
+        $this->assertFalse(is_readable('php://stdin'));
+    }
+
+    public function testIsUploadedFile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_uploaded_file = is_uploaded_file();
+        $this->assertFalse(is_uploaded_file($path . '/test.csv'));
+        $this->assertFalse($is_uploaded_file($path . '/test.csv'));
+    }
+
+    public function testIsWritable()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_writable = is_writable();
+        $this->assertTrue(is_writable($path . '/test.csv'));
+        $this->assertTrue($is_writable($path . '/test.csv'));
+    }
+
+    public function testIsWriteable()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $is_writeable = is_writeable();
+        $this->assertTrue(is_writeable($path . '/test.csv'));
+        $this->assertTrue($is_writeable($path . '/test.csv'));
+    }
+
+    public function testLchgrp()
+    {
+        $path = dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
+        $lchgrp = lchgrp(\filegroup($sym));
+
+        $res = lchgrp(\filegroup($sym), $sym);
+        $res_ = $lchgrp($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res_);
+    }
+
+    public function testLchown()
+    {
+        $path = dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        \symlink($file, $sym);
+        $lchown = lchown(\fileowner($sym));
+
+        $res = lchown(\fileowner($sym), $sym);
+        $res_ = $lchown($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res_);
+    }
+
+    public function testLink()
+    {
+        $src = '/tmp/foo';
+        $link = '/tmp/bar';
+
+        $src2 = '/tmp/baz';
+        $link2 = '/tmp/quux';
+
+        \touch($src);
+        \touch($src2);
+        $linkToBar = link($link);
+        $linkToBar($src);
+
+        link($link2, $src2);
+
+        $res = \file_exists($link);
+        $res2 = \file_exists($src);
+        $res3 = \file_exists($link2);
+        $res4 = \file_exists($src2);
+
+        \unlink($src);
+        \unlink($link);
+        \unlink($link2);
+        \unlink($src2);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+        $this->assertTrue($res3);
+        $this->assertTrue($res4);
+    }
+
+    public function testLinkinfo()
+    {
+        $src = '/tmp/foo';
+        $link = '/tmp/bar';
+
+        \touch($src);
+        \link($src, $link);
+        $linkinfo = linkinfo();
+        $info = linkinfo($link);
+        $info2 = $linkinfo($link);
+
+        \unlink($src);
+        \unlink($link);
+
+        $this->assertEquals($info, $info2);
+        $this->assertNotEquals($info, 0);
+        $this->assertNotEquals($info, false);
+    }
+
+    public function testLstat()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $lstat = lstat();
+        $this->assertEquals(lstat($path), $lstat($path));
+    }
+
+    public function testMkdir()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/';
+
+        $mkdir = mkdir();
+        mkdir($dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+
+        $mkdir($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
+    }
+
+    public function testMkdir2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/';
+        $dir2 = $path . 'bar/';
+        mkdir2(0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+
+        $mkdir700 = mkdir2(0700);
+        $mkdir700($dir2);
+        $exists2 = \is_dir($dir2);
+        \rmdir($dir2);
+        $this->assertTrue($exists);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir2));
+    }
+
+    public function testMkdir3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/bar/baz/';
+        mkdir3(true, 0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+
+        $mkdirRecursive700 = mkdir3(true, 0700);
+        $mkdirRecursive700($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertFalse(\is_dir('foo/bar/'));
+        $this->assertFalse(\is_dir('foo/'));
+    }
+
+    public function testMkdir4()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $dir = $path . 'foo/bar/baz/';
+        mkdir4($ctx, true, 0700, $dir);
+        $exists = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+
+        $mkdirRecursive700 = mkdir4($ctx, true, 0700);
+        $mkdirRecursive700($dir);
+        $exists2 = \is_dir($dir);
+        \rmdir($dir);
+        \rmdir($path . 'foo/bar/');
+        \rmdir($path . 'foo/');
+        $this->assertTrue($exists);
+        $this->assertTrue($exists2);
+        $this->assertFalse(\is_dir($dir));
+        $this->assertFalse(\is_dir('foo/bar/'));
+        $this->assertFalse(\is_dir('foo/'));
+    }
+
+    public function testMoveUploadedFile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+
+        $this->assertFalse(move_uploaded_file($path . '../', $path . 'test.csv'));
+        $moveUp = move_uploaded_file($path . '../');
+        $this->assertFalse($moveUp('test.csv'));
+    }
+
+    public function testParseIniFile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'one' => '1',
+            'five' => '5',
+            'animal' => 'BIRD',
+            'path' => '/usr/local/bin',
+            'URL' => 'http://www.example.com/~username',
+            'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+            'urls' => [
+                'svn' => 'http://svn.php.net',
+                'git' => 'http://git.php.net'
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file($path),
+            $expected
+        );
+        $parseIni = parse_ini_file();
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
+    }
+
+    public function testParseIniFile2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => '1',
+                'five' => '5',
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file2(true, $path),
+            $expected
+        );
+        $parseIni = parse_ini_file2(true);
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
+    }
+
+    public function testParseIniFile3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => 1,
+                'five' => 5,
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_file3(INI_SCANNER_TYPED, true, $path),
+            $expected
+        );
+        $parseIni = parse_ini_file3(INI_SCANNER_TYPED, true);
+        $this->assertEquals(
+            $parseIni($path),
+            $expected
+        );
+    }
+
+    public function testParseIniString()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'one' => '1',
+            'five' => '5',
+            'animal' => 'BIRD',
+            'path' => '/usr/local/bin',
+            'URL' => 'http://www.example.com/~username',
+            'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+            'urls' => [
+                'svn' => 'http://svn.php.net',
+                'git' => 'http://git.php.net'
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string(\file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string();
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
+    }
+
+    public function testParseIniString2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => '1',
+                'five' => '5',
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string2(true, \file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string2(true);
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
+    }
+
+    public function testParseIniString3()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $expected = [
+            'first_section' => [
+                'one' => 1,
+                'five' => 5,
+                'animal' => 'BIRD',
+            ],
+            'second_section' => [
+                'path' => '/usr/local/bin',
+                'URL' => 'http://www.example.com/~username',
+            ],
+            'third_section' => [
+                'phpversion' => [ '5.0', '5.1', '5.2', '5.3' ],
+                'urls' => [
+                    'svn' => 'http://svn.php.net',
+                    'git' => 'http://git.php.net'
+                ]
+            ]
+        ];
+        $this->assertEquals(
+            parse_ini_string3(INI_SCANNER_TYPED, true, \file_get_contents($path)),
+            $expected
+        );
+        $parseIni = parse_ini_string3(INI_SCANNER_TYPED, true);
+        $this->assertEquals(
+            $parseIni(\file_get_contents($path)),
+            $expected
+        );
+    }
+
+    public function testPathInfo()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $this->assertEquals(pathinfo($path), \pathinfo($path));
+        $pathInfo = pathinfo();
+        $this->assertEquals($pathInfo($path), \pathinfo($path));
+    }
+
+    public function testPathInfo2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+        $this->assertEquals(pathinfo2(PATHINFO_DIRNAME, $path), \pathinfo($path, PATHINFO_DIRNAME));
+        $pathInfo = pathinfo2(PATHINFO_DIRNAME);
+        $this->assertEquals($pathInfo($path), \pathinfo($path, PATHINFO_DIRNAME));
+    }
+
+    public function testPclose()
+    {
+        $ph = \popen('/bin/ls', 'r');
+        $read = \fread($ph, 2096);
+        $res = pclose($ph);
+        $this->assertGreaterThan(-1, $res);
+    }
+
+    public function testPopen()
+    {
+        $ph = popen('r', '/bin/ls');
+        $read = \fread($ph, 2096);
+        $res = \pclose($ph);
+        $this->assertGreaterThan(-1, $res);
+    }
+
+    public function testReadfile()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+
+        \ob_start();
+        readfile($path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile();
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
+    }
+
+    public function testReadFile2()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+
+        \ob_start();
+        readfile2(true, $path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile2(true);
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
+    }
+
+    public function testReadFile3()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/sample.ini';
+
+        \ob_start();
+        readfile3($ctx, true, $path);
+        $contents = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = [
+            "; This is a sample configuration file",
+            "; Comments start with ';', as in php.ini",
+            '',
+            "[first_section]",
+            "one = 1",
+            "five = 5",
+            "animal = BIRD",
+            '',
+            "[second_section]",
+            "path = \"/usr/local/bin\"",
+            "URL = \"http://www.example.com/~username\"",
+            '',
+            "[third_section]",
+            "phpversion[] = \"5.0\"",
+            "phpversion[] = \"5.1\"",
+            "phpversion[] = \"5.2\"",
+            "phpversion[] = \"5.3\"",
+            '',
+            "urls[svn] = \"http://svn.php.net\"",
+            "urls[git] = \"http://git.php.net\""
+        ];
+
+        $readfile = readfile3($ctx, true);
+        \ob_start();
+        $readfile($path);
+        $contents2 = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents
+        );
+        $this->assertEquals(
+            \implode("\n", $expected),
+            $contents2
+        );
+    }
+
+    public function testReadLink()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        $readlink = readlink();
+        \touch($file);
+        \symlink($file, $sym);
+
+        $res = readlink($sym);
+        $res_ = $readlink($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertEquals($res, $file);
+        $this->assertEquals($res_, $file);
+    }
+
+    public function testRealPath()
+    {
+        $path = \dirname(__FILE__);
+        $this->assertEquals(
+            $path,
+            realpath('.') . '/test'
+        );
+
+        $realpath = realpath();
+        $this->assertEquals(
+            $path,
+            $realpath('.') . '/test'
+        );
+    }
+
+    public function testRename()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $existing = $path . 'test2.csv';
+        \touch($existing);
+        $res = rename($path . 'test3.csv', $existing);
+        \unlink($path . 'test3.csv');
+
+        \touch($existing);
+        $renameToTest3 = rename($path . 'test3.csv');
+        $res2 = $renameToTest3($existing);
+        \unlink($path . 'test3.csv');
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+    }
+
+    public function testRename3()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        $existing = $path . 'test2.csv';
+        \touch($existing);
+        $res = rename3($ctx, $path . 'test3.csv', $existing);
+        \unlink($path . 'test3.csv');
+
+        \touch($existing);
+        $renameToTest3 = rename3($ctx, $path . 'test3.csv');
+        $res2 = $renameToTest3($existing);
+        \unlink($path . 'test3.csv');
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+    }
+
+    public function testRewind()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $fh = fopen('w+', $path);
+        \fwrite($fh, 'Really long sentence.');
+        rewind($fh);
+        \fwrite($fh, 'Foo');
+        rewind($fh);
+        \fclose($fh);
+        $contents = \file_get_contents($path);
+        \unlink($path);
+ 
+        $this->assertEquals(
+            $contents,
+            'Foolly long sentence.'
+        );
+    }
+
+    public function testRmdir()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/';
+        \mkdir($path . '/foo/', 0777, true);
+        $res = rmdir($path . '/foo');
+
+        \mkdir($path . '/foo/', 0777, true);
+        $rmdir = rmdir();
+        $res2 = $rmdir($path . '/foo');
+        $this->assertTrue($res);
+        $this->assertTrue($res);
+    }
+
+    public function testRmdir2()
+    {
+        $context = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/';
+        \mkdir($path . '/foo/', 0777, true);
+        $res = rmdir2($context, $path . '/foo');
+
+        \mkdir($path . '/foo/', 0777, true);
+        $rmdir = rmdir2($context);
+        $res2 = $rmdir($path . '/foo');
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+    }
+
+    public function testSetFileBuffer()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
+
+        $fh = \fopen($path, 'w');
+        $res = set_file_buffer(0, $fh);
+        \fwrite($fh, 'Foo bar');
+        \fclose($fh);
+
+        $unbuffered = set_file_buffer(0);
+        $fh = \fopen($path, 'a+');
+        $res2 = $unbuffered($fh);
+        \fwrite($fh, 'Foo bar');
+        \fclose($fh);
+
+        \unlink($path);
+        $this->assertEquals($res, $res2);
+    }
+
+    public function testStat()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test.csv';
+        $this->assertEquals(stat($path), \stat($path));
+        $stat = stat();
+        $this->assertEquals($stat($path), \stat($path));
+    }
+
+    public function testSymlink()
+    {
+        $path = \dirname(__FILE__) . '/fixtures';
+        $file = $path . '/test2.csv';
+        $sym = $path . '/tests';
+        \touch($file);
+        $res = symlink($sym, $file);
+        $res2 = \is_link($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $symFrom = symlink($sym);
+        \touch($file);
+        $res3 = $symFrom($file);
+        $res4 = \is_link($sym);
+        \unlink($file);
+        \unlink($sym);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+        $this->assertTrue($res3);
+        $this->assertTrue($res4);
+    }
+
+    public function testTempnam()
+    {
+        $tmpFilename = tempnam('/tmp', 'FOO');
+        $res = \file_exists($tmpFilename);
+        \unlink($tmpFilename);
+
+        $fileInTmp = tempnam('/tmp');
+        $tmpFilename = $fileInTmp('BAR');
+        $res2 = \file_exists($tmpFilename);
+        \unlink($tmpFilename);
+
+        $this->assertTrue($res);
+        $this->assertTrue($res2);
+    }
+
+    public function testTouch()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
+
+        $touch = touch();
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
+    }
+
+    public function testTouch2()
+    {
+        $time = \time();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch2($time, $path);
+        \unlink($path);
+        $this->assertTrue($res);
+
+        $touch = touch2($time);
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
+    }
+
+    public function testTouch3()
+    {
+        $time = \time();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        $res = touch3($time, $time, $path);
+        \unlink($path);
+        $this->assertTrue($res);
+
+        $touch = touch3($time, $time);
+        $res = $touch($path);
+        \unlink($path);
+        $this->assertTrue($res);
+    }
+
+    public function testUmask1()
+    {
+        $res = umask1(umask());
+
+        $umask1 = umask1();
+        $res2 = $umask1(umask());
+        $this->assertEquals($res, $res2);
+    }
+
+    public function testUnlink()
+    {
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
+        $this->assertTrue(unlink($path));
+
+        $unlink = unlink();
+        \touch($path);
+        $this->assertTrue($unlink($path));
+    }
+
+    public function testUnlink2()
+    {
+        $ctx = \stream_context_create();
+        $path = \dirname(__FILE__) . '/fixtures/test2.csv';
+        \touch($path);
+        $this->assertTrue(unlink2($ctx, $path));
+
+        \touch($path);
+        $unlink = unlink2($ctx);
+        $this->assertTrue($unlink($path));
+    }
+
     public function testCompose()
     {
         $a = function ($x) {
@@ -354,6 +2448,29 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals($explodeBySpace('foo bar'), ['foo', 'bar']);
     }
 
+    public function testExplode3()
+    {
+        $str = 'one|two|three|four';
+        $expected = ['one', 'two|three|four'];
+
+        $this->assertEquals(
+            explode3(2, '|', $str),
+            $expected
+        );
+
+        $explodeLimit2ByPipe = explode3(2, '|');
+        $explodeLimit2ByPipe($str);
+        $this->assertEquals(
+            $explodeLimit2ByPipe($str),
+            $expected
+        );
+
+        $this->assertEquals(
+            explode3(2, '|', $str),
+            \explode('|', $str, 2)
+        );
+    }
+
     public function testImplode()
     {
         $arr = ['one', 'two', 'three'];
@@ -362,6 +2479,13 @@ class PHPFunctionsTest extends TestCase
 
         $joinByComma = implode(',');
         $this->assertEquals($joinByComma($arr), 'one,two,three');
+    }
+
+    public function testImplode1()
+    {
+        $arr = ['one', 'two', 'three'];
+        $this->assertEquals(implode1($arr), \implode($arr));
+        $this->assertEquals(implode1($arr), 'onetwothree');
     }
 
     public function testAddCSlashes()
@@ -440,12 +2564,12 @@ class PHPFunctionsTest extends TestCase
 
     public function testChunkSplit3()
     {
-        $this->assertEquals(chunk_split3(2, '.', 'test'), \chunk_split('test', 2, '.'));
-        $this->assertEquals(chunk_split3(2, '.', "test"), "te.st.");
+        $this->assertEquals(chunk_split3('.', 2, 'test'), \chunk_split('test', 2, '.'));
+        $this->assertEquals(chunk_split3('.', 2, "test"), "te.st.");
 
-        $chunkSplitLen2 = chunk_split3(2);
-        $chunkSplitLen2Dot = $chunkSplitLen2('.');
-        $this->assertEquals($chunkSplitLen2('.', "test"), "te.st.");
+        $chunkSplitDot = chunk_split3('.');
+        $chunkSplitLen2Dot = $chunkSplitDot(2);
+        $this->assertEquals($chunkSplitDot(2, "test"), "te.st.");
         $this->assertEquals($chunkSplitLen2Dot("test"), "te.st.");
     }
 
@@ -541,6 +2665,102 @@ class PHPFunctionsTest extends TestCase
         $this->assertEquals($hex2Bin('6578616d706c65206865782064617461'), 'example hex data');
     }
 
+    public function testHtmlEntityDecode()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode($a);
+
+        $hed = html_entity_decode();
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll \"walk\" the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntityDecode2()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode2(ENT_HTML5, $a);
+
+        $hed = html_entity_decode2(ENT_HTML5);
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll &quot;walk&quot; the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntityDecode3()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = \htmlentities($orig);
+        $b = html_entity_decode3('UTF-8', ENT_HTML5, $a);
+
+        $hed = html_entity_decode3('UTF-8', ENT_HTML5);
+        $b_ = $hed($a);
+
+        $this->assertEquals($b, $b_);
+        $this->assertEquals(
+            $b,
+            "I'll &quot;walk&quot; the <b>dog</b> now"
+        );
+    }
+
+    public function testHtmlEntities()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities($orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities();
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities2()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities2(ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities2(ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities3()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities3('UTF-8', ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
+    public function testHtmlEntities4()
+    {
+        $orig = "I'll \"walk\" the <b>dog</b> now";
+        $a = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401, $orig);
+        $expected = "I'll &quot;walk&quot; the &lt;b&gt;dog&lt;/b&gt; now";
+        $this->assertEquals($a, $expected);
+
+        $entities = htmlentities4(false, 'UTF-8', ENT_COMPAT | ENT_HTML401);
+        $a_ = $entities($orig);
+        $this->assertEquals($a_, $expected);
+    }
+
     public function testHtmlSpecialCharsDecode()
     {
         $this->assertEquals(
@@ -567,6 +2787,54 @@ class PHPFunctionsTest extends TestCase
         );
     }
 
+    public function testHtmlSpecialChars()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars($html);
+        $expected = "&lt;a href='test'&gt;Test&lt;/a&gt;";
+
+        $hsc = htmlspecialchars();
+        $new2 = $hsc($html);
+        $this->assertEquals($new, $expected);
+    }
+
+    public function testHtmlSpecialChars2()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars2(ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc2 = htmlspecialchars2(ENT_QUOTES);
+        $new2 = $hsc2($html);
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
+    public function testHtmlSpecialChars3()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars3('UTF-8', ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc3 = htmlspecialchars3('UTF-8', ENT_QUOTES);
+        $new2 = $hsc3($html);
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
+    public function testHtmlSpecialChars4()
+    {
+        $html = "<a href='test'>Test</a>";
+        $new = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES, $html);
+        $expected = "&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;";
+
+        $hsc4 = htmlspecialchars4(false, 'UTF-8', ENT_QUOTES);
+        $new2 = $hsc4($html);
+
+        $this->assertEquals($new, $expected);
+        $this->assertEquals($new2, $expected);
+    }
+
     public function testJoin()
     {
         $arr = ['one', 'two', 'three'];
@@ -575,6 +2843,13 @@ class PHPFunctionsTest extends TestCase
 
         $joinByComma = join(',');
         $this->assertEquals($joinByComma($arr), 'one,two,three');
+    }
+
+    public function testJoin1()
+    {
+        $arr = ['one', 'two', 'three'];
+        $this->assertEquals(join1($arr), \join($arr));
+        $this->assertEquals(join1($arr), 'onetwothree');
     }
 
     public function testLcFirst()
@@ -3289,7 +5564,7 @@ class PHPFunctionsTest extends TestCase
 
     public function testDateTimezoneGet()
     {
-        $a = date_create2(new DateTimeZone('Europe/London'), null);
+        $a = date_create2(new DateTimeZone('Europe/London'), "now");
         $this->assertEquals(
             date_timezone_get($a),
             \date_timezone_get($a)
@@ -3814,5 +6089,36 @@ class PHPFunctionsTest extends TestCase
 
         $jsonDecode = json_decode2(true);
         $this->assertEquals($jsonDecode($json), \json_decode($json, true));
+    }
+
+    public function testBasename()
+    {
+        $path = "/etc/passwd";
+        $this->assertEquals(basename($path), 'passwd');
+        $this->assertEquals(basename($path), \basename($path));
+
+        $basename = basename();
+        $this->assertEquals($basename($path), 'passwd');
+        $this->assertEquals($basename($path), \basename($path));
+    }
+
+    public function testBasename2()
+    {
+        $path = "/etc/sudoers.d";
+        $suffix = ".d";
+        $this->assertEquals(basename2($suffix, $path), \basename($path, $suffix));
+
+        $basenameSuffix = basename2($suffix);
+        $this->assertEquals($basenameSuffix($path), \basename($path, $suffix));
+    }
+
+    public function testChgrpAndFilegroup()
+    {
+        $file = dirname(__FILE__) . '/fixtures/config.json';
+        $this->assertTrue(chgrp(filegroup($file), $file));
+
+        $filegroup = filegroup();
+        $chFilegroup = chgrp($filegroup($file));
+        $this->assertTrue($chFilegroup($file));
     }
 }
