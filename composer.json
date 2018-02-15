@@ -10,7 +10,7 @@
         "squizlabs/php_codesniffer": "^2.8",
         "satooshi/php-coveralls": "^1.0"
     },
-    "license": "mit",
+    "license": "MIT",
     "authors": [
         {
             "name": "McKay Broderick",
