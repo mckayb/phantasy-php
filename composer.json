@@ -1,15 +1,7 @@
 {
     "name": "mckayb/phantasy-php",
     "description": "Curried version of all PHP functions",
-    "type": "package",
-    "license": "mit",
-    "authors": [
-        {
-            "name": "McKay Broderick",
-            "email": "mckay.db@gmail.com",
-            "homepage": "https://github.com/mckayb/phantasy-php"
-        }
-    ],
+    "type": "library",
     "require": {
         "php": ">=7.0.0"
     },
@@ -18,6 +10,14 @@
         "squizlabs/php_codesniffer": "^2.8",
         "satooshi/php-coveralls": "^1.0"
     },
+    "license": "mit",
+    "authors": [
+        {
+            "name": "McKay Broderick",
+            "email": "mckay.db@gmail.com",
+            "homepage": "https://github.com/mckayb/phantasy-php"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Phantasy\\PHP\\": "src/"
