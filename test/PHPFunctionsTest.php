@@ -2908,10 +2908,9 @@ class PHPFunctionsTest extends TestCase
         $num = 1234.56;
         setlocale(LC_MONETARY, 'en_IN');
         $this->assertEquals(money_format('%i', $num), \money_format('%i', $num));
-        $this->assertEquals(money_format('%i', $num), 'INR1,234.56');
 
         $moneyFormat = money_format('%i');
-        $this->assertEquals($moneyFormat($num), 'INR1,234.56');
+        $this->assertEquals($moneyFormat($num), \money_format('%i', $num));
     }
 
     public function testNLLangInfo()
