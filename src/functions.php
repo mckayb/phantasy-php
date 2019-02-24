@@ -2120,25 +2120,6 @@ function fgets2(...$args)
     })(...$args);
 }
 
-function fgetss(...$args)
-{
-    return curry('\fgetss')(...$args);
-}
-
-function fgetss2(...$args)
-{
-    return curry(function (int $length, $handle) {
-        return \fgetss($handle, $length);
-    })(...$args);
-}
-
-function fgetss3(...$args)
-{
-    return curry(function (string $allowableTags, int $length, $handle) {
-        return \fgetss($handle, $length, $allowableTags);
-    })(...$args);
-}
-
 function file_exists(...$args)
 {
     return curry('\file_exists')(...$args);

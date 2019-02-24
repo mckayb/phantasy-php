@@ -331,9 +331,6 @@ use function Phantasy\PHP\{
     fgetcsv5,
     fgets,
     fgets2,
-    fgetss,
-    fgetss2,
-    fgetss3,
     file_exists,
     file_get_contents,
     file_get_contents2,
@@ -493,7 +490,7 @@ class PHPFunctionsTest extends TestCase
 
         $chownCurrentUser = chown(\get_current_user());
         $this->assertTrue($chownCurrentUser($file));
-        $this->assertTrue($chownCurrentUser($file), \chown($file, get_current_user()));
+        $this->assertEquals($chownCurrentUser($file), \chown($file, get_current_user()));
     }
 
     public function testCopy()
@@ -719,70 +716,6 @@ class PHPFunctionsTest extends TestCase
             "Foo,foo@e"
         );
         \fclose($handle);
-    }
-
-    public function testFgetss()
-    {
-        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
-        $fh = \fopen($path, 'a+');
-        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
-        \fclose($fh);
-
-        $fh = \fopen($path, 'r');
-        $content = fgetss($fh);
-        \fclose($fh);
-
-        $fgetss = fgetss();
-        $fh = \fopen($path, 'r');
-        $content2 = $fgetss($fh);
-        \fclose($fh);
-
-        \unlink($path);
-
-        $this->assertEquals($content, 'Test,foo,bar,Test');
-        $this->assertEquals($content2, 'Test,foo,bar,Test');
-    }
-
-    public function testFgetss2()
-    {
-        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
-        $fh = \fopen($path, 'a+');
-        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
-        \fclose($fh);
-
-        $fh = \fopen($path, 'r');
-        $content = fgetss2(24, $fh);
-        \fclose($fh);
-
-        $get24 = fgetss2(24);
-        $fh = \fopen($path, 'r');
-        $content2 = $get24($fh);
-        \fclose($fh);
-
-        \unlink($path);
-
-        $this->assertEquals($content, 'Test,foo,bar');
-        $this->assertEquals($content2, 'Test,foo,bar');
-    }
-
-    public function testFgetss3()
-    {
-        $path = \realpath(\dirname(__FILE__)) . '/fixtures/test2.csv';
-        $fh = \fopen($path, 'a+');
-        \fwrite($fh, '<div>Test</div>,foo,bar,<span>Test</span>');
-        \fclose($fh);
-
-        $fh = \fopen($path, 'r');
-        $content = fgetss3('<span>', 4096, $fh);
-        \fclose($fh);
-
-        $keepSpan = fgetss3('<span>', 4096);
-        $fh = \fopen($path, 'r');
-        $content = $keepSpan($fh);
-        \fclose($fh);
-        \unlink($path);
-
-        $this->assertEquals($content, 'Test,foo,bar,<span>Test</span>');
     }
 
     public function testFileExists()
@@ -2975,10 +2908,10 @@ class PHPFunctionsTest extends TestCase
         $num = 1234.56;
         setlocale(LC_MONETARY, 'en_IN');
         $this->assertEquals(money_format('%i', $num), \money_format('%i', $num));
-        $this->assertEquals(money_format('%i', $num), 'INR 1,234.56');
+        $this->assertEquals(money_format('%i', $num), 'INR1,234.56');
 
         $moneyFormat = money_format('%i');
-        $this->assertEquals($moneyFormat($num), 'INR 1,234.56');
+        $this->assertEquals($moneyFormat($num), 'INR1,234.56');
     }
 
     public function testNLLangInfo()

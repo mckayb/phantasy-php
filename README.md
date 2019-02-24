@@ -1,4 +1,4 @@
-# Phantasy-PHP [![Build Status](https://travis-ci.org/mckayb/phantasy-php.svg?branch=master)](https://travis-ci.org/mckayb/phantasy-php) [![Coverage Status](https://coveralls.io/repos/github/mckayb/phantasy-php/badge.svg?branch=master)](https://coveralls.io/github/mckayb/phantasy-php)
+# Phantasy-PHP [![Coverage Status](https://coveralls.io/repos/github/mckayb/phantasy-php/badge.svg?branch=master)](https://coveralls.io/github/mckayb/phantasy-php)
 Curried versions of common PHP functions.
 
 ## Getting Started
